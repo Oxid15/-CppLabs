@@ -1,4 +1,0 @@
-﻿  Source.cpp
-c:\users\гость 2.asus.000\source\repos\проект1\source.cpp(12): warning C4244: инициализация: преобразование "double" в "int", возможна потеря данных
-  Проект1.vcxproj -> C:\Users\Гость 2.ASUS.000\source\repos\Проект1\Debug\Проект1.exe
-  Проект1.vcxproj -> C:\Users\Гость 2.ASUS.000\source\repos\Проект1\Debug\Проект1.pdb (Partial PDB)
