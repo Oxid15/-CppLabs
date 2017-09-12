@@ -1,2 +1,3 @@
 ﻿  Source.cpp
-c:\users\гость 2.asus.000\source\github\cpplabs\-cpplabs\задача 2\проект1\source.cpp(14): error C2061: синтаксическая ошибка: идентификатор "abs"
+c:\users\гость 2.asus.000\source\github\cpplabs\-cpplabs\задача 2\проект1\source.cpp(18): error C2106: =: левый операнд должен быть левосторонним значением
+c:\users\гость 2.asus.000\source\github\cpplabs\-cpplabs\задача 2\проект1\source.cpp(19): error C2106: =: левый операнд должен быть левосторонним значением
