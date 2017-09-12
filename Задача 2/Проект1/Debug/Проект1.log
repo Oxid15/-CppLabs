@@ -1,3 +1,2 @@
 ﻿  Source.cpp
-  Проект1.vcxproj -> C:\Users\Гость 2.ASUS.000\source\GitHub\CppLabs\-CppLabs\Задача 2\Проект1\Debug\Проект1.exe
-  Проект1.vcxproj -> C:\Users\Гость 2.ASUS.000\source\GitHub\CppLabs\-CppLabs\Задача 2\Проект1\Debug\Проект1.pdb (Partial PDB)
+c:\users\гость 2.asus.000\source\github\cpplabs\-cpplabs\задача 2\проект1\source.cpp(14): error C2061: синтаксическая ошибка: идентификатор "abs"
