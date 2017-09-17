@@ -7,7 +7,7 @@ float a1, b1, c1, a2, b2, c2,x,y;
 int main()
 {
 	std::cout << "Write a1 \n"; std::cin >> a1;
-	std::cout << "Write b2 \n"; std::cin >> b2;
+	std::cout << "Write b1 \n"; std::cin >> b1;
 	std::cout << "Write c1 \n"; std::cin >> c1;
 	std::cout << "Write a2 \n"; std::cin >> a2;
 	std::cout << "Write b2 \n"; std::cin >> b2;
@@ -16,6 +16,7 @@ int main()
 	if ((abs(a1*b2 - a2*b1))>=0.0001)
 	
 	{
-		
+		x == (b1*c2 - b2*c1)/(b2*a1-b1*a2)
+			y ==
 	}
 }
