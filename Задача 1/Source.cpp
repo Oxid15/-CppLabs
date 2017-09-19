@@ -1,3 +1,4 @@
+//вариант этой и последующих задач - 5
 #include <iostream> 
 #include <math.h>
 using namespace std;
