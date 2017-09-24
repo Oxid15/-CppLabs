@@ -11,16 +11,26 @@ int main()
 	{
 		xp = xc;
 		cin >> xc;
-		if (xc < xp)
+		if ((xc < xp)&&(xc!=0))
 		{
 			vv = false;
-			cout << "nonincr=" << vv <<"\n";
+			cout << "nonincr"<<"\n";
 		}
 		else
 		{
 			vv = true;
-			cout << "incr=" << vv << "\n";
+			cout << "incr"<< "\n";
 		}
 	}
+	vv = vv*vv;
+	if (vv == 1)
+	{
+		cout << "the sequence is increasing" << "\n";
+	}
+	else
+	{
+		cout << "the sequence is nonincreasing" << "\n";
+	}
+	cout << vv;
 	system("pause");
 }
