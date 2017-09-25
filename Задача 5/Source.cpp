@@ -1,14 +1,17 @@
 #include <iostream>
+#include <math.h>
 using namespace std;
 
 
-main()
+int main()
 {
 	int n;
+	double sum=0;
 	cout << "Write n"; cin >> n;
-	while (n = 3)
+	for (n;n!=2;n--)
 	{
-		n = n--;
-		cout << n << "\n";
+		sum = sqrt(sum + 3*n);
 	}
+	cout << "sum= " << sum << "\n";
+	system("pause");
 }
