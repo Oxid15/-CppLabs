@@ -1,0 +1,2 @@
+﻿  Source.cpp
+c:\users\гость 2.asus.000\source\github\cpplabs\-cpplabs\лр2\задача 1\source.cpp(10): error C2040: n: "int *" отличается по уровням косвенного обращения от "int"
