@@ -16,13 +16,27 @@ int main()
 		cout << "m[" << a << "]=" << m[a] << "\n";
 	}
 	int a = 3;
-	while ((a <= n)&&(m[a] > m[a - 2]))
+	bool b = true;
+	while (a <= n)
 	{
+		if (m[a] > m[a - 2])
+			b *= 1;
+		else
+		{
+			b = 0;
+			break;
+		}
 		a += 2;
-		cout << "a=" << a << "\n";
-		sum += m[a];
-		cout << "sum=" << sum << "\n";
-		system("pause");
+	}
+	int c = 0;
+	if (b = 1)
+	{
+		while (c <= n)
+		{
+			sum = sum + m[c];
+			c += 2;
+		}
+		cout << "sum=" << sum;
 	}
 	delete m;
 	system("pause");
