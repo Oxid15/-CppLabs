@@ -16,8 +16,8 @@ int main()
 		cout << "m[" << a << "]=" << m[a] << "\n";
 	}
 	int a = 3;
-	bool b = true, d = true;
-	while (a <= n)
+	bool b = true, d = false;
+	while (a < n)
 	{
 		if (m[a] > m[a - 2])
 		{
@@ -46,7 +46,7 @@ int main()
 		if (d == 1)
 		{
 			int cnt = 0, a = 0;
-			while (a <= n)
+			while (a < n)
 			{
 				if (m[a] > 0)
 				{
