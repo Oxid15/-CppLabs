@@ -4,18 +4,22 @@ using namespace std;
 
 int main()
 {
-	int *m,n;
+	int sum,n;
 	cout << "Write array size"<<"\n"; cin >> n;
 	int *m = new int[n];
-	for (int a = 0; a != n; a + 2) 
+	for (int a = 0; a != n; a++)
 	{
-		if ((m[a] > m[a-1])&&(a!=0))
+		m[a] = rand();
+		cout << "m[" << a << "]=" << m[a] << "\n";
+	}
+	for (int a = 1; a != n; a + 2) 
+	{
+		if ((m[a] > m[a-1]))
 		{
-			for (int b = 0; b != n; b++)
-			{
-
-			}
+			sum =+ m[a];
+			cout << sum << "\n";
 		}
 	}
 	delete m;
+	system("pause");
 }

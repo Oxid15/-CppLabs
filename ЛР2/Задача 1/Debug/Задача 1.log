@@ -1,2 +1,4 @@
 ﻿  Source.cpp
-c:\users\гость 2.asus.000\source\github\cpplabs\-cpplabs\лр2\задача 1\source.cpp(10): error C2040: n: "int *" отличается по уровням косвенного обращения от "int"
+c:\users\гость 2.asus.000\source\github\cpplabs\-cpplabs\лр2\задача 1\source.cpp(15): warning C4552: +: оператор не имеет результата; требуется оператор с побочным действием
+  Задача 1.vcxproj -> C:\Users\Гость 2.ASUS.000\source\GitHub\CppLabs\-CppLabs\ЛР2\Debug\Задача 1.exe
+  Задача 1.vcxproj -> C:\Users\Гость 2.ASUS.000\source\GitHub\CppLabs\-CppLabs\ЛР2\Debug\Задача 1.pdb (Partial PDB)
