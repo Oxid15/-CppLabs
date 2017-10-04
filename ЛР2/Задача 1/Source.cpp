@@ -37,7 +37,7 @@ int main()
 		int i = 0;
 		while (c <= n)
 		{
-			sum = sum + m[c];
+			sum += m[c];
 			c += 2;
 			i = ++i;
 		}
@@ -56,6 +56,6 @@ int main()
 			}
 			cout << "positive numbers:" << cnt << "\n";
 		}
-	delete m;
+	delete []m;
 	system("pause");
 }
