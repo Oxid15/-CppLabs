@@ -6,15 +6,16 @@ using namespace std;
 
 int main()
 {
-	int sum=0,n;
+	int n;
 	cout << "Write array size"<<"\n"; cin >> n;
-	int *m = new int[n];
+	int *m = new int [n];
 	srand(time(NULL));
 	for (int a = 0; a != n; a++)
 	{
 		m[a] = rand();
 		cout << "m[" << a << "]=" << m[a] << "\n";
 	}
+	
 	int a = 3;
 	bool b = true, d = false;
 	while (a < n)
@@ -31,7 +32,7 @@ int main()
 		}
 		a += 2;
 	}
-	int c = 0;
+	int sum = 0, c = 0;
 	if (b == 1)
 	{
 		int i = 0;
