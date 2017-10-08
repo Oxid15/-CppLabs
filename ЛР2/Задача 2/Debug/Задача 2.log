@@ -1,4 +1,4 @@
 ﻿  Source.cpp
-c:\users\гость 2.asus.000\source\github\cpplabs\-cpplabs\лр2\задача 2\задача 2\source.cpp(12): warning C4244: аргумент: преобразование "time_t" в "unsigned int", возможна потеря данных
+c:\users\гость 2.asus.000\source\github\cpplabs\-cpplabs\лр2\задача 2\source.cpp(12): warning C4244: аргумент: преобразование "time_t" в "unsigned int", возможна потеря данных
   Задача 2.vcxproj -> C:\Users\Гость 2.ASUS.000\source\GitHub\CppLabs\-CppLabs\ЛР2\Debug\Задача 2.exe
   Задача 2.vcxproj -> C:\Users\Гость 2.ASUS.000\source\GitHub\CppLabs\-CppLabs\ЛР2\Debug\Задача 2.pdb (Partial PDB)

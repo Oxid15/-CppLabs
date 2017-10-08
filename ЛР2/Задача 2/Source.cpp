@@ -15,6 +15,7 @@ int main()
 		m[a] = rand();
 		cout << "m[" << a << "]=" << m[a] << "\n";
 	}
+
 	for (int i = 0; i < n; i++)
 	{
 		for (int j = 0; j < n; j++)
@@ -27,7 +28,21 @@ int main()
 				m[j+1] = a;
 			}
 		}	
+	}
+	for (int i = 0; i < n; i++)
+	{
 		cout << "m1[" << i << "]=" << m[i] << "\n";
+	}
+
+	int count = 0;
+	for (int i = 0; i < n; i++)
+	{
+		if (m[i] == m[i + 1])
+			count = count++;
+		else
+			break;
+		cout << "m2[" << i << "]=" << m[i] << "\n";
+		cout << "count=" << count<<"\n";
 	}
 	system("pause");
 	delete[]m;
