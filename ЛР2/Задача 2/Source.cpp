@@ -33,17 +33,6 @@ int main()
 	{
 		cout << "m1[" << i << "]=" << m[i] << "\n";
 	}
-
-	int count = 0;
-	for (int i = 0; i < n; i++)
-	{
-		if (m[i] == m[i + 1])
-			count = count++;
-		else
-			break;
-		cout << "m2[" << i << "]=" << m[i] << "\n";
-		cout << "count=" << count<<"\n";
-	}
 	system("pause");
 	delete[]m;
 }
