@@ -33,6 +33,7 @@ int main()
 	{
 		cout << "m1[" << i << "]=" << m[i] << "\n";
 	}
+
 	system("pause");
 	delete[]m;
 }
