@@ -14,7 +14,7 @@ int main()
 	}
 	cout << "Write k" << "\n"; cin >> k;
 
-	int* a;
+	int* a = new int;
 	for (int j = 0; j < n; j++)
 	{
 		if (m[j] == k)
