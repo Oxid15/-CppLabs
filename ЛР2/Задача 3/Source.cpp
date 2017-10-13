@@ -25,7 +25,7 @@ int main()
 	}
 	p = count * 2;
 	int* a = new int[n+p];
-	for (int j = 0; j < (n + p); j++)
+	for (int j = 0, i = 0; j < (n + p); i++, j++)
 	{
 		if (m[j] == k)
 		{
@@ -36,14 +36,14 @@ int main()
 		}
 		else
 		{
-			a[j] = m[j];
+			a[j] = m[i];
 		}
-		cout << "j=" << j << "\n";
-		for (int i = 0; i < (n + p); i++)
-		{
-			cout << "a[" << i << "]" << a[i] << "\n";
-		}
-		system("pause");
+	}
+	for (int i = 0; i < (n + p); i++)
+	{
+		cout << "a[" << i << "]" << a[i] << "\n";
 	}
 	system("pause");
+	delete[]m;
+	delete[]a;
 }
