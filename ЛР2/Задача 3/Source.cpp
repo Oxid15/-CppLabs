@@ -4,7 +4,7 @@ using namespace std;
 
 int main()
 {
-	int n = 0, k = 0;
+	int n = 0;
 	int* m = new int[n];
 
 	cout << "Write array size" << "\n"; cin >> n;
@@ -12,19 +12,38 @@ int main()
 	{
 		cout << "Write m[" << i << "]" << "\n"; cin >> m[i];
 	}
+	int k = 0;
 	cout << "Write k" << "\n"; cin >> k;
 
-	int* a = new int;
-	for (int j = 0; j < n; j++)
+	int p, count = 0;
+	for (int i = 0; i < n; i++)
+	{
+		if (m[i] == k)
+		{
+			count = count++;
+		}
+	}
+	p = count * 2;
+	int* a = new int[n+p];
+	for (int j = 0; j < (n + p); j++)
 	{
 		if (m[j] == k)
 		{
-			a = & m[j];
-			cout <<"a=" << a << "\n" <<"*a=" <<*a << "\n";
-			cout << "k=" << k << "\n";
-			cout << "m[j]=" << m[j] << "\n";
+			a[j] = 0;
+			a[j + 1] = k;
+			a[j + 2] = 0;
+			j = j + 2;
 		}
+		else
+		{
+			a[j] = m[j];
+		}
+		cout << "j=" << j << "\n";
+		for (int i = 0; i < (n + p); i++)
+		{
+			cout << "a[" << i << "]" << a[i] << "\n";
+		}
+		system("pause");
 	}
-
 	system("pause");
 }
