@@ -43,6 +43,10 @@ int main()
 	{
 		cout << "a[" << i << "]" << a[i] << "\n";
 	}
+	int* u = new int;
+	int**b = new int*[n];
+
+
 	system("pause");
 	delete[]m;
 	delete[]a;
