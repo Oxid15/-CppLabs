@@ -44,9 +44,12 @@ int main()
 		cout << "a[" << i << "]" << a[i] << "\n";
 	}
 	int* u = new int;
-	int**b = new int*[n];
-
-
+	for (int i = 0; i < (n + p); i++)
+	{
+		if ((m[i] % 2 == 0) && (m[i + 1] % 2 != 0) && (m[i + 2] % 2 == 0))
+					u = &m[i + 1];
+	}
+	cout << "*u=" << *u;
 	system("pause");
 	delete[]m;
 	delete[]a;
