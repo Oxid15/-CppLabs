@@ -46,11 +46,27 @@ int main()
 	int* u = new int;
 	for (int i = 0; i < (n + p); i++)
 	{
-		if ((m[i] % 2 == 0) && (m[i + 1] % 2 != 0) && (m[i + 2] % 2 == 0))
-					u = &m[i + 1];
+		if ((a[i] % 2 == 0) && (a[i + 1] % 2 == 1) && (a[i + 2] % 2 == 0))
+		{
+			u = &a[i + 1];
+			break;
+		}		
 	}
-	cout << "*u=" << *u;
+	int* a1 = new int[n + p - 1];
+	for (int i = 0, j = 0; i < (n + p); j++, i++)
+	{
+		if (a[i] == *u)
+		{
+			i += 1;
+		}
+		a1[j] = a[i];
+	}
+	for (int i = 0; i < (n + p-1); i++)
+	{
+		cout << "a1[" << i << "]" << a1[i] << "\n";
+	}
 	system("pause");
-	delete[]m;
 	delete[]a;
+	delete[]a1;
+	delete[]m;
 }
