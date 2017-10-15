@@ -53,7 +53,6 @@ int main()
 			min = m[i];
 		else
 			min = m[i + 1];
-		cout << "min=" << min << "\n";
 	}
 	for (int i = 0; i < n-1; i++)
 	{
@@ -63,7 +62,6 @@ int main()
 		}
 	}
 	sum_min = sum_min + min;
-	cout << "sum_min=" << sum_min << "\n";
 	int max = 0;
 	for (int i = 0; i < n - 1; i++)
 	{
@@ -71,7 +69,6 @@ int main()
 			max = m[i];
 		else
 			max = m[i + 1];
-		cout << "max=" << max << "\n";
 	}
 	int idx = 0;
 	for (int i = 0; i < n - 1; i++)
@@ -85,18 +82,15 @@ int main()
 	for (int j = 0; j < n; j++)
 	{
 		if (j==idx/2)
-		{
 			a[j] = sum_min;
-		}
 		else
-		{
 			a[j] = m[j];
-		}
 	}
 	for (int j = 0; j < n; j++)
 	{
 		cout << "a[" << j << "]=" << a[j] << "\n";
 	}
 	delete[]m;
+	delete[]a;
 	system("pause");
 }
