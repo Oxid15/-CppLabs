@@ -54,6 +54,11 @@ int main()
 			sum_min += m[i];
 		}
 	}
+	int* c = new int;
+	c = &*b[count/2];
+	cout << "c=" << c << "\n";
+	cout << "*c=" << *c << "\n";
 
 	delete[]m;
+	system("pause");
 }
