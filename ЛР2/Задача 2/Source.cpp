@@ -46,30 +46,25 @@ int main()
 		else
 			break;
 	}
-	int sum_min = 0;
-	for (int i = n; i > 0; i--)
+	int sum_min = 0, min = 0;
+	for (int i = 0; i < n-1; i++)
 	{
-		if ((m[i] == m[i - 1]) || (m[i] == m[i + 1]))
-		{
-			sum_min += m[i];
-		}
-	}
-	cout << "sum_min=" << sum_min << "\n";
-	int *a = new int[n];
-	for (int i = 0; i < n; i++)
-	{
-		if (&m[i] == b[count / 2])
-		{
-			m[i] = sum_min;
-		}
+		if (m[i] < m[i + 1])
+			min = m[i];
 		else
-			a[i] = m[i];
+			min = m[i + 1];
+		cout << "min=" << min << "\n";
 	}
-	for (int i = 0; i < n; i++)
+	for (int i = 0; i < n-1; i++)
 	{
-		cout << "a[" <<i<<"]=" << a[i] << "\n";
+		if ((m[i] == min) && ((m[i + 1] = m[i]) || ((m[i - 1] = m[i]) && (m[i + 1] != m[i]))))
+		{
+			sum_min = sum_min + min;
+		}
 	}
+	sum_min = sum_min + min;
+	cout << "sum_min=" << sum_min << "\n";
+
 	delete[]m;
-	delete[]a;
 	system("pause");
 }
