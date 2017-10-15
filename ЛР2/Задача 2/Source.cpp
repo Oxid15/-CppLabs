@@ -54,11 +54,22 @@ int main()
 			sum_min += m[i];
 		}
 	}
-	int* c = new int;
-	c = &*b[count/2];
-	cout << "c=" << c << "\n";
-	cout << "*c=" << *c << "\n";
-
+	cout << "sum_min=" << sum_min << "\n";
+	int *a = new int[n];
+	for (int i = 0; i < n; i++)
+	{
+		if (&m[i] == b[count / 2])
+		{
+			m[i] = sum_min;
+		}
+		else
+			a[i] = m[i];
+	}
+	for (int i = 0; i < n; i++)
+	{
+		cout << "a[" <<i<<"]=" << a[i] << "\n";
+	}
 	delete[]m;
+	delete[]a;
 	system("pause");
 }
