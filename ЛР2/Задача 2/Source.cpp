@@ -26,7 +26,34 @@ int main()
 			cin >> m[a];
 		}
 	}
+	for (int i = 0; i < n; i++)
+	{
+		for (int i = 0; i < n; i++)
+		{
+			if (m[i] < m[i + 1])
+				swap(m[i],m[i+1]);
+		}
+	}
+	int* *b = new int*[n];
+	int count = 0;
+	for (int i = 0; i < n; i++)
+	{
+		if ((m[i] == m[i + 1])||(m[i] == m[i-1]))
+		{
+			b[i] = &m[i];
+			count += 1;
+		}
+		else
+			break;
+	}
+	int sum_min = 0;
+	for (int i = n; i > 0; i--)
+	{
+		if ((m[i] == m[i - 1]) || (m[i] == m[i + 1]))
+		{
+			sum_min += m[i];
+		}
+	}
 
-	system("pause");
 	delete[]m;
 }
