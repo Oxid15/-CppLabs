@@ -45,32 +45,25 @@ int main()
 	}
 
 	int* a = new int[n];
+	int* c = new int[n];
 	for (int i = 0; i < n; i++)
 	{
 		if (i == 0)
 		{
-			a[i] = b[i][i];
+			c[i] = b[i][i];
 		}
 		else
 		{
-			break;
+			int sum = 0;
+			for (int j = 0; j < i; j++)
+			{
+				a[i] =b[i][i - j] + b[i - j][i];
+				sum = sum + a[i];
+			}
+			c[i] = sum+b[i][i];
 		}
-		cout << "a[" << i << "]=" << a[i] << "\n";
+		cout << "c[" << i << "]=" << c[i] << "\n";
 	}
-	/*
-	int x = 0;
-
-	while (int i = 0 >= x)
-	{
-		a[i] = b[i][i - x] + b[i - x][i];
-		i += 1;
-		for (int i = 0; i < n; i++)
-		{
-			cout << "a[" << i << "]=" << a[i] << "\n";
-		}
-	}
-	*/
-
 	system("pause");
 	for (int i = 0; i < n; i++)
 	{
@@ -78,4 +71,5 @@ int main()
 	}
 	delete[]b;
 	delete[]a;
+	delete[]c;
 }
