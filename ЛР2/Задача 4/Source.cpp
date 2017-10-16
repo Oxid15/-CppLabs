@@ -35,9 +35,15 @@ int main()
 			}
 		}
 	}
+	int* a = new int[];
 	for (int i = 0; i < n; i++)
 	{
+			if (i = 0)
+				a[0] = b[0][0];
+			else
+			{
 
+			}
 	}
 
 	for (int i = 0; i < n; i++)
