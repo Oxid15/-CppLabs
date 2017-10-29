@@ -18,13 +18,13 @@ int main()
 				ifile.getline(i,256*sizeof(char));
 				cout << i << "\n";
 		}
-		ifile.close();
 
-		ofstream ofile("Output.txt");
-		if (!ifile)
-		{
-			cout << "File error";
-		}
+		ifile.close();
+	ofstream ofile("Output.txt");
+	if (!ifile)
+	{
+		cout << "File error";
+	}
 		// File output...
 		ofile.close();
 	system("pause");
