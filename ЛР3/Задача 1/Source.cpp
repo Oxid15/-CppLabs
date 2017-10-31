@@ -13,11 +13,17 @@ int main()
 	{
 		cout << "Input file error";
 	}
-		while (!ifile.eof())
-		{
-				ifile.get(i,2);
-				cout << i << "\n";
-		}
+	int count = 0, a[256];
+	for (int j = 0; j < 256; j++)
+	{
+		ifile.get(i,2);
+		if (ifile.eof())
+			break;
+		a[j] = atoi(i);
+		cout << "a[" << j << "]=" << a[j] << "\n";
+		count = ++count;
+	}
+	cout << "count=" << count;
 		ifile.close();
 
 	ofstream ofile("Output.txt");
