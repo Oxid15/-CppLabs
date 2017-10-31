@@ -25,7 +25,6 @@ int main()
 			k = ++k;
 		}
 	}
-	cout << "count=" << count << "\n";
 		ifile.close();
 	int el, elpas;
 	cout << "Write array element" << "\n"; cin >> el;
@@ -46,7 +45,7 @@ int main()
 			b[k] = a[j];
 		}
 	}
-	for (int k = 0; k < count+countb; k++)
+	for (int k = 0; k < count + countb; k++)
 	{
 		cout << "b[" << k << "]=" << b[k] << "\n";
 	}
@@ -55,7 +54,10 @@ int main()
 	{
 		cout << "Output file error";
 	}
-		//...
+	for (int j = 0; j < count + countb; j++)
+	{
+		ofile << b[j] << " ";
+	}
 		ofile.close();
 		system("pause");
 }
