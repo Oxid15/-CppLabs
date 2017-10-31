@@ -25,18 +25,29 @@ int main()
 			k = ++k;
 		}
 	}
-	cout << "count=" << count;
+	cout << "count=" << count << "\n";
 		ifile.close();
 	int el, elpas;
-	cout << "Write array element"; cin >> el;
-	cout << "Write array element to paste in output file"; cin >> elpas;
-
+	cout << "Write array element" << "\n"; cin >> el;
+	cout << "Write array element to paste in output file" << "\n"; cin >> elpas;
+	int* idx = new int[count];
+	int l = 0;
+	for (int j = 0; j < count; j++)
+	{
+		if (a[j] == el)
+		{
+			idx[l] = j;
+			cout << "idx[" << l << "]=" << idx[l] << "\n";
+			l = ++l;
+		}
+	}
+	//Creating an array of indices
 	ofstream ofile("Output.txt");
 	if (!ofile)
 	{
 		cout << "Output file error";
 	}
-		// File output...
+		//...
 		ofile.close();
 	system("pause");
 }
