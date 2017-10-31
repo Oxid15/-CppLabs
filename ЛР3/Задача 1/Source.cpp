@@ -30,18 +30,26 @@ int main()
 	int el, elpas;
 	cout << "Write array element" << "\n"; cin >> el;
 	cout << "Write array element to paste in output file" << "\n"; cin >> elpas;
-	int* idx = new int[count];
-	int l = 0;
-	for (int j = 0; j < count; j++)
+	int* b = new int[2*count];
+	int countb = 0;
+	for (int j = 0, k = 0; j < count; k++, j++)
 	{
 		if (a[j] == el)
 		{
-			idx[l] = j;
-			cout << "idx[" << l << "]=" << idx[l] << "\n";
-			l = ++l;
+			b[k] = a[j];
+			b[k + 1] = elpas;
+			k = k + 1;
+			countb = ++countb;
+		}
+		else
+		{
+			b[k] = a[j];
 		}
 	}
-	//Creating an array of indices
+	for (int k = 0; k < count+countb; k++)
+	{
+		cout << "b[" << k << "]=" << b[k] << "\n";
+	}
 	ofstream ofile("Output.txt");
 	if (!ofile)
 	{
@@ -49,5 +57,5 @@ int main()
 	}
 		//...
 		ofile.close();
-	system("pause");
+		system("pause");
 }
