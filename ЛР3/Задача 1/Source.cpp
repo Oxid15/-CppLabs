@@ -11,19 +11,19 @@ int main()
 	ifstream ifile("Input.txt");
 	if (!ifile) 
 	{
-		cout << "File error";
+		cout << "Input file error";
 	}
 		while (!ifile.eof())
 		{
-				ifile.getline(i,256*sizeof(char));
+				ifile.get(i,2);
 				cout << i << "\n";
 		}
-
 		ifile.close();
+
 	ofstream ofile("Output.txt");
-	if (!ifile)
+	if (!ofile)
 	{
-		cout << "File error";
+		cout << "Output file error";
 	}
 		// File output...
 		ofile.close();
