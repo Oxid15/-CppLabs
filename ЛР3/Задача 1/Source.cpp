@@ -25,6 +25,7 @@ int main()
 			k = ++k;
 		}
 	}
+	delete i;
 		ifile.close();
 	int el, elpas;
 	cout << "Write array element" << "\n"; cin >> el;
@@ -59,5 +60,6 @@ int main()
 		ofile << b[j] << " ";
 	}
 		ofile.close();
+		delete[] b;
 		system("pause");
 }
