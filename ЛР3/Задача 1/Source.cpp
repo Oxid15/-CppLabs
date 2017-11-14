@@ -25,7 +25,7 @@ int main()
 			k = ++k;
 		}
 	}
-	delete i;
+	delete[] i;
 		ifile.close();
 	int el, elpas;
 	cout << "Write array element" << "\n"; cin >> el;
