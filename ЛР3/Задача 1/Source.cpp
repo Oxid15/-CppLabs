@@ -1,65 +1,79 @@
 #include <iostream>
 #include <fstream>
-
 using namespace std;
+
 
 
 int main()
 {
-	char* i = new char[256];
-
+	char* i = new char();
 	ifstream ifile("Input.txt");
 	if (!ifile)
 	{
 		cout << "Input file error";
 	}
-	int k = 0, count = 0, a[256];
+
+	int p = 0, cnt = 0;
+	int* a = new int[256];
+	int k = 0;
+	int *b = new int[256];
 	for (int j = 0; j < 256; j++)
+		b[j] = 0;
+	while (!ifile.eof())
 	{
-		ifile.get(i,2);
-		if (atoi(i) != 0)
+		int z = ifile.get();
+		if (z != (int)'\n')
 		{
-			a[k] = atoi(i);
-			cout << "a[" << k << "]=" << a[k] << "\n";
-			count = ++count;
-			k = ++k;
-		}
-	}
-	delete[] i;
-		ifile.close();
-	int el, elpas;
-	cout << "Write array element" << "\n"; cin >> el;
-	cout << "Write array element to paste in output file" << "\n"; cin >> elpas;
-	int* b = new int[2*count];
-	int countb = 0;
-	for (int j = 0, k = 0; j < count; k++, j++)
-	{
-		if (a[j] == el)
-		{
-			b[k] = a[j];
-			b[k + 1] = elpas;
-			k = k + 1;
-			countb = ++countb;
+			a[p] = z - 48;
 		}
 		else
 		{
-			b[k] = a[j];
+			a[p] = -16;
+		}
+		cnt++;
+		p++;
+	}
+
+	for (int j = 0; j < cnt - 1; j++)
+	{
+		if (a[j] != -16 && a[j] != (int)'\n')
+		{
+			b[k] = b[k] * 10 + a[j];
+		}
+		else
+		{
+			k++;
 		}
 	}
-	for (int k = 0; k < count + countb; k++)
+	k++;
+	for (int j = 0; j < k; j++)
 	{
-		cout << "b[" << k << "]=" << b[k] << "\n";
+		cout << "b[" << j << "]=" << b[j] << "\n";
+	}
+
+	ifile.close();
+	int el, elpas;
+	cout << "Write array element" << "\n"; cin >> el;
+	cout << "Write array element to paste in output file" << "\n"; cin >> elpas;
+	int* c = new int[k];
+	for (int j = 0, l = 0; j < k; l++, j++)
+	{
+		if (c[j] == el)
+		{
+			c[j] = b[l];
+			c[j + 1] = elpas;
+			j++;
+		}
+		for (int j = 0; j < k; j++)
+		{
+			cout << "c[" << j << "]=" << c[j] << "\n";
+		}
 	}
 	ofstream ofile("Output.txt");
 	if (!ofile)
 	{
 		cout << "Output file error";
 	}
-	for (int j = 0; j < count + countb; j++)
-	{
-		ofile << b[j] << " ";
-	}
-		ofile.close();
-		delete[] b;
-		system("pause");
+	ofile.close();
+	system("pause");
 }
