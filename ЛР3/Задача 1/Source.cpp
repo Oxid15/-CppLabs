@@ -6,7 +6,6 @@ using namespace std;
 
 int main()
 {
-	char* i = new char();
 	ifstream ifile("Input.txt");
 	if (!ifile)
 	{
@@ -46,10 +45,7 @@ int main()
 		}
 	}
 	k++;
-	for (int j = 0; j < k; j++)
-	{
-		cout << "b[" << j << "]=" << b[j] << "\n";
-	}
+	delete[] a;
 
 	ifile.close();
 	int el, elpas;
@@ -59,25 +55,27 @@ int main()
 	int count = 0;
 	for (int j = 0, l = 0; j < 2*k; l++, j++)
 	{
-		if (b[j] == el)
+		if (b[l] == el)
 		{
 			c[j] = b[l];
 			c[j + 1] = elpas;
 			j++;
+			count++;
 		}
 		else
 		c[j] = b[l];
-		count++;
 	}
-	for (int j = 0; j < count; j++)
-	{
-		cout << "c[" << j << "]=" << c[j] << "\n";
-	}
+	delete[] b;
 	ofstream ofile("Output.txt");
 	if (!ofile)
 	{
 		cout << "Output file error";
 	}
+	for (int j = 0; j < k + count; j++)
+	{
+		ofile << c[j] << " ";
+	}
 	ofile.close();
+	delete[] c;
 	system("pause");
 }
