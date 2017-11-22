@@ -55,19 +55,23 @@ int main()
 	int el, elpas;
 	cout << "Write array element" << "\n"; cin >> el;
 	cout << "Write array element to paste in output file" << "\n"; cin >> elpas;
-	int* c = new int[k];
-	for (int j = 0, l = 0; j < k; l++, j++)
+	int* c = new int[2*k];
+	int count = 0;
+	for (int j = 0, l = 0; j < 2*k; l++, j++)
 	{
-		if (c[j] == el)
+		if (b[j] == el)
 		{
 			c[j] = b[l];
 			c[j + 1] = elpas;
 			j++;
 		}
-		for (int j = 0; j < k; j++)
-		{
-			cout << "c[" << j << "]=" << c[j] << "\n";
-		}
+		else
+		c[j] = b[l];
+		count++;
+	}
+	for (int j = 0; j < count; j++)
+	{
+		cout << "c[" << j << "]=" << c[j] << "\n";
 	}
 	ofstream ofile("Output.txt");
 	if (!ofile)
