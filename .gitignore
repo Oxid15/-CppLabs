@@ -1,0 +1,8 @@
+﻿
+*.json
+
+*.sqlite
+
+\.vs/
+
+\Debug/
