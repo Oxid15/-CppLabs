@@ -20,10 +20,10 @@ int main()
 		b[j] = 0;
 	while (!ifile.eof())
 	{
-		int z = ifile.get();
-		if (z != (int)'\n')
+		int buff = ifile.get();
+		if (buff != (int)'\n')
 		{
-			a[p] = z - 48;
+			a[p] = buff - 48;
 		}
 		else
 		{
@@ -66,6 +66,7 @@ int main()
 		c[j] = b[l];
 	}
 	delete[] b;
+
 	ofstream ofile("Output.txt");
 	if (!ofile)
 	{
