@@ -47,13 +47,12 @@ int main()
 			j++;
 		}
 	}
-	for (int k = 0; k < j; k++)
-	{
-		cout << "b[" << k << "]= " << b[k] << "\n";
-	}
-	cout << "j =" << j << "\n";
+	//for (int k = 0; k < j; k++)
+	//{
+	//	cout << "b[" << k << "]= " << b[k] << "\n";
+	//}
+	//cout << "j =" << j << "\n";
 	int* temp = new int[j];
-	int temp_len = 0;
 	for (int i = 0; i < j; i++)
 	{
 		temp[i] = 0;
@@ -64,32 +63,44 @@ int main()
 		if (b[i] != 11)
 		{
 			temp[cnt] = temp[cnt]*10 + b[i];
-			cout << cnt << " - " << temp[cnt] << "\n";
+			//cout << cnt << " - " << temp[cnt] << "\n";
 		}
 		else
 		{
 			cnt++;
+			//cout << "cnt_e= " << cnt << "\n" ;
 		}
-		temp_len++;
 	}
-	for (int k = 0; k < cnt; k++)
+	//for (int k = 0; k < cnt; k++)
+	//{
+	//	cout << "temp[" << k << "]= " << temp[k] << "\n";
+	//}
+	//cout << "temp length = " << cnt << "\n";
+	int* yrs = new int[cnt], * mny = new int[cnt];
+	int yrslen = 0, mnylen = 0;
+	for (int i = 0, j =0, k = 1; i < cnt; i++, j = j + 2, k = k + 2)
 	{
-		cout << "temp[" << k << "]= " << temp[k] << "\n";
-	}
-	cout << "temp length = " << temp_len << "\n";
-	int* yrs = new int[temp_len];
-	for (int i = 0; i < temp_len; i = i + 2)
-	{
-			yrs[i] = temp[i];
+		if (temp[j])
+		{
+			yrs[yrslen] = temp[j];
+			yrslen++;
+		}
+		if (temp[k])
+		{
+			mny[mnylen] = temp[k];
+			mnylen++;
+		}
 	}
 
-	for (int k = 0; k < temp_len; k++)
+	for (int k = 0; k < yrslen; k++)
 	{
 		cout << "yrs[" << k << "]= " << yrs[k] << "\n";
 	}
-	//for (int k = 0; k < len; k++)
-	//{
-	//	cout << "mny[" << k << "]= " << mny[k] << "\n";
-	//}
+	cout << "\n" << "\n";
+	for (int k = 0; k < mnylen; k++)
+	{
+		cout << "mny[" << k << "]= " << mny[k] << "\n";
+	}
+
 	system("pause");
 }
