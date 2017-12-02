@@ -12,20 +12,21 @@ int main()
 	{
 		cout << "Input file error";
 	}
-
-	//for (int j = 0; j < cnt - 1; j++)
-	//{
-	//	if (a[j] != -16 && a[j] != (int)'\n')
-	//	{
-	//		b[k] = b[k] * 10 + a[j];
-	//		cout << "b[" << k << "]= " << b[k] << "\n";
-	//	}
-	//	else
-	//	{
-	//		k++;
-	//	}
-	//}
-	//k++;
+	int n = 0, x = 0;
+	int* a = new int[256];
+	while (!ifile.eof())
+	{
+		int buff = ifile.get() - 48;
+		if (buff < 10 && buff >= 0 || buff == 11 && x > 3)
+		{
+			a[x] = buff;
+			x++;
+		}
+	}
+	for (int j = 0; j < x; j++)
+	{
+		cout << "a[" << j << "]= " << a[j] << "\n";
+	}
 
 	ifile.close();
 
