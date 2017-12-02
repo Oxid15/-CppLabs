@@ -14,7 +14,6 @@ int main()
 
 	int p = 0, cnt = 0;
 	int* a = new int[256];
-	int k = 0;
 	int *b = new int[256];
 	for (int j = 0; j < 256; j++)
 		b[j] = 0;
@@ -32,7 +31,7 @@ int main()
 		cnt++;
 		p++;
 	}
-
+	int k = 0;
 	for (int j = 0; j < cnt - 1; j++)
 	{
 		if (a[j] != -16 && a[j] != (int)'\n')
