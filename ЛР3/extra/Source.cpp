@@ -77,30 +77,51 @@ int main()
 	//}
 	//cout << "temp length = " << cnt << "\n";
 	int* yrs = new int[cnt], * mny = new int[cnt];
-	int yrslen = 0, mnylen = 0;
+	int yrslen = 0, mnylen = 0, in = 0;
 	for (int i = 0, j =0, k = 1; i < cnt; i++, j = j + 2, k = k + 2)
 	{
 		if (temp[j])
 		{
-			yrs[yrslen] = temp[j];
-			yrslen++;
+				yrs[yrslen] = temp[j];
+				yrslen++;
+				if (temp[j] < 1982)
+				in = yrslen;
 		}
-		if (temp[k])
+		if (k != in)
 		{
-			mny[mnylen] = temp[k];
+			if (temp[k])
+			{
+				mny[mnylen] = temp[k];
+				mnylen++;
+			}
+		}
+		else
+		{
+			mny[mnylen] = 0;
 			mnylen++;
 		}
 	}
 
-	for (int k = 0; k < yrslen; k++)
-	{
-		cout << "yrs[" << k << "]= " << yrs[k] << "\n";
-	}
-	cout << "\n" << "\n";
-	for (int k = 0; k < mnylen; k++)
-	{
-		cout << "mny[" << k << "]= " << mny[k] << "\n";
-	}
+	//for (int k = 0; k < yrslen; k++)
+	//{
+	//	cout << "yrs[" << k << "]= " << yrs[k] << "\n";
+	//}
+	//cout << "\n" << "\n";
+	//for (int k = 0; k < mnylen; k++)
+	//{
+	//	cout << "mny[" << k << "]= " << mny[k] << "\n";
+	//}
 
+	////finally.... finding maximum of wages
+	int mnymax = 0, index = 0;
+	for (int i = 0; i < mnylen; i++)
+	{
+		if (mny[i] > mnymax)
+		{
+			mnymax = mny[i];
+			index = i;
+		}
+		cout << index;
+	}
 	system("pause");
 }
