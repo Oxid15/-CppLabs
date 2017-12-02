@@ -3,8 +3,7 @@
 
 using namespace std;
 
-
-int main()
+int arr()
 {
 	struct student
 	{
@@ -28,7 +27,7 @@ int main()
 		cout << "Enter number of group" << "\n";
 		cin >> a[i].group_num;
 		double sum = 0;
-     	for (int j = 0; j < 5; j++)
+		for (int j = 0; j < 5; j++)
 		{
 			cout << "Enter grade" << "\n";
 			cin >> a[i].grade[j];
@@ -63,5 +62,44 @@ int main()
 		cout << a[i].group_num << "\n";
 		cout << a[i].avg << "\n";
 	}
-	system("pause");
+	system ("pause");
+	return 0;
+}
+
+int list()
+{
+	return 0;
+}
+
+int main()
+{
+	cout << "This program works with data structures." << "\n";
+	int prog = 1;
+	while (prog)
+	{
+		int choose = 0;
+		cout<< "Choose what to keep:" << "\n"
+			<< "1 - Use array as data structure" << "\n"
+			<< "2 - Use linked list as data structure" << "\n"
+			<< "9 - Exit if you want" << "\n"
+			<< "0 - Nothing" << "\n";
+		cin >> choose;
+		switch (choose)
+		{
+		case 1:arr();
+		case 2:list();
+		case 0:
+		{
+			cout << "You need to keep something" << "\n";
+			break;
+		}
+		case 9: 
+		{
+			prog = 0;
+			break;
+		}
+		default: cout << "Please, write 1, 2 or 9, there's no choice" << "\n";
+			break;
+		}
+	}
 }
