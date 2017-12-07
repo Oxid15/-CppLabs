@@ -3,7 +3,7 @@
 
 using namespace std;
 
-int arr()
+void arr()
 {
 	struct student
 	{
@@ -63,12 +63,11 @@ int arr()
 		cout << a[i].avg << "\n";
 	}
 	system ("pause");
-	return 0;
 }
 
-int list()
+void list()
 {
-	return 0;
+
 }
 
 int main()
@@ -86,18 +85,29 @@ int main()
 		cin >> choose;
 		switch (choose)
 		{
-		case 1:arr();
-		case 2:list();
+		case 1:
+		{
+			system("cls");
+			arr();
+		}
+		case 2:
+		{
+			system("cls");
+			list();
+		}
 		case 0:
 		{
-			cout << "You need to keep something" << "\n";
+			system("cls");
+			cout << "You need to keep something" << "\n" << "\n";
 			break;
 		}
 		case 9: 
 		{
+			system("cls");
 			prog = 0;
 			break;
 		}
+		system("cls");
 		default: cout << "Please, write 1, 2 or 9, there's no choice" << "\n";
 			break;
 		}
