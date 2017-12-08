@@ -67,6 +67,18 @@ void arr()
 
 void list()
 {
+	//...
+
+	struct lnkdlist
+	{
+		
+	};
+	struct student
+	{
+
+	};
+
+	//...
 
 }
 
