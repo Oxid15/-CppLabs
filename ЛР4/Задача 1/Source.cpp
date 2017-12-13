@@ -11,17 +11,18 @@ struct student
 	short grade[5];
 	double avg;
 };
-struct lnkdlist
+struct linlist
 {
 	student a;
 	student* next_ptr = new student;
 };
- int add(student* head, student st1)
+
+ int add(student* head, linlist el_n)
 {
+	 student st;
 	 if (head == nullptr)
 	 {
-		 head = &st1;
-
+		 head = &st;
 	 }
 	 else
 	 {
@@ -29,6 +30,7 @@ struct lnkdlist
 	 }
 	 return 0;
 }
+
 void arr()
 {
 	student a[10];
@@ -86,20 +88,10 @@ void list()
 
 {
 	student* head = nullptr;
-	student* next_ptr = nullptr;
 	for (int i = 0; i < 10; i++)
 	{
-		student st1;
-		cout << "Enter first name" << "\n";
-		cin >> st1.first_name;
-		cout << "Enter last name" << "\n";
-		cin >> st1.last_name;
-		cout << "Enter patronymic name" << "\n";
-		cin >> st1.patronymic_name;
-		cout << "Enter number of group" << "\n";
-		cin >> st1.group_num;
-
-		add(head, st1);
+		linlist el_1;
+		add(head, el_1);
 	}
 }
 
