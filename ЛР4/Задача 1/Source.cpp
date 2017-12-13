@@ -1,19 +1,36 @@
 #include <iostream>
-#include <fstream>
 
 using namespace std;
 
+struct student
+{
+	char* first_name = new char[256]; // ! // char* buf = new char[255]; cin >> buf; student.first_name = new char[strlen(buf)//(+1)//(?)];
+	char* last_name = new char[256];
+	char* patronymic_name = new char[256];
+	int group_num;
+	short grade[5];
+	double avg;
+};
+struct lnkdlist
+{
+	student a;
+	student* next_ptr = new student;
+};
+ int add(student* head, student st1)
+{
+	 if (head == nullptr)
+	 {
+		 head = &st1;
+
+	 }
+	 else
+	 {
+
+	 }
+	 return 0;
+}
 void arr()
 {
-	struct student
-	{
-		char* first_name = new char[256];
-		char* last_name = new char[256];
-		char* patronymic_name = new char[256];
-		int group_num;
-		int grade[5];
-		double avg;
-	};
 	student a[10];
 	int count = 0;
 	for (int i = 0; i < 10; i++)
@@ -66,20 +83,24 @@ void arr()
 }
 
 void list()
+
 {
-	//...
-
-	struct lnkdlist
+	student* head = nullptr;
+	student* next_ptr = nullptr;
+	for (int i = 0; i < 10; i++)
 	{
-		
-	};
-	struct student
-	{
+		student st1;
+		cout << "Enter first name" << "\n";
+		cin >> st1.first_name;
+		cout << "Enter last name" << "\n";
+		cin >> st1.last_name;
+		cout << "Enter patronymic name" << "\n";
+		cin >> st1.patronymic_name;
+		cout << "Enter number of group" << "\n";
+		cin >> st1.group_num;
 
-	};
-
-	//...
-
+		add(head, st1);
+	}
 }
 
 int main()
