@@ -7,9 +7,9 @@ struct student
 	char* first_name = new char[256]; // ! // char* buf = new char[255]; cin >> buf; student.first_name = new char[strlen(buf)//(+1)//(?)];
 	char* last_name = new char[256];
 	char* patronymic_name = new char[256];
-	int group_num;
+	short group_num;
 	short grade[5];
-	double avg;
+	float avg;
 };
 struct linlist
 {
@@ -30,6 +30,23 @@ struct linlist
 	 }
 	 return 0;
 }
+ int short_enter(int* buf)
+ {
+	 cin >> *buf;
+	 while (*buf < 0 || *buf > 32676)
+	 {
+		 system("cls");
+		 cout << "Invalid input, try again:";
+		 cin >> *buf;
+		 if (cin.fail())
+		 {
+			 cin.clear();
+			 while (cin.get() != '\n');
+		 }
+	 }
+	 return *buf;
+	 delete buf;
+ }
 
 void arr()
 {
@@ -44,12 +61,16 @@ void arr()
 		cout << "Enter patronymic name" << "\n";
 		cin >> a[i].patronymic_name;
 		cout << "Enter number of group" << "\n";
-		cin >> a[i].group_num;
-		double sum = 0;
+		int* b = new int;
+		a[i].group_num = short_enter(b);
+		delete b;
+		float sum = 0;
 		for (int j = 0; j < 5; j++)
 		{
 			cout << "Enter grade" << "\n";
-			cin >> a[i].grade[j];
+			int* c = new int;
+			a[i].grade[j] = short_enter (c);
+			delete c;
 			sum = sum + a[i].grade[j];
 			cout << "sum=" << sum << "\n";
 		}
@@ -94,7 +115,6 @@ void list()
 		add(head, el_1);
 	}
 }
-
 int main()
 {
 	cout << "This program works with data structures." << "\n";
