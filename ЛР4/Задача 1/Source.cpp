@@ -17,20 +17,21 @@ struct linlist
 	student* next_ptr = new student;
 };
 
- int add(student* head, linlist el_n)
+ int add(linlist* head, linlist el_n)
 {
-	 student st;
+	 linlist student_n;
 	 if (head == nullptr)
 	 {
-		 head = &st;
+		 head = &student_n;
 	 }
 	 else
 	 {
-
+		 
 	 }
 	 return 0;
 }
- int short_enter(int* buf)
+
+ short short_enter(short* buf)
  {
 	 cin >> *buf;
 	 while (*buf < 0 || *buf > 32676)
@@ -61,14 +62,14 @@ void arr()
 		cout << "Enter patronymic name" << "\n";
 		cin >> a[i].patronymic_name;
 		cout << "Enter number of group" << "\n";
-		int* b = new int;
+		short* b = new short;
 		a[i].group_num = short_enter(b);
 		delete b;
 		float sum = 0;
 		for (int j = 0; j < 5; j++)
 		{
 			cout << "Enter grade" << "\n";
-			int* c = new int;
+			short* c = new short;
 			a[i].grade[j] = short_enter (c);
 			delete c;
 			sum = sum + a[i].grade[j];
@@ -108,21 +109,21 @@ void arr()
 void list()
 
 {
-	student* head = nullptr;
+	linlist* head = nullptr;
 	for (int i = 0; i < 10; i++)
 	{
-		linlist el_1;
-		add(head, el_1);
+		linlist* el = new linlist;
+		add(head, *el);
 	}
 }
 int main()
 {
-	cout << "This program works with data structures." << "\n";
+	cout << "                   This program works with data structures." << "\n" << "\n" << "\n";
 	int prog = 1;
 	while (prog)
 	{
 		int choose = 0;
-		cout<< "Choose what to keep:" << "\n"
+		cout<< "Choose what to keep:" << "\n" << "\n"
 			<< "1 - Use array as data structure" << "\n"
 			<< "2 - Use linked list as data structure" << "\n"
 			<< "9 - Exit if you want" << "\n"
