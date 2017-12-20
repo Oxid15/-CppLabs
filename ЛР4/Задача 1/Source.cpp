@@ -4,9 +4,9 @@ using namespace std;
 
 struct student
 {
-	char* first_name = new char[256]; // ! // char* buf = new char[255]; cin >> buf; student.first_name = new char[strlen(buf)//(+1)//(?)];
-	char* last_name = new char[256];
-	char* patronymic_name = new char[256];
+	char* first_name = new char[64]; // ! // char* buf = new char[255]; cin >> buf; student.first_name = new char[strlen(buf)//(+1)//(?)];
+	char* last_name = new char[64];
+	char* patronymic_name = new char[64];
 	short group_num;
 	short grade[5];
 	float avg;
@@ -19,14 +19,13 @@ struct linlist
 
  int add(linlist* head, linlist el_n)
 {
-	 linlist student_n;
 	 if (head == nullptr)
 	 {
-		 head = &student_n;
+		 head = &el_n;
 	 }
 	 else
 	 {
-		 
+
 	 }
 	 return 0;
 }
@@ -36,8 +35,7 @@ struct linlist
 	 cin >> *buf;
 	 while (*buf < 0 || *buf > 32676)
 	 {
-		 system("cls");
-		 cout << "Invalid input, try again:";
+		 cout << "Invalid input, try again:" << "\n";
 		 cin >> *buf;
 		 if (cin.fail())
 		 {
@@ -119,17 +117,17 @@ void list()
 int main()
 {
 	cout << "                   This program works with data structures." << "\n" << "\n" << "\n";
-	int prog = 1;
+	short prog = 1;
 	while (prog)
 	{
-		int choose = 0;
+		short* choose = new short;
 		cout<< "Choose what to keep:" << "\n" << "\n"
 			<< "1 - Use array as data structure" << "\n"
 			<< "2 - Use linked list as data structure" << "\n"
 			<< "9 - Exit if you want" << "\n"
 			<< "0 - Nothing" << "\n";
-		cin >> choose;
-		switch (choose)
+		*choose = short_enter(choose);
+		switch (*choose)
 		{
 		case 1:
 		{
