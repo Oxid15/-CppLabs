@@ -10,6 +10,7 @@ struct student
 	short group_num;
 	short grade[5];
 	float avg;
+	bool otl;
 };
 struct linlist
 {
@@ -19,14 +20,7 @@ struct linlist
 
  int add(linlist* head, linlist el_n)
 {
-	 if (head == nullptr)
-	 {
-		 head = &el_n;
-	 }
-	 else
-	 {
 
-	 }
 	 return 0;
 }
 
@@ -68,7 +62,11 @@ void arr()
 		{
 			cout << "Enter grade" << "\n";
 			short* c = new short;
-			a[i].grade[j] = short_enter (c);
+			a[i].grade[j] = short_enter(c);
+			if (*a[i].grade < 4)
+			{
+				a[i].otl = false;
+			}
 			delete c;
 			sum = sum + a[i].grade[j];
 			cout << "sum=" << sum << "\n";
@@ -77,7 +75,7 @@ void arr()
 		cout << "avg=" << a[i].avg << "\n";
 		count = ++count;
 		double k;
-		cout << "Enter 0 if you need to stop writing, or any positive number if you don't" << "\n";
+		cout << "Enter 0 if you want to stop writing, or any positive number if you don't" << "\n";
 		cin >> k;
 		if (!k)
 			break;
@@ -101,6 +99,20 @@ void arr()
 		cout << a[i].group_num << "\n";
 		cout << a[i].avg << "\n";
 	}
+	short* counter = new short;
+	*counter = 0;
+	for (int i = 0; i < count; i++)
+	{
+		if (a[i].otl)
+		{
+			cout << "Student with only 4 and 5 grades:" << "\n";
+			cout << a[i].first_name << "\n";
+			cout << a[i].last_name << "\n";
+			cout << a[i].group_num << "\n";
+			*counter++;
+		}
+	}
+	delete counter;
 	system ("pause");
 }
 
