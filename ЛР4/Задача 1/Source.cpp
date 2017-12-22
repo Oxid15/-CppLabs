@@ -15,15 +15,28 @@ struct student
 struct linlist
 {
 	student a;
-	student* next_ptr = new student;
+	linlist* nextptr;
 };
 
- int add(linlist* head, linlist el_n)
+ void add(linlist* head)
 {
+	 linlist* new_el = new linlist;
+	 if (head == nullptr)
+	 {
+		 head = new_el;
+		 new_el->nextptr = nullptr;
+	 }
+	 else
+	 {
+		 new_el->nextptr = head;
 
-	 return 0;
+	 }
 }
 
+ void print(linlist* head)
+ {
+
+ }
  short short_enter(short* buf)
  {
 	 cin >> *buf;
@@ -74,13 +87,14 @@ void arr()
 		a[i].avg = sum / 5;
 		cout << "avg=" << a[i].avg << "\n";
 		count = ++count;
-		double k;
+		short* k = new short;
 		cout << "Enter 0 if you want to stop writing, or any positive number if you don't" << "\n";
-		cin >> k;
-		if (!k)
+		cin >> *k;
+		if (!(*k))
 			break;
 		else
 			cout << "Continue..." << "\n";
+		delete k;
 	}
 
 	for (int i = 0; i < count; i++)
@@ -122,8 +136,15 @@ void list()
 	linlist* head = nullptr;
 	for (int i = 0; i < 10; i++)
 	{
-		linlist* el = new linlist;
-		add(head, *el);
+		add(head);
+		short* k = new short;
+		cout << "Enter 0 if you want to stop writing, or any positive number if you don't" << "\n";
+		cin >> *k;
+		if (!(*k))
+			break;
+		else
+			cout << "Continue..." << "\n";
+		delete k;
 	}
 }
 int main()
