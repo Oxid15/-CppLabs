@@ -18,43 +18,54 @@ struct linlist
 	linlist* nextptr;
 };
 short short_enter(short* buf)
-{
-	cin >> *buf;
-	while (*buf < 0 || *buf > 32676)
-	{
-		cout << "Invalid input, try again:" << "\n";
-		cin >> *buf;
-		if (cin.fail())
-		{
-			cin.clear();
-			while (cin.get() != '\n');
-		}
-	}
-	return *buf;
-	delete buf;
-}
+ {
+	 cin >> *buf;
+	 while (*buf < 0 || *buf > 32676)
+	 {
+		 cout << "Invalid input, try again:" << "\n";
+		 cin >> *buf;
+		 if (cin.fail())
+		 {
+			 cin.clear();
+			 while (cin.get() != '\n');
+		 }
+	 }
+	 return *buf;
+	 delete buf;
+ }
  void add(linlist** ptr_head)
 {
-	 linlist* new_el = new linlist;
-	 student* student_el = new student;
-	 cout << "Enter first name" << "\n";
-	 cin >> *student_el->first_name;
-	 cout << "Enter last name" << "\n";
-	 cin >> *student_el->last_name;
-	 cout << "Enter number of group" << "\n";
-	 short* b = new short;
-	 student_el->group_num = short_enter(b);
-	 delete b;
-	 new_el->curr_student = *student_el;
-	 if (*ptr_head == nullptr)
+	 for (int i = 0; i < 10; i++)
 	 {
-		 *ptr_head = new_el;
-		 new_el->nextptr = nullptr;
-	 }
-	 else
-	 {
-		 new_el->nextptr = *ptr_head;
-		 *ptr_head = new_el;
+		 linlist* new_el = new linlist;
+		 student* student_el = new student;
+		 cout << "Enter first name" << "\n";
+		 cin >> *student_el->first_name;
+		 cout << "Enter last name" << "\n";
+		 cin >> *student_el->last_name;
+		 cout << "Enter number of group" << "\n";
+		 short* b = new short;
+		 student_el->group_num = short_enter(b);
+		 delete b;
+		 new_el->curr_student = *student_el;
+		 if (*ptr_head == nullptr)
+		 {
+			 *ptr_head = new_el;
+			 new_el->nextptr = nullptr;
+		 }
+		 else
+		 {
+			 new_el->nextptr = *ptr_head;
+			 *ptr_head = new_el;
+		 }
+		 short* k = new short;
+		 cout << "Enter 0 if you want to stop writing, or any positive number if you don't" << "\n";
+		 cin >> *k;
+		 if (!(*k))
+			 break;
+		 else
+			 cout << "Continue..." << "\n";
+		 delete k;
 	 }
 }
 
@@ -64,7 +75,8 @@ short short_enter(short* buf)
 	 ptr = *ptr_head;
 	 while (ptr)
 	 {
-		 
+		 cout << ptr->curr_student.first_name;
+		 ptr = ptr->nextptr;
 	 }
  }
 
@@ -150,20 +162,11 @@ void list()
 {
 	linlist* head = nullptr;
 	linlist** ptrhead = &head;
-	for (int i = 0; i < 10; i++)
-	{
+
 		add(ptrhead);
-		short* k = new short;
-		cout << "Enter 0 if you want to stop writing, or any positive number if you don't" << "\n";
-		cin >> *k;
-		if (!(*k))
-			break;
-		else
-			cout << "Continue..." << "\n";
-		delete k;
 		print(ptrhead);
-	}
-}
+		system("pause");
+};
 int main()
 {
 	cout << "                   This program works with data structures" << "\n" << "\n" << "\n";
