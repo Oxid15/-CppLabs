@@ -14,45 +14,60 @@ struct student
 };
 struct linlist
 {
-	student a;
+	student curr_student;
 	linlist* nextptr;
 };
-
- void add(linlist* head)
+short short_enter(short* buf)
+{
+	cin >> *buf;
+	while (*buf < 0 || *buf > 32676)
+	{
+		cout << "Invalid input, try again:" << "\n";
+		cin >> *buf;
+		if (cin.fail())
+		{
+			cin.clear();
+			while (cin.get() != '\n');
+		}
+	}
+	return *buf;
+	delete buf;
+}
+ void add(linlist** ptr_head)
 {
 	 linlist* new_el = new linlist;
-	 if (head == nullptr)
+	 student* student_el = new student;
+	 cout << "Enter first name" << "\n";
+	 cin >> *student_el->first_name;
+	 cout << "Enter last name" << "\n";
+	 cin >> *student_el->last_name;
+	 cout << "Enter number of group" << "\n";
+	 short* b = new short;
+	 student_el->group_num = short_enter(b);
+	 delete b;
+	 new_el->curr_student = *student_el;
+	 if (*ptr_head == nullptr)
 	 {
-		 head = new_el;
+		 *ptr_head = new_el;
 		 new_el->nextptr = nullptr;
 	 }
 	 else
 	 {
-		 new_el->nextptr = head;
-
+		 new_el->nextptr = *ptr_head;
+		 *ptr_head = new_el;
 	 }
 }
 
- void print(linlist* head)
+ void print(linlist** ptr_head)
  {
-
- }
- short short_enter(short* buf)
- {
-	 cin >> *buf;
-	 while (*buf < 0 || *buf > 32676)
+	 linlist* ptr = new linlist;
+	 ptr = *ptr_head;
+	 while (ptr)
 	 {
-		 cout << "Invalid input, try again:" << "\n";
-		 cin >> *buf;
-		 if (cin.fail())
-		 {
-			 cin.clear();
-			 while (cin.get() != '\n');
-		 }
+		 
 	 }
-	 return *buf;
-	 delete buf;
  }
+
 
 void arr()
 {
@@ -134,9 +149,10 @@ void list()
 
 {
 	linlist* head = nullptr;
+	linlist** ptrhead = &head;
 	for (int i = 0; i < 10; i++)
 	{
-		add(head);
+		add(ptrhead);
 		short* k = new short;
 		cout << "Enter 0 if you want to stop writing, or any positive number if you don't" << "\n";
 		cin >> *k;
@@ -145,20 +161,20 @@ void list()
 		else
 			cout << "Continue..." << "\n";
 		delete k;
+		print(ptrhead);
 	}
 }
 int main()
 {
-	cout << "                   This program works with data structures." << "\n" << "\n" << "\n";
+	cout << "                   This program works with data structures" << "\n" << "\n" << "\n";
 	short prog = 1;
 	while (prog)
 	{
 		short* choose = new short;
-		cout<< "Choose what to keep:" << "\n" << "\n"
+		cout << "Choose what to keep:" << "\n" << "\n"
 			<< "1 - Use array as data structure" << "\n"
 			<< "2 - Use linked list as data structure" << "\n"
-			<< "9 - Exit if you want" << "\n"
-			<< "0 - Nothing" << "\n";
+			<< "9 - Exit if you want" << "\n";
 		*choose = short_enter(choose);
 		switch (*choose)
 		{
@@ -172,12 +188,6 @@ int main()
 			system("cls");
 			list();
 		}
-		case 0:
-		{
-			system("cls");
-			cout << "You need to keep something" << "\n" << "\n";
-			break;
-		}
 		case 9: 
 		{
 			system("cls");
@@ -188,5 +198,6 @@ int main()
 		default: cout << "Please, write 1, 2 or 9, there's no choice" << "\n";
 			break;
 		}
+		delete choose;
 	}
 }
