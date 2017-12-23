@@ -17,6 +17,7 @@ struct linlist
 	student curr_student;
 	linlist* nextptr;
 };
+
 short short_enter(short* buf)
  {
 	 cin >> *buf;
@@ -33,7 +34,7 @@ short short_enter(short* buf)
 	 return *buf;
 	 delete buf;
  }
- void add(linlist* &head)
+void add(linlist* &head)
 {
 	 for (int i = 0; i < 10; i++)
 	 {
@@ -45,10 +46,14 @@ short short_enter(short* buf)
 		 cin >> student_el->first_name;
 		 cout << "Enter patronymic name" << "\n";
 		 cin >> student_el->patronymic_name;
+		 cout << "Enter number of group" << "\n";
+		 short* b = new short;
+		 student_el->group_num = short_enter(b);
+		 delete b;
 		 float sum = 0;
+		 cout << "Enter 5 grades" << "\n";
 		 for (int j = 0; j < 5; j++)
 		 {
-			 cout << "Enter grade" << "\n";
 			 short* c = new short;
 			 student_el->grade[j] = short_enter(c);
 			 if (*student_el->grade < 4)
@@ -57,20 +62,30 @@ short short_enter(short* buf)
 			 }
 			 delete c;
 			 sum = sum + student_el->grade[j];
-			 cout << "sum=" << sum << "\n";
 		 }
 		 student_el->avg = sum / 5;
+		 //...//
 		 new_el->curr_student = *student_el;
-		 if (&head == nullptr)
+		 if (head == nullptr)
 		 {
 			 head = new_el;
 			 new_el->nextptr = nullptr;
 		 }
 		 else
 		 {
-			 new_el->nextptr = head;
-			 head = new_el;
+			 linlist* ptr4 = head;
+			 while (ptr4)
+			 {
+				 if (ptr4->curr_student.avg > ptr4->nextptr->curr_student.avg)
+				 {
+					 new_el->nextptr = head;
+					 head = new_el;
+				 }
+				 else
+				 ptr4 = ptr4->nextptr;
+			 }
 		 }
+		 //...//
 		 short* k = new short;
 		 cout << "Enter 0 if you want to stop writing, or any positive number if you don't" << "\n";
 		 cin >> *k;
@@ -82,34 +97,48 @@ short short_enter(short* buf)
 	 }
 }
 
- void print(linlist* &head)
+void print(linlist* &head)
  {
 	 linlist* ptr = new linlist;
 	 ptr = head;
-	 while (ptr != nullptr)
+	 while (ptr)
 	 {
 		 cout << " Last name:" << ptr->curr_student.last_name << "\n";
 		 cout << " First name:" << ptr->curr_student.first_name << "\n";
 		 cout << "Patr. name:" << ptr->curr_student.patronymic_name << "\n";
+		 cout << "Group number:" << ptr->curr_student.group_num << "\n";
 		 cout << "grades:" << "\n";
 		 for (int j = 0; j < 5; j++)
 		 {
 			 cout << ptr->curr_student.grade[j] << "\n";
 		 }
-		 ptr = ptr->nextptr;
+		ptr = ptr->nextptr;
 	 }
- }
-
- void listsort(linlist* &head)
- {
-	 linlist* ptr1 = new linlist, *ptr2 = new linlist;
-	 ptr1 = head;
-	 ptr2 = head;
-	 while (ptr1)
+	 linlist* ptr3 = new linlist;
+	 ptr3 = head;
+	 while (ptr3)
 	 {
-
+		 if (ptr3->curr_student.otl)
+		 {
+			 cout << "Students with only 4 and 5 grades:" << "\n";
+			 cout << ptr3->curr_student.last_name << "\n";
+			 cout << ptr3->curr_student.first_name << "\n";
+			 cout << ptr3->curr_student.group_num << "\n";
+		 }
+		 ptr3 = ptr3->nextptr;
 	 }
  }
+
+//void listsort(linlist* &head)
+// {
+//	 linlist* ptr1 = new linlist, *ptr2 = new linlist;
+//	 ptr1 = head;
+//	 ptr2 = head;
+//	 while (ptr1)
+//	 {
+//
+//	 }
+// }
 
 void arr()
 {
@@ -176,13 +205,15 @@ void arr()
 	{
 		if (a[i].otl)
 		{
-			cout << "Student with only 4 and 5 grades:" << "\n";
+			cout << "Students with only 4 and 5 grades:" << "\n";
 			cout << a[i].first_name << "\n";
 			cout << a[i].last_name << "\n";
 			cout << a[i].group_num << "\n";
 			*counter++;
 		}
 	}
+	if (*counter == 0)
+		cout << "Student with only 4 and 5 grades does not exist" << "\n";
 	delete counter;
 	system ("pause");
 }
@@ -191,10 +222,13 @@ void list()
 {
 	linlist* head = nullptr;
 		add(head);
-		listsort(head);
+		print(head);
+		//listsort(head);
 		print(head);
 		system("pause");
+		return;
 };
+
 int main()
 {
 	cout << "                   This program works with data structures" << "\n" << "\n" << "\n";
