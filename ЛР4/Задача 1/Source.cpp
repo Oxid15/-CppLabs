@@ -4,9 +4,9 @@ using namespace std;
 
 struct student
 {
-	char* first_name = new char[64]; // ! // char* buf = new char[255]; cin >> buf; student.first_name = new char[strlen(buf)//(+1)//(?)];
-	char* last_name = new char[64];
-	char* patronymic_name = new char[64];
+	char* first_name;
+	char* last_name;
+	char* patronymic_name;
 	short group_num;
 	short grade[5];
 	float avg;
@@ -41,11 +41,23 @@ void add(linlist* &head)
 		 linlist* new_el = new linlist;
 		 student* student_el = new student;
 		 cout << "Enter last name" << "\n";
-		 cin >> student_el->last_name;
+		 char* buf1 = new char[255];
+		 cin >> buf1;
+		 student_el->last_name = new char[strlen(buf1) + 1];
+		 delete buf1;
+
 		 cout << "Enter first name" << "\n";
-		 cin >> student_el->first_name;
+		 char* buf2 = new char[255]; 
+		 cin >> buf2;
+		 student_el->first_name = new char[strlen(buf2) + 1];
+		 delete buf2;
+
 		 cout << "Enter patronymic name" << "\n";
-		 cin >> student_el->patronymic_name;
+		 char* buf3 = new char[255];
+		 cin >> buf3;
+		 student_el->patronymic_name = new char[strlen(buf3) + 1];
+		 delete buf3;
+
 		 cout << "Enter number of group" << "\n";
 		 short* b = new short;
 		 student_el->group_num = short_enter(b);
@@ -73,17 +85,8 @@ void add(linlist* &head)
 		 }
 		 else
 		 {
-			 linlist* ptr4 = head;
-			 while (ptr4)
-			 {
-				 if (ptr4->curr_student.avg > ptr4->nextptr->curr_student.avg)
-				 {
-					 new_el->nextptr = head;
-					 head = new_el;
-				 }
-				 else
-				 ptr4 = ptr4->nextptr;
-			 }
+			 new_el->nextptr = head;
+			 head = new_el;
 		 }
 		 //...//
 		 short* k = new short;
@@ -129,16 +132,22 @@ void print(linlist* &head)
 	 }
  }
 
-//void listsort(linlist* &head)
-// {
-//	 linlist* ptr1 = new linlist, *ptr2 = new linlist;
-//	 ptr1 = head;
-//	 ptr2 = head;
-//	 while (ptr1)
-//	 {
-//
-//	 }
-// }
+void listsort(linlist* &head) //Doesn't work correctly...
+ {
+	 linlist* ptr1 = new linlist, *ptr2 = new linlist;
+	 ptr1 = head;
+	 ptr2 = head;
+	 while (ptr1)
+	 {
+		 while (ptr2)
+		 {
+			 if (ptr2->curr_student.avg < ptr2->nextptr->curr_student.avg)
+			 {
+				 swap(ptr2->nextptr,ptr2->nextptr->nextptr);
+			 }
+		 }
+	 }
+ }
 
 void arr()
 {
@@ -222,8 +231,7 @@ void list()
 {
 	linlist* head = nullptr;
 		add(head);
-		print(head);
-		//listsort(head);
+		listsort(head);
 		print(head);
 		system("pause");
 		return;
