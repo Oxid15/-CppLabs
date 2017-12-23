@@ -39,8 +39,27 @@ short short_enter(short* buf)
 	 {
 		 linlist* new_el = new linlist;
 		 student* student_el = new student;
+		 cout << "Enter last name" << "\n";
+		 cin >> student_el->last_name;
 		 cout << "Enter first name" << "\n";
 		 cin >> student_el->first_name;
+		 cout << "Enter patronymic name" << "\n";
+		 cin >> student_el->patronymic_name;
+		 float sum = 0;
+		 for (int j = 0; j < 5; j++)
+		 {
+			 cout << "Enter grade" << "\n";
+			 short* c = new short;
+			 student_el->grade[j] = short_enter(c);
+			 if (*student_el->grade < 4)
+			 {
+				 student_el->otl = false;
+			 }
+			 delete c;
+			 sum = sum + student_el->grade[j];
+			 cout << "sum=" << sum << "\n";
+		 }
+		 student_el->avg = sum / 5;
 		 new_el->curr_student = *student_el;
 		 if (&head == nullptr)
 		 {
@@ -69,11 +88,28 @@ short short_enter(short* buf)
 	 ptr = head;
 	 while (ptr != nullptr)
 	 {
-		 cout << ptr->curr_student.first_name;
+		 cout << " Last name:" << ptr->curr_student.last_name << "\n";
+		 cout << " First name:" << ptr->curr_student.first_name << "\n";
+		 cout << "Patr. name:" << ptr->curr_student.patronymic_name << "\n";
+		 cout << "grades:" << "\n";
+		 for (int j = 0; j < 5; j++)
+		 {
+			 cout << ptr->curr_student.grade[j] << "\n";
+		 }
 		 ptr = ptr->nextptr;
 	 }
  }
 
+ void listsort(linlist* &head)
+ {
+	 linlist* ptr1 = new linlist, *ptr2 = new linlist;
+	 ptr1 = head;
+	 ptr2 = head;
+	 while (ptr1)
+	 {
+
+	 }
+ }
 
 void arr()
 {
@@ -152,11 +188,10 @@ void arr()
 }
 
 void list()
-
 {
 	linlist* head = nullptr;
-
 		add(head);
+		listsort(head);
 		print(head);
 		system("pause");
 };
