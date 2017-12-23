@@ -33,28 +33,24 @@ short short_enter(short* buf)
 	 return *buf;
 	 delete buf;
  }
- void add(linlist &head)
+ void add(linlist* &head)
 {
 	 for (int i = 0; i < 10; i++)
 	 {
 		 linlist* new_el = new linlist;
 		 student* student_el = new student;
 		 cout << "Enter first name" << "\n";
-		 cin >> *student_el->first_name;
-		 cout << "Enter last name" << "\n";
-		 cin >> *student_el->last_name;
-		 cout << "Enter number of group" << "\n";
-		 short* b = new short;
-		 student_el->group_num = short_enter(b);
-		 delete b;
+		 cin >> student_el->first_name;
 		 new_el->curr_student = *student_el;
 		 if (&head == nullptr)
 		 {
-
+			 head = new_el;
+			 new_el->nextptr = nullptr;
 		 }
 		 else
 		 {
-
+			 new_el->nextptr = head;
+			 head = new_el;
 		 }
 		 short* k = new short;
 		 cout << "Enter 0 if you want to stop writing, or any positive number if you don't" << "\n";
@@ -67,11 +63,11 @@ short short_enter(short* buf)
 	 }
 }
 
- void print(linlist &head)
+ void print(linlist* &head)
  {
 	 linlist* ptr = new linlist;
-	 ptr = &head;
-	 while (ptr)
+	 ptr = head;
+	 while (ptr != nullptr)
 	 {
 		 cout << ptr->curr_student.first_name;
 		 ptr = ptr->nextptr;
@@ -160,8 +156,8 @@ void list()
 {
 	linlist* head = nullptr;
 
-		add(*head);
-		print(*head);
+		add(head);
+		print(head);
 		system("pause");
 };
 int main()
