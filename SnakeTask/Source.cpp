@@ -5,8 +5,9 @@
 using namespace std;
 
 bool gameover;
-const int width = 30, height = 30;
-int x, y, fruitX, fruitY, score;
+const int width = 40, height = 20;
+int x, y, fruitX, fruitY, score, nTail;
+int tailX[100], tailY[100];
 enum direction {STOP, LEFT, RIGHT, UP, DOWN};
 direction dir;
 void Setup()
@@ -19,10 +20,10 @@ void Setup()
 	score = 0;
 }
 
-
 void Draw()
 {
 	system ("cls");
+	cout << "              Snake: The Game" << "\n";
 	for (int i = 0; i < width; i++)
 	{
 		cout << "/";
@@ -34,13 +35,24 @@ void Draw()
 		{
 			if (j == 0 || j == width - 1)
 				cout << "/";
-			if (i == y && j == x)
-				cout << "o";
 			else
-			if (i == fruitY && j == fruitX)
-				cout << "$";
-			else
+				if (i == y && j == x)
+					cout << "o";
+				else
+					if (i == fruitY && j == fruitX)
+						cout << "$";
+				else
+				{
+					for (int k = 0; k < nTail; k++)
+					{
+						if (tailX[k] == j && tailY[k] == i)
+						{
+							cout << "o";
+						}
+					}
 					cout << " ";
+				}
+
 		}
 		cout << "\n";
 	}
@@ -48,6 +60,7 @@ void Draw()
 	{
 		cout << "/";
 	}
+	cout << "\n" << "Score: " << score;
 }
 
 void Input()
@@ -68,12 +81,28 @@ void Input()
 		case's': 
 			dir = DOWN;
 			break;
+		case'0':
+			gameover = true;
 		}
 	}
 }
 
 void Logic()
 {
+	int prevX = tailX[0];
+	int prevY = tailY[0];
+	int prev2X, prev2Y;
+	tailX[0] = x;
+	tailY[0] = y;
+	for (int i = 1; i < nTail; i++)
+	{
+		prev2X = tailX[i];
+		prev2Y = tailY[i];
+		tailX[i] = prevX;
+		tailY[i] = prevY;
+		prevX = prev2X;
+		prevY = prev2Y;
+	}
 	switch (dir)
 	{
 	case(LEFT):
@@ -89,6 +118,14 @@ void Logic()
 		y++;
 		break;
 	}
+	if (x == fruitX && y == fruitY)
+	{
+		score++;
+		nTail++;
+		fruitX = rand() % width;
+		fruitY = rand() % height;
+	}
+	Sleep(20);
 }
 
 void main()
