@@ -1,10 +1,11 @@
 #include<iostream>
 #include<conio.h>
+#include<windows.h>
 
 using namespace std;
 
 bool gameover;
-const int width = 20, height = 20;
+const int width = 30, height = 30;
 int x, y, fruitX, fruitY, score;
 enum direction {STOP, LEFT, RIGHT, UP, DOWN};
 direction dir;
@@ -55,14 +56,18 @@ void Input()
 	{
 		switch (_getch())
 		{
-		case'a': dir = LEFT;
-		
-		case'w': dir = UP;
-
-		case's': dir = DOWN;
-
-		case'd': dir = RIGHT;
-
+		case'a': 
+			dir = LEFT;
+			break;
+		case'd':
+			dir = RIGHT;
+			break;
+		case'w': 
+			dir = UP;
+			break;
+		case's': 
+			dir = DOWN;
+			break;
 		}
 	}
 }
@@ -72,13 +77,17 @@ void Logic()
 	switch (dir)
 	{
 	case(LEFT):
-		x--;
+		x--; 
+		break;
 	case(RIGHT):
 		x++;
+		break;
 	case(UP):
 		y--;
+		break;
 	case(DOWN):
 		y++;
+		break;
 	}
 }
 
