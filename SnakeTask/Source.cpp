@@ -1,4 +1,5 @@
 #include<iostream>
+#include<conio.h>
 
 using namespace std;
 
@@ -10,8 +11,8 @@ direction dir;
 void Setup()
 {
 	dir = STOP;
-	x = width / 2;
-	y = height / 2;
+	x = width / 2 - 1;
+	y = height / 2 - 1;
 	fruitX = rand() % width;
 	fruitY = rand() % height;
 	score = 0;
@@ -21,9 +22,9 @@ void Setup()
 void Draw()
 {
 	system ("cls");
-	for (int i = 0; i < width + 1; i++)
+	for (int i = 0; i < width; i++)
 	{
-		cout << "#";
+		cout << "/";
 	}
 	cout << "\n";
 	for (int i = 0; i < height; i++)
@@ -31,25 +32,54 @@ void Draw()
 		for (int j = 0; j < width; j++)
 		{
 			if (j == 0 || j == width - 1)
-				cout << "#";
-			cout << " ";
+				cout << "/";
+			if (i == y && j == x)
+				cout << "o";
+			else
+			if (i == fruitY && j == fruitX)
+				cout << "$";
+			else
+					cout << " ";
 		}
 		cout << "\n";
 	}
-	for (int i = 0; i < width + 1; i++)
+	for (int i = 0; i < width; i++)
 	{
-		cout << "#";
+		cout << "/";
 	}
 }
 
 void Input()
 {
+	if (_kbhit())
+	{
+		switch (_getch())
+		{
+		case'a': dir = LEFT;
+		
+		case'w': dir = UP;
 
+		case's': dir = DOWN;
+
+		case'd': dir = RIGHT;
+
+		}
+	}
 }
 
 void Logic()
 {
-
+	switch (dir)
+	{
+	case(LEFT):
+		x--;
+	case(RIGHT):
+		x++;
+	case(UP):
+		y--;
+	case(DOWN):
+		y++;
+	}
 }
 
 void main()
