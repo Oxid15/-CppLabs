@@ -35,20 +35,23 @@ void Draw()
 		{
 			if (j == 0 || j == width - 1)
 				cout << "/";
+			if (i == y && j == x)
+				cout << "o";
 			else
-				if (i == y && j == x)
-					cout << "o";
-				else
-					if (i == fruitY && j == fruitX)
-						cout << "$";
+				if (i == fruitY && j == fruitX)
+					cout << "$";
 				else
 				{
+					bool print = false;
 					for (int k = 0; k < nTail; k++)
 					{
 						if (tailX[k] == j && tailY[k] == i)
 						{
+							print = true;
 							cout << "o";
 						}
+						if (!print)
+							cout << " ";
 					}
 					cout << " ";
 				}
@@ -125,6 +128,13 @@ void Logic()
 		fruitX = rand() % width;
 		fruitY = rand() % height;
 	}
+
+	for (int i = 0; i < nTail; i++)
+	{
+		if (tailX[i] == x && tailY[i] == y)
+			gameover = true;
+	}
+
 	Sleep(20);
 }
 
