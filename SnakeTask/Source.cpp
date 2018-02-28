@@ -5,14 +5,14 @@
 using namespace std;
 
 bool gameover;
-const int width = 40, height = 20;
-int x, y, fruitX, fruitY, score, nTail;
-int tailX[100], tailY[100];
+
+const int width = 20, height = 20;
+int x, y, fruitX, fruitY, score;
 enum direction {STOP, LEFT, RIGHT, UP, DOWN};
 direction dir;
 void Setup()
 {
-	dir = STOP;
+	dir = LEFT;
 	x = width / 2 - 1;
 	y = height / 2 - 1;
 	fruitX = rand() % width;
@@ -35,23 +35,13 @@ void Draw()
 		{
 			if (j == 0 || j == width - 1)
 				cout << "/";
+			if (i == y && j == x)
+				cout << "o";
 			else
-				if (i == y && j == x)
-					cout << "o";
+				if (i == fruitY && j == fruitX)
+					cout << "$";
 				else
-					if (i == fruitY && j == fruitX)
-						cout << "$";
-				else
-				{
-					for (int k = 0; k < nTail; k++)
-					{
-						if (tailX[k] == j && tailY[k] == i)
-						{
-							cout << "o";
-						}
-					}
 					cout << " ";
-				}
 
 		}
 		cout << "\n";
@@ -89,20 +79,6 @@ void Input()
 
 void Logic()
 {
-	int prevX = tailX[0];
-	int prevY = tailY[0];
-	int prev2X, prev2Y;
-	tailX[0] = x;
-	tailY[0] = y;
-	for (int i = 1; i < nTail; i++)
-	{
-		prev2X = tailX[i];
-		prev2Y = tailY[i];
-		tailX[i] = prevX;
-		tailY[i] = prevY;
-		prevX = prev2X;
-		prevY = prev2Y;
-	}
 	switch (dir)
 	{
 	case(LEFT):
@@ -121,11 +97,10 @@ void Logic()
 	if (x == fruitX && y == fruitY)
 	{
 		score++;
-		nTail++;
 		fruitX = rand() % width;
 		fruitY = rand() % height;
 	}
-	Sleep(20);
+	Sleep(100);
 }
 
 void main()
