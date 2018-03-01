@@ -42,7 +42,19 @@ void Draw()
 				if (i == fruitY && j == fruitX)
 					cout << "$";
 				else
+				{
+					bool print = false;
+					for (int k = 0; k < nTail; k++)
+					{
+						if (tailX[k] == j && tailY[k] == i)
+						{
+							print = true;
+							cout << "o";
+						}
+					}
+					if (!print)
 					cout << " ";
+				}
 
 		}
 		cout << "\n";
@@ -80,9 +92,12 @@ void Input()
 
 void Logic()
 {
-	int prevX = tailX[0], prevY = tailY[0];
+	int prevX = tailX[0];
+	int	prevY = tailY[0];
 	int prev2X, prev2Y;
-	for (int i = 0; i < nTail; i++)
+	tailX[0] = x;
+	tailY[0] = y;
+	for (int i = 1; i < nTail; i++)
 	{
 		prev2X = tailX[i];
 		prev2Y = tailY[i];
