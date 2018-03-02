@@ -12,16 +12,35 @@ int tailX[100], tailY[100], nTail;
 enum direction {STOP, LEFT, RIGHT, UP, DOWN};
 direction dir;
 
+void Pause()
+{
+	system("cls");
+	cout << "\n" << "\n" << "\n" << "\n" << "\n" << "\n";
+	cout << "                         P A U S E" << "\n";
+	cout << "\n" << "\n" << "\n" << "\n" << "\n" << "\n";
+	system("pause");
+}
+
+void ShowScores()
+{
+
+}
+
+void SaveScores()
+{
+
+}
 
 void Run()
 {
 	menu = false;
-	dir = UP;
+	dir = STOP;
 	x = width / 2 - 1;
 	y = height / 2 - 1;
 	fruitX = rand() % width;
 	fruitY = rand() % height;
-	score = 0;
+	score = 1;
+	nTail = 0;
 }
 
 void Draw()
@@ -67,7 +86,9 @@ void Draw()
 		cout << "/";
 	}
 	cout << "\n" << "Score: " << score << "\n";
-	cout << "Press '9' to go back to menu";
+	cout << "Press '7' to pause" << "\n";
+	cout << "Press '8' to save your score" << "\n";
+	cout << "Press '9' to quit without saving" << "\n";
 }
 
 void Input()
@@ -88,8 +109,15 @@ void Input()
 		case's': 
 			dir = DOWN;
 			break;
+		case'7':
+			Pause();
+			break;
+		case'8':
+			SaveScores();
+			break;
 		case'9':
 			gameover = true;
+			break;
 		}
 	}
 }
@@ -126,7 +154,13 @@ void Logic()
 		break;
 	}
 
-
+	for (int i = 0; i < nTail; i++)
+	{
+		if (x == tailX[i] && y == tailY[i])
+		{
+			gameover = true;
+		}
+	}
 
 	if (x == fruitX && y == fruitY)
 	{
