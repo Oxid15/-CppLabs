@@ -4,27 +4,29 @@
 
 using namespace std;
 
-bool gameover;
+bool gameover, menu;
 
-const int width = 20, height = 20;
-int x, y, fruitX, fruitY, score;
+const int width = 30, height = 20;
+int x, y, fruitX, fruitY, score = 0;
 int tailX[100], tailY[100], nTail;
 enum direction {STOP, LEFT, RIGHT, UP, DOWN};
 direction dir;
-void Setup()
+
+
+void Run()
 {
-	dir = STOP;
+	menu = false;
+	dir = UP;
 	x = width / 2 - 1;
 	y = height / 2 - 1;
 	fruitX = rand() % width;
 	fruitY = rand() % height;
-	score = 0;
 }
 
 void Draw()
 {
 	system ("cls");
-	cout << "              Snake: The Game" << "\n";
+	cout << "        Snake: The Game" << "\n";
 	for (int i = 0; i < width; i++)
 	{
 		cout << "/";
@@ -63,7 +65,8 @@ void Draw()
 	{
 		cout << "/";
 	}
-	cout << "\n" << "Score: " << score;
+	cout << "\n" << "Score: " << score << "\n";
+	cout << "Press 0 to go back to menu";
 }
 
 void Input()
@@ -134,13 +137,50 @@ void Logic()
 	Sleep(100);
 }
 
-void main()
+void Game()
 {
-	Setup();
+	Run();
 	while (!gameover)
 	{
 		Draw();
 		Input();
 		Logic();
 	}
+}
+
+void Menu()
+{
+	int chs = 0;
+	while (!menu)
+	{
+		system("cls");
+		cout << "............... Snake The Game ..............." << "\n";
+		cout << ".................... Menu: ..................." << "\n";
+		cout << "\n" << "\n" << "\n";
+		cout << "1 - Start the Game" << "\n";
+		cout << "2 - Scores" << "\n";
+		cout << "9 - Exit the Game" << "\n";
+		cin >> chs;
+
+		switch (chs)
+		{
+		case(1):
+			menu = true;
+			gameover = false;
+			Game();
+			break;
+		case(2):
+			break;
+		case(9):
+			menu = true;
+			gameover = true;
+			break;
+		}
+	}
+}
+
+
+void main()
+{
+	Menu();
 }
