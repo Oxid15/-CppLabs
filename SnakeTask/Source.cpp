@@ -7,7 +7,7 @@ using namespace std;
 bool gameover, menu;
 
 const int width = 30, height = 20;
-int x, y, fruitX, fruitY, score = 0;
+int x, y, fruitX, fruitY, score;
 int tailX[100], tailY[100], nTail;
 enum direction {STOP, LEFT, RIGHT, UP, DOWN};
 direction dir;
@@ -21,6 +21,7 @@ void Run()
 	y = height / 2 - 1;
 	fruitX = rand() % width;
 	fruitY = rand() % height;
+	score = 0;
 }
 
 void Draw()
@@ -66,7 +67,7 @@ void Draw()
 		cout << "/";
 	}
 	cout << "\n" << "Score: " << score << "\n";
-	cout << "Press 0 to go back to menu";
+	cout << "Press '9' to go back to menu";
 }
 
 void Input()
@@ -87,7 +88,7 @@ void Input()
 		case's': 
 			dir = DOWN;
 			break;
-		case'0':
+		case'9':
 			gameover = true;
 		}
 	}
@@ -150,7 +151,7 @@ void Game()
 
 void Menu()
 {
-	int chs = 0;
+	int* chs = new int;
 	while (!menu)
 	{
 		system("cls");
@@ -160,13 +161,13 @@ void Menu()
 		cout << "1 - Start the Game" << "\n";
 		cout << "2 - Scores" << "\n";
 		cout << "9 - Exit the Game" << "\n";
-		cin >> chs;
+		cin >> *chs;
 
-		switch (chs)
+		switch (*chs)
 		{
 		case(1):
-			menu = true;
 			gameover = false;
+			menu = true;
 			Game();
 			break;
 		case(2):
@@ -177,8 +178,8 @@ void Menu()
 			break;
 		}
 	}
+	delete chs;
 }
-
 
 void main()
 {
