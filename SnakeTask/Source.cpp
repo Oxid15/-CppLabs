@@ -1,6 +1,7 @@
 #include<iostream>
 #include<conio.h>
 #include<windows.h>
+#include <fstream>
 
 using namespace std;
 
@@ -27,8 +28,21 @@ void ShowScores()
 }
 
 void SaveScores()
-{
-
+{			   
+	system("cls");
+	char* name = new char[256];
+	cout << "Enter your name: ";
+	cin >> name;
+	
+	ofstream ofile("scores.txt",ios::app);
+	ofile << "\n";
+	ofile << score << "\n";
+	for (int i = 0; i < (strlen(name) + 1); i++)
+	{
+		ofile << name[i];
+	}
+	ofile.close();
+	delete name;
 }
 
 void Run()
@@ -37,8 +51,8 @@ void Run()
 	dir = STOP;
 	x = width / 2 - 1;
 	y = height / 2 - 1;
-	fruitX = rand() % width;
-	fruitY = rand() % height;
+	fruitX = rand() % width - 1;
+	fruitY = rand() % height - 1;
 	score = 1;
 	nTail = 0;
 }
@@ -87,8 +101,7 @@ void Draw()
 	}
 	cout << "\n" << "Score: " << score << "\n";
 	cout << "Press '7' to pause" << "\n";
-	cout << "Press '8' to save your score" << "\n";
-	cout << "Press '9' to quit without saving" << "\n";
+	cout << "Press '9' to save and quit" << "\n";
 }
 
 void Input()
@@ -112,11 +125,9 @@ void Input()
 		case'7':
 			Pause();
 			break;
-		case'8':
-			SaveScores();
-			break;
 		case'9':
 			gameover = true;
+			SaveScores();
 			break;
 		}
 	}
@@ -159,6 +170,7 @@ void Logic()
 		if (x == tailX[i] && y == tailY[i])
 		{
 			gameover = true;
+			SaveScores();
 		}
 	}
 
