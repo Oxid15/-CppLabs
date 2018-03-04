@@ -24,7 +24,16 @@ void Pause()
 
 void ShowScores()
 {
-
+	system("cls");
+	ifstream ifile("scores.txt");
+	while (!ifile.eof())
+	{
+		char* buff = new char;
+		*buff = ifile.get();
+		cout << *buff;
+	}
+	cout << "\n";
+	system("pause");
 }
 
 void SaveScores()
@@ -36,7 +45,7 @@ void SaveScores()
 	
 	ofstream ofile("scores.txt",ios::app);
 	ofile << "\n";
-	ofile << score << "\n";
+	ofile << score << " ";
 	for (int i = 0; i < (strlen(name) + 1); i++)
 	{
 		ofile << name[i];
@@ -51,8 +60,8 @@ void Run()
 	dir = STOP;
 	x = width / 2 - 1;
 	y = height / 2 - 1;
-	fruitX = rand() % width - 1;
-	fruitY = rand() % height - 1;
+	fruitX = rand() % (width - 2);
+	fruitY = rand() % height;
 	score = 1;
 	nTail = 0;
 }
@@ -177,7 +186,7 @@ void Logic()
 	if (x == fruitX && y == fruitY)
 	{
 		score++;
-		fruitX = rand() % width;
+		fruitX = rand() % (width - 2);
 		fruitY = rand() % height;
 		nTail++;
 	}
@@ -217,6 +226,7 @@ void Menu()
 			Game();
 			break;
 		case(2):
+			ShowScores();
 			break;
 		case(9):
 			menu = true;
