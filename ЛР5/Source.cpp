@@ -21,31 +21,45 @@ struct coordinates
 	int y;
 };
 
+struct list
+{
+	coordinates c;
+	list* next;
+	list* head;
+};
+
 class Stack
 {
-    coordinates arr[60];
-    coordinates* head = new coordinates;
-
-public: void stackInit()
-{
-	head = arr;
-	head--;
-}
-
-public: void push(coordinates crd)
-{
-	head++;
-	*head = crd;
-}
-
-public: void pop()
+public:	list* node;
+ Stack()
 {
 
 }
 
-public: void peek()
+ bool isHead = true;
+
+ void push(coordinates crd, list* head)
 {
-	cout << " ";
+	 
+	 if (isHead)
+	 {
+		 isHead = false;
+		 node = new list;
+	     node->next = nullptr;
+	     node->head = node;
+	 }
+	 head->c.x = crd.x;
+	 head->c.y = crd.y;
+}
+
+  void pop()
+{
+
+}
+
+  void peek(list* head)
+{
+	cout << head->c.x << "," << head->c.y ;
 }
 };
 
@@ -53,14 +67,11 @@ public: void peek()
 int main()
 {
 	Stack stack1;
-	stack1.stackInit();
 	coordinates c0, c1;
 	c0.x = 5;
 	c0.y = 9;
-	stack1.push(c0);
-	c1.x = 5;
-	c1.y = 8;
-	stack1.push(c1);
+	stack1.push(c0,stack1.node->head);
+	stack1.peek(stack1.node->head);
 	system("pause");
 	return 0;
 }
