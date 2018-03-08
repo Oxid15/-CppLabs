@@ -15,6 +15,20 @@ int labyrinth[9][9] =
 { 1,1,1,1,0,1,1,1,1 }
 };
 
+
+void returnLabyrinth ()
+{
+	for (int i = 0; i < 9; i++)
+	{
+		cout << "\n";
+		for (int j = 0; j < 9; j++)
+		{
+			cout << labyrinth[i][j];
+	    }
+    }
+	system("pause");
+}
+
 struct coordinates
 {
 	int x;
@@ -76,29 +90,30 @@ public:	list* node;
 }
 };
 
-
-int main()
+void menu()
 {
-	Stack Stack1;
-	coordinates c0, c1, c2;
-	c0.x = 5;
-	c0.y = 9;
-	c1.x = 5;
-	c1.y = 8;
-	c2.x = 5;
-	c2.y = 7;
-	Stack1.push(c0, Stack1.head);
-	Stack1.peek(Stack1.head);
+	bool menuOff = false;
+	while (!menuOff)
+	{
+		int choice;
+		cout << "1 - to see labyrinth" << "\n";
+		cout << "0 - to exit" << "\n";
+		cin >> choice;
 
-	Stack1.push(c1, Stack1.head);
-	Stack1.peek(Stack1.head);
+		switch (choice)
+		{
+		case (1):
+			returnLabyrinth();
+			system("cls");
+			break;
+		case (0):
+			menuOff = true;
+			break;
+		}
+	}
+}
 
-	Stack1.push(c2, Stack1.head);
-	Stack1.peek(Stack1.head);
-
-	Stack1.pop(Stack1.head);
-	Stack1.peek(Stack1.head);
-
-	system("pause");
-	return 0;
+void main()
+{
+	menu();
 }
