@@ -33,23 +33,26 @@ class Stack
 public:	list* node;
  Stack()
 {
-
+	 node = new list;
+	 node->head = node;
 }
 
- bool isHead = true;
+ bool isFirst = true;
 
- void push(coordinates crd, list* head)
+ void push(coordinates c, list* head)
 {
 	 
-	 if (isHead)
+	 if (isFirst)
 	 {
-		 isHead = false;
-		 node = new list;
+		 isFirst = false;
 	     node->next = nullptr;
-	     node->head = node;
+		 head->c.x = c.x;
+		 head->c.y = c.y;
 	 }
-	 head->c.x = crd.x;
-	 head->c.y = crd.y;
+	 else
+	 {
+
+	 }
 }
 
   void pop()
@@ -59,19 +62,19 @@ public:	list* node;
 
   void peek(list* head)
 {
-	cout << head->c.x << "," << head->c.y ;
+	cout << head->c.x << "," << head->c.y << "\n";
 }
 };
 
 
 int main()
 {
-	Stack stack1;
+	Stack Stack1;
 	coordinates c0, c1;
 	c0.x = 5;
 	c0.y = 9;
-	stack1.push(c0,stack1.node->head);
-	stack1.peek(stack1.node->head);
+	Stack1.push(c0, Stack1.node->head);
+	Stack1.peek(Stack1.node->head);
 	system("pause");
 	return 0;
 }
