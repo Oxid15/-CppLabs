@@ -25,6 +25,7 @@ struct list
 {
 	coordinates c;
 	list* next;
+	list* prev;
 };
 
 class Stack
@@ -46,25 +47,27 @@ public:	list* node;
 	 {
 		 isFirst = false;
 	     node->next = nullptr;
+		 node->prev = nullptr;
 		 head->c.x = c.x;
 		 head->c.y = c.y;
 	 }
 	 else
 	 {
-		 list *prev = new list;
 		 list* newNode = new list;
-		 prev = head;
+		 newNode->prev = head;
 		 head = newNode;
 		 head->c.x = c.x;
 		 head->c.y = c.y;
-		 prev->next = head;
+		 newNode->prev->next = head;
 		 head->next = nullptr;
 	 }
 }
 
-  void pop()
+  void pop(list* &head)
 {
-
+	 head = head->prev;
+	 delete (head->next);
+	 head->next = nullptr;
 }
 
   void peek(list* head)
@@ -93,8 +96,8 @@ int main()
 	Stack1.push(c2, Stack1.head);
 	Stack1.peek(Stack1.head);
 
-	//Stack1.pop();
-	//Stack1.peek(Stack1.head);
+	Stack1.pop(Stack1.head);
+	Stack1.peek(Stack1.head);
 
 	system("pause");
 	return 0;
