@@ -6,11 +6,11 @@ int labyrinth[9][9] =
 {
 { 1,1,1,1,1,4,1,1,1 },
 { 1,1,1,1,1,0,1,1,1 },
-{ 1,1,0,0,0,0,1,1,1 },
-{ 1,1,0,1,1,1,1,1,1 },
-{ 1,1,0,1,1,1,1,1,1 },
-{ 1,1,0,1,1,1,1,1,1 },
-{ 1,1,0,0,0,1,1,1,1 },
+{ 1,1,1,1,1,0,0,0,1 },
+{ 1,1,1,1,1,1,1,0,1 },
+{ 1,1,1,1,0,1,1,0,1 },
+{ 1,1,1,1,0,1,1,0,1 },
+{ 1,1,1,1,0,0,0,0,1 },
 { 1,1,1,1,0,1,1,1,1 },
 { 1,1,1,1,0,1,1,1,1 }
 };
@@ -151,6 +151,7 @@ void menu()
 
 void main()
 {
+	Stack stack;
 	returnLabyrinth();
 	coordinates	curr;
 	curr.x = 4; curr.y = 8;
@@ -158,9 +159,9 @@ void main()
 	while (check(curr))
 	{
 		returnLabyrinth();
-		cout << curr.x << "," << curr.y << "\n";
 		move(check(curr), curr);
+		stack.push(curr, stack.head);
+		stack.peek(stack.head);
 		system("pause");
 	}
-	system("pause");
 }
