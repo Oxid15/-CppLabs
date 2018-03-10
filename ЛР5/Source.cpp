@@ -4,7 +4,7 @@ using namespace std;
 
 int labyrinth[9][9] =
 {
-{ 1,1,1,1,1,0,1,1,1 },
+{ 1,1,1,1,1,4,1,1,1 },
 { 1,1,1,1,1,0,1,1,1 },
 { 1,1,0,0,0,0,1,1,1 },
 { 1,1,0,1,1,1,1,1,1 },
@@ -14,7 +14,6 @@ int labyrinth[9][9] =
 { 1,1,1,1,0,1,1,1,1 },
 { 1,1,1,1,0,1,1,1,1 }
 };
-
 
 void returnLabyrinth ()
 {
@@ -26,7 +25,7 @@ void returnLabyrinth ()
 			cout << labyrinth[i][j];
 	    }
     }
-	system("pause");
+	cout << "\n";
 }
 
 struct coordinates
@@ -90,6 +89,43 @@ public:	list* node;
 }
 };
 
+int check(coordinates curr)
+{
+	if (labyrinth[curr.y][curr.x] == 4)
+		return(0);
+	if (labyrinth[curr.y - 1][curr.x] == 0 || labyrinth[curr.y - 1][curr.x] == 4)
+		return(1);
+	if (labyrinth[curr.y][curr.x - 1] == 0 || labyrinth[curr.y][curr.x - 1] == 4)
+		return(2);
+	if (labyrinth[curr.y][curr.x + 1] == 0 || labyrinth[curr.y][curr.x + 1] == 4)
+		return(3);
+	if (labyrinth[curr.y + 1][curr.x] == 0 || labyrinth[curr.y + 1][curr.x] == 4)
+		return(4);
+}
+
+void move(int dir, coordinates &curr)
+{
+	switch (dir)
+	{
+	case(1): 
+		labyrinth[curr.y][curr.x] = 2;
+		curr.y--;
+		break;
+	case(2):
+		labyrinth[curr.y][curr.x] = 2;
+		curr.x--;
+		break;
+	case(3):
+		labyrinth[curr.y][curr.x] = 2;
+		curr.x++;
+		break;
+	case(4):
+		labyrinth[curr.y][curr.x] = 2;
+		curr.y++;
+		break;
+	}
+}
+
 void menu()
 {
 	bool menuOff = false;
@@ -115,5 +151,16 @@ void menu()
 
 void main()
 {
-	menu();
+	returnLabyrinth();
+	coordinates	curr;
+	curr.x = 4; curr.y = 8;
+	int program = 0;
+	while (check(curr))
+	{
+		returnLabyrinth();
+		cout << curr.x << "," << curr.y << "\n";
+		move(check(curr), curr);
+		system("pause");
+	}
+	system("pause");
 }
