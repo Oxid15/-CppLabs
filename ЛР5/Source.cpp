@@ -155,13 +155,10 @@ void main()
 	returnLabyrinth();
 	coordinates	curr;
 	curr.x = 4; curr.y = 8;
-	int program = 0;
 	while (check(curr))
 	{
 		returnLabyrinth();
 		move(check(curr), curr);
-		stack.push(curr, stack.head);
-		stack.peek(stack.head);
 		system("pause");
 	}
 }
