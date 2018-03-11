@@ -83,9 +83,10 @@ public:	list* node;
 	 head->next = nullptr;
 }
 
-  void peek(list* head)
+  coordinates peek(list* head)
 {
-	cout << head->c.x << "," << head->c.y << "\n";
+//  cout << head->c.x << "," << head->c.y << "\n";
+	return (head->c);
 }
 };
 
@@ -103,25 +104,29 @@ int check(coordinates curr)
 		return(4);
 }
 
-void move(int dir, coordinates &curr)
+void move(int dir, coordinates curr, Stack &stack)
 {
 	switch (dir)
 	{
 	case(1): 
 		labyrinth[curr.y][curr.x] = 2;
 		curr.y--;
+		stack.push(curr, stack.head);
 		break;
 	case(2):
 		labyrinth[curr.y][curr.x] = 2;
 		curr.x--;
+		stack.push(curr, stack.head);
 		break;
 	case(3):
 		labyrinth[curr.y][curr.x] = 2;
 		curr.x++;
+		stack.push(curr, stack.head);
 		break;
 	case(4):
 		labyrinth[curr.y][curr.x] = 2;
 		curr.y++;
+		stack.push(curr, stack.head);
 		break;
 	}
 }
@@ -152,13 +157,14 @@ void menu()
 void main()
 {
 	Stack stack;
-	returnLabyrinth();
-	coordinates	curr;
-	curr.x = 4; curr.y = 8;
-	while (check(curr))
+	coordinates*	curr = new coordinates;
+	curr->x = 4; curr->y = 8;
+	stack.push(*curr, stack.head);
+	delete curr;
+	while (check( stack.peek(stack.head) ))
 	{
 		returnLabyrinth();
-		move(check(curr), curr);
+		move(check( stack.peek(stack.head) ), stack.peek(stack.head), stack );
 		system("pause");
 	}
 }
