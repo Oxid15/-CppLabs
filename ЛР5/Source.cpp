@@ -85,7 +85,7 @@ public:	list* node;
 
   coordinates peek(list* head)
 {
-//  cout << head->c.x << "," << head->c.y << "\n";
+  cout << head->c.x << "," << head->c.y << "\n";
 	return (head->c);
 }
 };
@@ -102,7 +102,17 @@ int check(coordinates curr)
 		return(3);
 	if (labyrinth[curr.y + 1][curr.x] == 0 || labyrinth[curr.y + 1][curr.x] == 4)
 		return(4);
+
+	if (labyrinth[curr.y - 1][curr.x] == 2)
+		return(5);
+	if (labyrinth[curr.y][curr.x - 1] == 2)
+		return(6);
+	if (labyrinth[curr.y][curr.x + 1] == 2)
+		return(7);
+	if (labyrinth[curr.y + 1][curr.x] == 2)
+		return(8);
 }
+
 
 void move(int dir, coordinates curr, Stack &stack)
 {
@@ -124,47 +134,49 @@ void move(int dir, coordinates curr, Stack &stack)
 		stack.push(curr, stack.head);
 		break;
 	case(4):
-		labyrinth[curr.y][curr.x] = 2;
+		labyrinth[curr.y][curr.x] = 2;		 
 		curr.y++;
 		stack.push(curr, stack.head);
 		break;
-	}
-}
 
-void menu()
-{
-	bool menuOff = false;
-	while (!menuOff)
-	{
-		int choice;
-		cout << "1 - to see labyrinth" << "\n";
-		cout << "0 - to exit" << "\n";
-		cin >> choice;
 
-		switch (choice)
-		{
-		case (1):
-			returnLabyrinth();
-			system("cls");
-			break;
-		case (0):
-			menuOff = true;
-			break;
-		}
+	case(5):
+		labyrinth[curr.y][curr.x] = 3;
+		stack.pop(stack.head);
+		break;
+	case(6):
+		labyrinth[curr.y][curr.x] = 3;
+		stack.pop(stack.head);
+		break;
+	case(7):
+		labyrinth[curr.y][curr.x] = 3;
+		stack.pop(stack.head);
+		break;
+	case(8):
+		labyrinth[curr.y][curr.x] = 3;
+		stack.pop(stack.head);
+		break;
 	}
 }
 
 void main()
 {
 	Stack stack;
-	coordinates*	curr = new coordinates;
+	coordinates* curr = new coordinates;
 	curr->x = 4; curr->y = 8;
 	stack.push(*curr, stack.head);
 	delete curr;
+
 	while (check( stack.peek(stack.head) ))
 	{
 		returnLabyrinth();
 		move(check( stack.peek(stack.head) ), stack.peek(stack.head), stack );
-		system("pause");
 	}
+	cout << "\n";
+	while (!(stack.head->prev == nullptr))
+	{
+		stack.peek(stack.head);
+		stack.pop(stack.head);
+	}
+	system("pause");
 }
