@@ -1,4 +1,4 @@
-#include <iostream>
+﻿#include <iostream>
 
 using namespace std;
 
@@ -33,7 +33,16 @@ void returnLabyrinth ()
 		cout << "\n";
 		for (int j = 0; j < 20; j++)
 		{
-			cout << labyrinth[i][j];
+			if (labyrinth[i][j] == 1)
+				cout << "X";
+			else
+				if (labyrinth[i][j] == 2)
+					cout << ".";
+				else
+					if ((labyrinth[i][j] == 3))
+						cout << ":";
+					else
+					cout << " ";
 	    }
     }
 	cout << "\n";
@@ -182,8 +191,9 @@ void main()
 	{
 		returnLabyrinth();
 		move(check( stack.peek(stack.head) ), stack.peek(stack.head), stack );
-		//system("pause");
+		system("pause");
 	}
+	returnLabyrinth();
 	cout << "\n";
 	while (!(stack.head->prev == nullptr))
 	{
