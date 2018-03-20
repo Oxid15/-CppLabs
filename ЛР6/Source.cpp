@@ -22,7 +22,7 @@ public:
 			//isRight = true;
 			system("pause");
 			system("cls");
-		//} //будущая проверка ввода
+		//}
 	}
 	
 	const ComplexNumber operator+(const ComplexNumber second) const
@@ -40,6 +40,22 @@ public:
 		result.y = y - second.y;
 		return (result);
 	}
+
+	const ComplexNumber operator*(const ComplexNumber second) const
+	{
+		ComplexNumber result;
+		result.x = x * second.x - y * second.y;
+		result.y = y * second.x + x * second.y;
+		return (result);
+	}
+
+	const ComplexNumber operator/(const ComplexNumber second) const
+	{
+		ComplexNumber result;
+		result.x = (x * second.x - y * second.y) / (second.x * second.x + second.y * second.y);
+		result.y = (y * second.x - x * second.y) / (second.x * second.x + second.y * second.y);;
+		return (result);
+	}
 };
 
 void main()
@@ -50,9 +66,12 @@ void main()
 	b.x = 1;
 	b.y = 2;
 	c = a + b;
-	cout << c.x << c.y;
-	cout << "\n";
+	cout << c.x << " " << c.y << "\n";;
 	c = a - b;
-	cout << c.x << c.y;
+	cout << c.x << " " << c.y << "\n";;
+	c = a * b;
+	cout << c.x << " " << c.y << "\n";;
+	c = a / b;
+	cout << c.x << " " << c.y << "\n";;
 	system("pause");
 }
