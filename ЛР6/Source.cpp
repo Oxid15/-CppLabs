@@ -3,9 +3,13 @@
 
 using namespace std;
 
-bool check()
+bool check(char* string)// to check if entered string isn't correct
 {
-
+	for (int i = 0; i < strlen(string); i++)
+	{
+		cout << string[i] << "\n";
+	}
+	return (0);
 }
 
 class ComplexNumber
@@ -16,10 +20,10 @@ public:
 	float x, y;	// temporary
 	void numberInput()
 	{
-			float inputX, inputY;
 			cout << "Write x and y through the gap \n";
-			x = inputX;
-			y = inputY;
+			char* inputStr = new char;
+			cin.getline(inputStr, 128);
+			check(inputStr);
 	}
 	
 	const ComplexNumber operator+(const ComplexNumber second) const
@@ -50,7 +54,7 @@ public:
 	{
 		ComplexNumber result;
 		result.x = (x * second.x - y * second.y) / (second.x * second.x + second.y * second.y);
-		result.y = (y * second.x - x * second.y) / (second.x * second.x + second.y * second.y);;
+		result.y = (y * second.x - x * second.y) / (second.x * second.x + second.y * second.y);
 		return (result);
 	}
 };
@@ -63,18 +67,18 @@ void menu()
 void main()
 {
 	ComplexNumber a, b, c;
-	menu();
+	a.numberInput();
 	//a.x = 4;
 	//a.y = 3;
 	//b.x = 1;
 	//b.y = 2;
 	//c = a + b;
-	//cout << c.x << " " << c.y << "\n";;
+	//cout << c.x << " " << c.y << "\n";
 	//c = a - b;
-	//cout << c.x << " " << c.y << "\n";;
+	//cout << c.x << " " << c.y << "\n";
 	//c = a * b;
-	//cout << c.x << " " << c.y << "\n";;
+	//cout << c.x << " " << c.y << "\n";
 	//c = a / b;
-	//cout << c.x << " " << c.y << "\n";;
+	//cout << c.x << " " << c.y << "\n";        //also temporary until I will done with the menu() function 
 	system("pause");
 }
