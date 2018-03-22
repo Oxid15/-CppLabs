@@ -3,26 +3,23 @@
 
 using namespace std;
 
+bool check()
+{
+
+}
+
 class ComplexNumber
 {
 private:
 	//float x, y;
 public:
-	float x, y;
+	float x, y;	// temporary
 	void numberInput()
 	{
-		bool isRight = false;
-		//while (!isRight)
-		//{
 			float inputX, inputY;
-			cout << "Write x and y through the gap or press Enter after first number" << "\n";
-			cin >> inputX >> inputY;
+			cout << "Write x and y through the gap \n";
 			x = inputX;
 			y = inputY;
-			//isRight = true;
-			system("pause");
-			system("cls");
-		//}
 	}
 	
 	const ComplexNumber operator+(const ComplexNumber second) const
@@ -58,20 +55,26 @@ public:
 	}
 };
 
+void menu()
+{
+
+}
+
 void main()
 {
 	ComplexNumber a, b, c;
-	a.x = 4;
-	a.y = 3;
-	b.x = 1;
-	b.y = 2;
-	c = a + b;
-	cout << c.x << " " << c.y << "\n";;
-	c = a - b;
-	cout << c.x << " " << c.y << "\n";;
-	c = a * b;
-	cout << c.x << " " << c.y << "\n";;
-	c = a / b;
-	cout << c.x << " " << c.y << "\n";;
+	menu();
+	//a.x = 4;
+	//a.y = 3;
+	//b.x = 1;
+	//b.y = 2;
+	//c = a + b;
+	//cout << c.x << " " << c.y << "\n";;
+	//c = a - b;
+	//cout << c.x << " " << c.y << "\n";;
+	//c = a * b;
+	//cout << c.x << " " << c.y << "\n";;
+	//c = a / b;
+	//cout << c.x << " " << c.y << "\n";;
 	system("pause");
 }
