@@ -3,11 +3,16 @@
 
 using namespace std;
 
-bool check(char* string)// to check if entered string isn't correct
+bool check(char* string) // to check if entered string isn't correct
 {
 	for (int i = 0; i < strlen(string); i++)
 	{
-
+		if (string[i] == ' ' || string[i] == '.' || (int)string[i] - 48 >= 1 && (int)string[i] - 48 <= 9)
+		{
+			continue;
+		}
+		else
+			return(true);
 	}
 	return (false);										 
 }
@@ -20,13 +25,18 @@ public:
 	float x, y;	// temporary
 	void numberInput()
 	{
-		//while()
-		//{
+		while(true)
+		{
 			cout << "Write x and y through the gap \n";
 			char* inputStr = new char;
 			cin.getline(inputStr, 128);
-			check(inputStr);
-		//}
+			if (!check(inputStr))
+			{
+				break;
+			}
+			cout << "Try again";
+			system("cls");
+		}
 	}
 	
 	const ComplexNumber operator+(const ComplexNumber second) const
