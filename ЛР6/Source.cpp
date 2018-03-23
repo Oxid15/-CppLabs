@@ -5,16 +5,32 @@ using namespace std;
 
 bool check(char* string) // to check if entered string isn't correct
 {
+	bool digits = false, gap = false;
 	for (int i = 0; i < strlen(string); i++)
 	{
 		if (string[i] == ' ' || string[i] == '.' || (int)string[i] - 48 >= 1 && (int)string[i] - 48 <= 9)
 		{
+			if (string[i] == ' ')
+				gap = true;
+			if ((int)string[i] - 48 >= 1 && (int)string[i] - 48 <= 9)
+				digits = true;
 			continue;
 		}
 		else
 			return(true);
 	}
-	return (false);										 
+	if (digits && gap)
+		return (false);
+	else
+		return(true);
+}
+
+void convert(char* string, float &x, float &y)
+{
+	for (int i = 0; i < strlen(string); i++)
+	{
+
+	}
 }
 
 class ComplexNumber
@@ -25,18 +41,22 @@ public:
 	float x, y;	// temporary
 	void numberInput()
 	{
+		char* inputStr = new char;
 		while(true)
 		{
 			cout << "Write x and y through the gap \n";
-			char* inputStr = new char;
 			cin.getline(inputStr, 128);
+
 			if (!check(inputStr))
 			{
 				break;
 			}
 			cout << "Try again";
+			system("pause");
 			system("cls");
 		}
+		float inputX, inputY;
+		convert(inputStr, x, y);
 	}
 	
 	const ComplexNumber operator+(const ComplexNumber second) const
