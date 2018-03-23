@@ -7,9 +7,9 @@ bool check(char* string)// to check if entered string isn't correct
 {
 	for (int i = 0; i < strlen(string); i++)
 	{
-		cout << string[i] << "\n";
+
 	}
-	return (0);
+	return (false);										 
 }
 
 class ComplexNumber
@@ -20,10 +20,13 @@ public:
 	float x, y;	// temporary
 	void numberInput()
 	{
+		//while()
+		//{
 			cout << "Write x and y through the gap \n";
 			char* inputStr = new char;
 			cin.getline(inputStr, 128);
 			check(inputStr);
+		//}
 	}
 	
 	const ComplexNumber operator+(const ComplexNumber second) const
