@@ -1,4 +1,4 @@
-#include<iostream>
+﻿#include<iostream>
 #include<cstring>
 
 using namespace std;
@@ -8,9 +8,9 @@ bool check(char* string) // to check if entered string isn't correct
 	bool digits = false, gap = false;
 	for (int i = 0; i < strlen(string); i++)
 	{
-		if (string[i] == ' ' || string[i] == '.' || (int)string[i] - 48 >= 1 && (int)string[i] - 48 <= 9)
+		if (string[i] == '+' || string[i] == '.' || (int)string[i] - 48 >= 0 && (int)string[i] - 48 <= 9)
 		{
-			if (string[i] == ' ')
+			if (string[i] == '+')
 				gap = true;
 			if ((int)string[i] - 48 >= 1 && (int)string[i] - 48 <= 9)
 				digits = true;
@@ -19,44 +19,58 @@ bool check(char* string) // to check if entered string isn't correct
 		else
 			return(true);
 	}
-	if (digits && gap)
+	if (digits && gap && (string[strlen(string) - 1] != ' ' || string[strlen(string) - 1] != '.' || string[0] != ' '))
 		return (false);
 	else
 		return(true);
 }
 
-void convert(char* string, float &x, float &y)
-{
-	for (int i = 0; i < strlen(string); i++)
-	{
-
-	}
-}
-
 class ComplexNumber
 {
 private:
-	//float x, y;
+	double x, y;
 public:
-	float x, y;	// temporary
+
 	void numberInput()
 	{
 		char* inputStr = new char;
 		while(true)
 		{
-			cout << "Write x and y through the gap \n";
 			cin.getline(inputStr, 128);
 
 			if (!check(inputStr))
 			{
 				break;
 			}
-			cout << "Try again";
-			system("pause");
-			system("cls");
+			cout << "Try again \n";
 		}
-		float inputX, inputY;
-		convert(inputStr, x, y);
+
+		double inputX, inputY;
+		char* strX = new char;
+		char* strY = new char;
+		int i = 0;
+		for (i; i < strlen(inputStr); i++)
+		{
+			if (inputStr[i] != '+')
+				strX[i] = inputStr[i];
+			else
+				break;
+		}
+
+		short j;
+		for (++i, j = 0; i <= strlen(inputStr); j++, i++)
+		{
+			strY[j] = inputStr[i];
+		}
+		//x = strtof(strX, &strX + strlen(strX) - 1);
+		//y = strtof(strY, &strY + strlen(strY) - 1);
+		x = atof(strX);
+		y = atof(strY);
+	}
+
+	void getNumber()
+	{
+		cout << "\n" << x << "+" << y << (char)251 << "-1  \n";
 	}
 	
 	const ComplexNumber operator+(const ComplexNumber second) const
@@ -99,19 +113,22 @@ void menu()
 
 void main()
 {
+	cout << "Enter x and y of complex number with '+' \n" << "Example: 3.4+5 \n";
 	ComplexNumber a, b, c;
 	a.numberInput();
-	//a.x = 4;
-	//a.y = 3;
-	//b.x = 1;
-	//b.y = 2;
-	//c = a + b;
-	//cout << c.x << " " << c.y << "\n";
-	//c = a - b;
-	//cout << c.x << " " << c.y << "\n";
-	//c = a * b;
-	//cout << c.x << " " << c.y << "\n";
-	//c = a / b;
-	//cout << c.x << " " << c.y << "\n";        //also temporary until I will done with the menu() function 
+	b.numberInput();
+
+	c = a + b;
+	c.getNumber();
+
+	c = a - b;
+	c.getNumber();
+
+	c = a * b;
+	c.getNumber();
+
+	c = a / b;
+	c.getNumber();
+
 	system("pause");
 }
