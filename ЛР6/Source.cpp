@@ -62,15 +62,13 @@ public:
 		{
 			strY[j] = inputStr[i];
 		}
-		//x = strtof(strX, &strX + strlen(strX) - 1);
-		//y = strtof(strY, &strY + strlen(strY) - 1);
 		x = atof(strX);
 		y = atof(strY);
 	}
 
 	void getNumber()
 	{
-		cout << "\n" << x << "+" << y << (char)251 << "-1  \n";
+		cout << x << "+" << y << (char)251 << "-1  \n";
 	}
 	
 	const ComplexNumber operator+(const ComplexNumber second) const
@@ -106,29 +104,71 @@ public:
 	}
 };
 
+void showMethod(ComplexNumber a, ComplexNumber b, ComplexNumber c)
+{
+	system("cls");
+	cout << "a= ";
+	a.getNumber();
+	cout << "b= ";
+	b.getNumber();
+	cout << "\n" << "c= ";
+	c.getNumber();
+	system("pause");
+	system("cls");
+}
+
 void menu()
 {
+	cout << "\n\n" << " This program works with complex numbers \n \n";
+	bool menuIsActive = true;
+	while (menuIsActive)
+	{
+			cout << "Enter x and y of complex number with '+' \n" << "Example: 3.4+5 \n";
+			ComplexNumber a, b, c;
+			a.numberInput();
+			cout << "Enter x and y of complex number again \n";
+			b.numberInput();
 
+			bool testing = true;
+			while (testing)
+			{
+				cout << "Choose what to keep:\n";
+				int choose = 0;
+				cout << "1 - c = a + b" << "\n";
+				cout << "2 - c = a - b" << "\n";
+				cout << "3 - c = a * b" << "\n";
+				cout << "4 - c = a / b" << "\n";
+				cout << "0 - Nothing" << "\n";
+				cin >> choose;
+
+				switch (choose)
+				{
+				case 1:
+					c = a + b;
+					showMethod(a,b,c);
+					break;
+				case 2:
+					c = a - b;
+					showMethod(a, b, c);
+					break;
+				case 3:
+					c = a * b;
+					showMethod(a, b, c);
+					break;
+				case 4:
+					c = a / b;
+					showMethod(a, b, c);
+					break;
+				case 0:
+					testing = false;
+					system("cls");
+					break;
+			    }
+			}
+	}
 }
 
 void main()
 {
-	cout << "Enter x and y of complex number with '+' \n" << "Example: 3.4+5 \n";
-	ComplexNumber a, b, c;
-	a.numberInput();
-	b.numberInput();
-
-	c = a + b;
-	c.getNumber();
-
-	c = a - b;
-	c.getNumber();
-
-	c = a * b;
-	c.getNumber();
-
-	c = a / b;
-	c.getNumber();
-
-	system("pause");
+	menu();
 }
