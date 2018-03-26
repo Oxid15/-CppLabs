@@ -36,8 +36,8 @@ bool check(char* string) // to check if entered string isn't correct
 
 void linearInput(char* string, double &x, double &y) // dividing string to get two strings with numbers before and after "+"
 {													 // and then interpret them to float
-	char* strX = new char;
-	char* strY = new char;
+	char* strX = new char[strlen(string)];
+	char* strY = new char[strlen(string)];
 	int i = 0;
 	for (i; i < strlen(string); i++)
 	{
@@ -58,8 +58,8 @@ void linearInput(char* string, double &x, double &y) // dividing string to get t
 
 void expInput(char* string, double &x, double &y)  //same as linear but more complicated
 {
-	char* strX = new char;
-	char* strY = new char;
+	char* strX = new char[strlen(string)];
+	char* strY = new char[strlen(string)];
 	int i = 0;
 	for (i; i < strlen(string); i++)
 	{
@@ -68,7 +68,7 @@ void expInput(char* string, double &x, double &y)  //same as linear but more com
 		else
 			strX[i] = string[i];
 	}											   //getting coefficient...
-	char* charPowX = new char;
+	char* charPowX = new char[strlen(string)];
 	int j = 0;
 	i += 3;
 	for (i,j; i < strlen(string); i++)
@@ -84,7 +84,7 @@ void expInput(char* string, double &x, double &y)  //same as linear but more com
 		else
 			strY[i] = string[i];
 	}
-	char* charPowY = new char;
+	char* charPowY = new char[strlen(string)];
 	int k = 0;
 	i += 3;
 	for (i, k; i < strlen(string); i++)
@@ -115,24 +115,26 @@ public:
 
 	void numberInput()
 	{
-		//char bufStr[256];
-		//char* inputStr = new char;
-		//while(true)
-		//{
-		//	cin.getline(bufStr, 256);
-		//	if (!check(bufStr))
-		//	{
-		//		break;
-		//	}
-		//	cout << "Try again \n";
-		//}
+		char* bufStr = new char[256];
+		while(true)
+		{
+			cin >> bufStr;
+			if (!check(bufStr))
+			{
+				break;
+			}
+			cout << "Try again \n";
+		}
+		char* inputStr = new char[strlen(bufStr)];
+		for (int i = 0; i < strlen(bufStr); i++)
+		{
+			inputStr[i] = bufStr[i];
+		}
 
-
-
-		//if (choose(inputStr))
-		//	linearInput(inputStr, x, y);
-		//else
-		//	expInput(inputStr, x, y);
+		if (choose(inputStr))
+			linearInput(inputStr, x, y);
+		else
+			expInput(inputStr, x, y);
 	}
 
 	void getNumber()
@@ -209,7 +211,7 @@ void menu()
 				cout << "2 - c = a - b" << "\n";
 				cout << "3 - c = a * b" << "\n";
 				cout << "4 - c = a / b" << "\n";
-				cout << "0 - Nothing" << "\n";
+				cout << "0 - Back" << "\n";
 				cin >> choose;
 
 				switch (choose)
@@ -242,4 +244,5 @@ void menu()
 void main()
 {
 	menu();
+	system("pause");
 }
