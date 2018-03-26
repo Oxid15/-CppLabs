@@ -3,12 +3,21 @@
 
 using namespace std;
 
+bool isInt(int i, char* string)
+{
+	if ((int)string[i] - 48 >= 0 && (int)string[i] - 48 <= 9)
+		return true;
+	else
+		return false;
+}
+
 bool check(char* string) // to check if entered string isn't correct
 {
 	bool digits = false, gap = false;
 	for (int i = 0; i < strlen(string); i++)
 	{
-		if (string[i] == '+' || string[i] == '.' || (int)string[i] - 48 >= 0 && (int)string[i] - 48 <= 9)
+		if (string[i] == '+' || string[i] == '*' || string[i] == '.' || string[i] == '^' || string[i] == '-' 
+			|| isInt(i,string))
 		{
 			if (string[i] == '+')
 				gap = true;
@@ -25,6 +34,79 @@ bool check(char* string) // to check if entered string isn't correct
 		return(true);
 }
 
+void linearInput(char* string, double &x, double &y) // dividing string to get two strings with numbers before and after "+"
+{													 // and then interpret them to float
+	char* strX = new char;
+	char* strY = new char;
+	int i = 0;
+	for (i; i < strlen(string); i++)
+	{
+		if (string[i] != '+')
+			strX[i] = string[i];
+		else
+			break;
+	}
+
+	int j;
+	for (++i, j = 0; i <= strlen(string); j++, i++)
+	{
+		strY[j] = string[i];
+	}														
+	x = atof(strX);
+	y = atof(strY);
+}
+
+void expInput(char* string, double &x, double &y)  //same as linear but more complicated
+{
+	char* strX = new char;
+	char* strY = new char;
+	int i = 0;
+	for (i; i < strlen(string); i++)
+	{
+		if (string[i] == '*')
+			break;
+		else
+			strX[i] = string[i];
+	}											   //getting coefficient...
+	char* charPowX = new char;
+	int j = 0;
+	i += 3;
+	for (i,j; i < strlen(string); i++)
+	{
+			charPowX[j] = string[i];
+			j++;
+	}
+												   //and exponent of the value x
+	for (++i; i < strlen(string); i++)
+	{
+		if (string[i] == '*')
+			break;
+		else
+			strY[i] = string[i];
+	}
+	char* charPowY = new char;
+	int k = 0;
+	i += 3;
+	for (i, k; i < strlen(string); i++)
+	{
+		charPowY[k] = string[i];
+		k++;
+	}
+												   //the same for y
+	x = atof(strX)*pow(10, atoi(charPowX));
+	y = atof(strY)*pow(10, atoi(charPowY));
+}												   
+												  
+bool choose(char* string)						   //chooses what input function to use
+{
+	for (int i = 0; i < strlen(string)-1; i++)
+	{
+		if (string[i] == '*' || string[i] == '^')
+			return false;
+	}
+	return true;
+}
+
 class ComplexNumber
 {
 private:
@@ -33,37 +115,24 @@ public:
 
 	void numberInput()
 	{
-		char* inputStr = new char;
-		while(true)
-		{
-			cin.getline(inputStr, 128);
+		//char bufStr[256];
+		//char* inputStr = new char;
+		//while(true)
+		//{
+		//	cin.getline(bufStr, 256);
+		//	if (!check(bufStr))
+		//	{
+		//		break;
+		//	}
+		//	cout << "Try again \n";
+		//}
 
-			if (!check(inputStr))
-			{
-				break;
-			}
-			cout << "Try again \n";
-		}
 
-		double inputX, inputY;
-		char* strX = new char;
-		char* strY = new char;
-		int i = 0;
-		for (i; i < strlen(inputStr); i++)
-		{
-			if (inputStr[i] != '+')
-				strX[i] = inputStr[i];
-			else
-				break;
-		}
 
-		short j;
-		for (++i, j = 0; i <= strlen(inputStr); j++, i++)
-		{
-			strY[j] = inputStr[i];
-		}
-		x = atof(strX);
-		y = atof(strY);
+		//if (choose(inputStr))
+		//	linearInput(inputStr, x, y);
+		//else
+		//	expInput(inputStr, x, y);
 	}
 
 	void getNumber()
@@ -123,7 +192,9 @@ void menu()
 	bool menuIsActive = true;
 	while (menuIsActive)
 	{
-			cout << "Enter x and y of complex number with '+' \n" << "Example: 3.4+5 \n";
+			cout << "Enter x and y of complex number with '+' like: \n" << "x + y \n" 
+				<< "OR \n" 
+				<< "You can enter in scientific notation like: \n" << "x * 10^n + y * 10^m without gaps \n";
 			ComplexNumber a, b, c;
 			a.numberInput();
 			cout << "Enter x and y of complex number again \n";
