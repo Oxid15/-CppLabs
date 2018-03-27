@@ -218,7 +218,7 @@ void menu()
 				{
 				case 1:
 					c = a + b;
-					showMethod(a,b,c);
+					showMethod(a, b, c);
 					break;
 				case 2:
 					c = a - b;
