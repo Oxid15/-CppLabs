@@ -3,43 +3,42 @@
 using namespace std;
 
 class BaseClass
-{
-	virtual bool equals(BaseClass &inst)
-	{
-		return false;
-	}
+{													
+	virtual bool equals(BaseClass &inst) = 0;
+	virtual void toString(char *buffer) = 0;
+};
 
-	virtual void toString(char *buffer)			 //?
-	{}
+class Element : BaseClass
+{
+	Data dataElem[/*размер*/];								//без повтор€ющихс€ элементов. поиск?
+
+	bool equals(BaseClass &inst) { return false; }
+	void toString(char *buffer) { }
 };
 
 class Container : BaseClass
-{
-	BaseClass** array = new BaseClass*;
-	Container* next = nullptr;
-	Container* prev = nullptr;					  //?
+{										
+	BaseClass** array = new BaseClass*[/*размер*/];          //динамическое расширение?
+	Container* parent = nullptr;					  
 	int j = 0;
 public:
-	void addFirstContainer(int &i, BaseClass** &baseArr)
-	{
-		Container firstContainer;
-		baseArr[i] = &firstContainer;
-		i++;
-	}
-
 	void addContainer()
 	{
-		Container newContainer;
-		array[j] = &newContainer;
+		Container* newContainer = new Container;
+		array[j] = (BaseClass*) newContainer;
 		j++;
-		next = &newContainer;
-		//prev = & ?
+		newContainer->parent = this;								         //указатель на текущий объект?
 	}
 
 	void addElement()
 	{
-
+		Element* newElem = new Element;
+		array[j] = (BaseClass*) newElem;						         //ошибка
+		j++;
 	}
+
+	bool equals(BaseClass &inst) { return false; }
+	void toString(char *buffer) { }
 };
 
 union Data
@@ -49,18 +48,11 @@ union Data
 	bool boolData;
 };
 
-class Element : BaseClass
-{
-	Data dataElem;
-};
-
 void main()
 {
 	int i = 0;
-	BaseClass** baseArr = new BaseClass*[8]; //?
 	Container* current;
 	Container c;
 	current = &c;
-	c.addFirstContainer(i,baseArr);
 	c.addContainer();
 }
