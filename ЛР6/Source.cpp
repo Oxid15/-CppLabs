@@ -212,6 +212,7 @@ void menu()
 				cout << "3 - c = a * b" << "\n";
 				cout << "4 - c = a / b" << "\n";
 				cout << "0 - Back" << "\n";
+				cout << "\n9 - Exit" << "\n";
 				cin >> choose;
 
 				switch (choose)
@@ -236,6 +237,8 @@ void menu()
 					testing = false;
 					system("cls");
 					break;
+				case 9:
+					return;
 			    }
 			}
 	}
