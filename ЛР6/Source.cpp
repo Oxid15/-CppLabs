@@ -247,5 +247,4 @@ void menu()
 void main()
 {
 	menu();
-	system("pause");
 }
