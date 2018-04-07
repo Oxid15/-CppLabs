@@ -20,9 +20,15 @@ class Element : BaseClass
 {
 	Data dataElem;							
 
-	bool equals(BaseClass &inst) { return false; }
+	bool equals(BaseClass &inst) 
+	{
+		return false; 
+	}
+
 	void toString(char *buffer) 
-	{ }
+	{
+
+	}
 	int getType()
 	{
 		return 1;
