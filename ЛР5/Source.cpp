@@ -4,7 +4,7 @@ using namespace std;
 
 int labyrinth[20][20] =
 {
-{ 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,4,1,1,1 },
+{ 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1 },
 { 1,0,1,1,1,0,1,1,0,0,1,0,0,0,1,1,0,1,1,1 },
 { 1,0,0,1,1,0,0,1,1,0,1,0,1,0,1,1,0,1,1,1 },
 { 1,1,0,0,1,1,0,0,0,0,0,0,1,0,1,1,0,1,1,1 },
@@ -23,7 +23,7 @@ int labyrinth[20][20] =
 { 1,1,0,1,1,1,1,1,1,0,1,1,1,1,1,1,0,1,1,1 },
 { 1,1,0,0,0,0,0,0,0,0,0,0,1,1,1,1,0,0,1,1 },
 { 1,1,1,0,1,1,0,1,1,1,1,0,0,0,1,0,0,1,1,1 },
-{ 1,1,1,1,1,1,0,1,1,1,1,1,1,1,1,1,1,1,1,1 }
+{ 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,4,1,1,1 }
 };
 
 void returnLabyrinth ()
@@ -34,13 +34,13 @@ void returnLabyrinth ()
 		for (int j = 0; j < 20; j++)
 		{
 			if (labyrinth[i][j] == 1)
-				cout << "X";
+				cout << (char)219;
 			else
 				if (labyrinth[i][j] == 2)
 					cout << ".";
 				else
 					if ((labyrinth[i][j] == 3))
-						cout << ":";
+						cout << (char)176;
 					else
 					cout << " ";
 	    }
@@ -181,9 +181,14 @@ void move(int dir, coordinates curr, Stack &stack)
 
 void main()
 {
+	for (int i = -256; i < 256; i++)
+	{
+		cout <<  i << "-" << (char)i << "\n";
+	}
+	system("pause");
 	Stack stack;
 	coordinates* curr = new coordinates;
-	curr->x = 6; curr->y = 19;
+	curr->x = 2; curr->y = 7;
 	stack.push(*curr, stack.head);
 	delete curr;
 
