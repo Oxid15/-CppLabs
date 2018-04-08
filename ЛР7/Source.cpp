@@ -22,7 +22,8 @@ class Element : BaseClass
 
 	bool equals(BaseClass &inst) 
 	{
-		return false; 
+		if (this->getType != inst.getType)
+			return false;
 	}
 
 	void toString(char *buffer) 
@@ -37,15 +38,22 @@ class Element : BaseClass
 
 class Container : BaseClass
 {
-	int len = 8;
+	int j;
+	int len;
 	BaseClass** array = new BaseClass*[len];      
 	Container* parent = nullptr;					  
-	int j = 0;
 public:
+	Container()
+	{
+		j = 0;
+		len = 8;
+	}
+
 	int getType()
 	{
 		return 0;
 	}
+
 	void addContainer()
 	{
 		Container* newContainer = new Container;
@@ -63,30 +71,22 @@ public:
 
 	bool equals(BaseClass &inst) 
 	{
-		return false; 
+		if (this->getType != inst.getType)
+		return false;
+		
+		//...
 	}
 
 	void toString(char *buffer) 
 	{
 		for (int i = 0; i < len; i++)
 		{
-
+			//...
 		}
 	}
 };
 
 void main()
 {
-	int i = 0;
-	Container* current;
-	Container c;
-	current = &c;
-	c.addContainer();
-	char* buff = new char[8];
-	c.toString(buff);
-	for (int i = 0; i < strlen(buff); i++)
-	{
-		cout << buff[i] << " ";
-	}
 	system("pause");
 }
