@@ -3,10 +3,11 @@
 using namespace std;
 
 class BaseClass
-{													
-	virtual bool equals(BaseClass &inst) = 0;
-	virtual char* toString(char *buffer) = 0;
-	virtual int getType() = 0;
+{
+public:
+	virtual bool equals(BaseClass &inst) { return false; };
+	virtual char* toString(char *buffer) {};
+	virtual int getType() { return -1; };
 };
 
 union Data
@@ -22,7 +23,7 @@ class Element : BaseClass
 
 	bool equals(BaseClass &inst) 
 	{
-		if (this->getType != inst.getType)
+		if (this->getType() != inst.getType())
 			return false;
 	}
 
@@ -47,6 +48,7 @@ public:
 	{
 		j = 0;
 		len = 8;
+		parent = nullptr;
 	}
 	
 	int getType()
@@ -71,10 +73,8 @@ public:
 
 	bool equals(BaseClass &inst) 
 	{
-		if (this->getType != inst.getType)
+		if (this->getType() != inst.getType())
 		return false;
-		
-		//...
 	}
 
 	char* toString(char *buffer)
@@ -85,7 +85,27 @@ public:
 		}
 		return buffer;
 	}
+
+	void moveDown(Container* &current)
+	{
+		//current = current->array[getCNumber()];    //?	
+	}
+
+	void moveUp(Container* &current)
+	{
+		if (current->parent != nullptr)
+			current = current->parent;
+		else
+			return;
+	}
 };
+
+int getCNumber()
+{
+	cout << "Type the number of container";
+	int number;
+	cin >> number;
+}
 
 void main()
 {
@@ -95,7 +115,7 @@ void main()
 	while (1)
 	{
 		int choice;
-		cout << "1 - addContainer\n 2 - addElement\n 3- toString";
+		cout << " 1- addContainer\n 2- addElement\n 3- toString\n 4- moveDown\n 5- moveUp\n";
 		cin >> choice;
 		switch (choice)
 		{
@@ -104,17 +124,47 @@ void main()
 		case 2:
 			current->addElement();
 		case 3:
+		{
 			char* buf = new char[255];
 			current->toString(buf);
-	  /*
-	     case 4:
-	        current->equals(current);
-	     case 5:
-	        current->moveDown(current);
-		 case 6:
-		    current-> moveUp(current);
-	  */
 		}
-			system("pause");
+
+		/*
+		   case 4:
+			  current->equals(current);
+		*/
+		case 5:
+
+			current->moveDown(current);
+		case 6:
+			current->moveUp(current);
+
+		}
+		system("pause");
 	}
+
+	//BaseClass** Base = new BaseClass*;
+	//Container* baseCont = new Container;
+	//Base[0] = (BaseClass*)baseCont;
+
+	//Container* Cont = new Container;
+	//BaseClass* Cont2 = new BaseClass;
+
+	//Cont2 = (BaseClass*)Cont;
+	//Cont2 = Base[0];
+
+	//---------------------------------
+
+
+	//class BaseClass
+	//{
+	//   BaseClass** array = new BaseClass*;
+	//}
+	//
+	////...
+	//
+	//BaseClass* Base = new BaseClass;
+	//Container* Cont = new Container;
+
+	//Cont = Base.array[0];
 }
