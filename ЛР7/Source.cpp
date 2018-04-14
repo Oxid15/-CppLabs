@@ -88,7 +88,8 @@ public:
 
 	void moveDown(Container* &current)
 	{
-		//current = current->array[getCNumber()];    //?	
+		BaseClass* temp = (BaseClass*)current;
+		temp = current->array[getCNumber()];
 	}
 
 	void moveUp(Container* &current)
@@ -142,29 +143,4 @@ void main()
 		}
 		system("pause");
 	}
-
-	//BaseClass** Base = new BaseClass*;
-	//Container* baseCont = new Container;
-	//Base[0] = (BaseClass*)baseCont;
-
-	//Container* Cont = new Container;
-	//BaseClass* Cont2 = new BaseClass;
-
-	//Cont2 = (BaseClass*)Cont;
-	//Cont2 = Base[0];
-
-	//---------------------------------
-
-
-	//class BaseClass
-	//{
-	//   BaseClass** array = new BaseClass*;
-	//}
-	//
-	////...
-	//
-	//BaseClass* Base = new BaseClass;
-	//Container* Cont = new Container;
-
-	//Cont = Base.array[0];
 }
