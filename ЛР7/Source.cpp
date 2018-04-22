@@ -5,7 +5,7 @@ using namespace std;
 class BaseClass
 {
 public:
-	virtual bool equals(BaseClass curr) { return false; };
+	virtual bool equals(BaseClass* curr) { return false; };
 	virtual char* toString(char *buffer, int i) {};
 	virtual int getType() { return -1; };
 };
@@ -71,9 +71,9 @@ public:
 		j++;
 	}
 
-	bool equals(BaseClass inst) 
+	bool equals(BaseClass* inst) 
 	{
-		if (this->getType() != inst.getType())
+		if (this->getType() != inst->getType())
 		return false;
 		
 		char* buf1 = new char[255];
@@ -144,7 +144,7 @@ BaseClass* chooseStruct(BaseClass* &current)
 		case 6:
 			current->moveUp(current);							  //?
 		case 9:
-			current = current.array[getCNumber()];
+			current = current->array[getCNumber()];
 
 		}
 	}
