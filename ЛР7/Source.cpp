@@ -5,8 +5,8 @@ using namespace std;
 class BaseClass
 {
 public:
-	virtual bool equals(BaseClass &inst) { return false; };
-	virtual char* toString(char *buffer) {};
+	virtual bool equals(BaseClass curr) { return false; };
+	virtual char* toString(char *buffer, int i) {};
 	virtual int getType() { return -1; };
 };
 
@@ -71,25 +71,41 @@ public:
 		j++;
 	}
 
-	bool equals(BaseClass &inst) 
+	bool equals(BaseClass inst) 
 	{
 		if (this->getType() != inst.getType())
 		return false;
+		
+		char* buf1 = new char[255];
+		static int i = 0; 
+		char* buf2 = new char[255];
+		static int j = 0;
+
+		
 	}
 
-	char* toString(char *buffer)
+	char* toString(char *&buffer, int i)
 	{
-		for (int i = 0; i < len; i++)
+		buffer[i] = '[';
+		for (i; i < len; i++)
 		{
-			//...
+			if (this->array[i]->getType())
+			{
+				//cout << (Element)array[j]->dataElem;			   //?
+			}
+			else
+			{
+				array[i]->toString(*&buffer, i);
+			}
 		}
+		buffer[i] = ']';
 		return buffer;
 	}
 
 	void moveDown(Container* &current)
 	{
 		BaseClass* temp = (BaseClass*)current;
-		temp = current->array[getCNumber()];
+		temp = current->array[getCNumber() - 1];
 	}
 
 	void moveUp(Container* &current)
@@ -103,9 +119,36 @@ public:
 
 int getCNumber()
 {
-	cout << "Type the number of container";
+	cout << "Type the number of structure";
 	int number;
 	cin >> number;
+}
+
+BaseClass* chooseStruct(BaseClass* &current)
+{
+	while (1)
+	{
+		int search = 0;
+		cout << " 3- toString\n 5- moveDown\n 6- moveUp\n 9- [CHOOSE]";
+
+		switch (search)
+		{
+		case 3:
+		{
+			char* buf = new char[255];
+			static int i = 0;
+			current->toString(buf, i);
+		}
+		case 5:
+			current->moveDown(current);
+		case 6:
+			current->moveUp(current);							  //?
+		case 9:
+			current = current.array[getCNumber()];
+
+		}
+	}
+	return current;
 }
 
 void main()
@@ -116,7 +159,7 @@ void main()
 	while (1)
 	{
 		int choice;
-		cout << " 1- addContainer\n 2- addElement\n 3- toString\n 4- moveDown\n 5- moveUp\n";
+		cout << " 1- addContainer\n 2- addElement\n 3- toString\n 4- equals\n 5- moveDown\n 6- moveUp\n";
 		cin >> choice;
 		switch (choice)
 		{
@@ -127,15 +170,13 @@ void main()
 		case 3:
 		{
 			char* buf = new char[255];
-			current->toString(buf);
+			static int i = 0;
+			current->toString(buf, i);
 		}
-
-		/*
-		   case 4:
-			  current->equals(current);
-		*/
+		case 4:
+			current->equals(chooseStruct());					 //?
+		
 		case 5:
-
 			current->moveDown(current);
 		case 6:
 			current->moveUp(current);
