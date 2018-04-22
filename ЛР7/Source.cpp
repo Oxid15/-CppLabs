@@ -2,11 +2,20 @@
 
 using namespace std;
 
+
+int getCNumber()
+{
+	cout << "Type the number of structure";
+	int number;
+	cin >> number;
+	return number;
+}
+
 class BaseClass
 {
 public:
 	virtual bool equals(BaseClass* curr) { return false; };
-	virtual char* toString(char *buffer, int i) {};
+	virtual char* toString(char *buffer, int i) { return buffer; };
 	virtual int getType() { return -1; };
 };
 
@@ -67,7 +76,8 @@ public:
 	void addElement()
 	{
 		Element* newElem = new Element;
-		array[j] = (BaseClass*) newElem;						        
+		array[j] = (BaseClass*) newElem;
+		cout << "Enter the element data";
 		j++;
 	}
 
@@ -115,22 +125,21 @@ public:
 		else
 			return;
 	}
+
+	BaseClass** getArray()
+	{
+		return this->array;
+	}
 };
 
-int getCNumber()
+BaseClass* chooseStruct(Container* &current)
 {
-	cout << "Type the number of structure";
-	int number;
-	cin >> number;
-}
-
-BaseClass* chooseStruct(BaseClass* &current)
-{
+	BaseClass * newCurrent = (BaseClass*)current;
 	while (1)
-	{
+	{ 
 		int search = 0;
 		cout << " 3- toString\n 5- moveDown\n 6- moveUp\n 9- [CHOOSE]";
-
+		cin >> search;
 		switch (search)
 		{
 		case 3:
@@ -142,13 +151,12 @@ BaseClass* chooseStruct(BaseClass* &current)
 		case 5:
 			current->moveDown(current);
 		case 6:
-			current->moveUp(current);							  //?
+			current->moveUp(current);							  
 		case 9:
-			current = current->array[getCNumber()];
-
+			newCurrent = current->getArray()[getCNumber()];
 		}
 	}
-	return current;
+	return newCurrent;
 }
 
 void main()
@@ -167,6 +175,7 @@ void main()
 			current->addContainer();
 		case 2:
 			current->addElement();
+			break;
 		case 3:
 		{
 			char* buf = new char[255];
@@ -174,13 +183,11 @@ void main()
 			current->toString(buf, i);
 		}
 		case 4:
-			current->equals(chooseStruct());					 //?
-		
+			current->equals(chooseStruct(current));					
 		case 5:
 			current->moveDown(current);
 		case 6:
 			current->moveUp(current);
-
 		}
 		system("pause");
 	}
