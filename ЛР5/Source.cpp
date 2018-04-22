@@ -1,10 +1,10 @@
 ﻿#include <iostream>
-
+#include<windows.h>
 using namespace std;
 
 int labyrinth[20][20] =
 {
-{ 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1 },
+{ 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,4,1,1,1 },
 { 1,0,1,1,1,0,1,1,0,0,1,0,0,0,1,1,0,1,1,1 },
 { 1,0,0,1,1,0,0,1,1,0,1,0,1,0,1,1,0,1,1,1 },
 { 1,1,0,0,1,1,0,0,0,0,0,0,1,0,1,1,0,1,1,1 },
@@ -23,7 +23,7 @@ int labyrinth[20][20] =
 { 1,1,0,1,1,1,1,1,1,0,1,1,1,1,1,1,0,1,1,1 },
 { 1,1,0,0,0,0,0,0,0,0,0,0,1,1,1,1,0,0,1,1 },
 { 1,1,1,0,1,1,0,1,1,1,1,0,0,0,1,0,0,1,1,1 },
-{ 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,4,1,1,1 }
+{ 1,1,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,1,1,1 }
 };
 
 void returnLabyrinth ()
@@ -181,14 +181,14 @@ void move(int dir, coordinates curr, Stack &stack)
 
 void main()
 {
-	for (int i = -256; i < 256; i++)
-	{
-		cout <<  i << "-" << (char)i << "\n";
-	}
+	//for (int i = -256; i < 256; i++)
+	//{
+	//	cout <<  i << "-" << (char)i << "\n";
+	//}
 	system("pause");
 	Stack stack;
 	coordinates* curr = new coordinates;
-	curr->x = 2; curr->y = 7;
+	curr->x = 12; curr->y = 19;
 	stack.push(*curr, stack.head);
 	delete curr;
 
@@ -196,7 +196,9 @@ void main()
 	{
 		returnLabyrinth();
 		move(check( stack.peek(stack.head) ), stack.peek(stack.head), stack );
-		system("pause");
+		/*system("pause");*/
+		system("cls");
+		Sleep(10);
 	}
 	returnLabyrinth();
 	cout << "\n";
