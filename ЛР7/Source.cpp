@@ -29,7 +29,7 @@ union Data
 class Element : BaseClass
 {
 	Data dataElem;							
-
+public:
 	bool equals(BaseClass &inst) 
 	{
 		if (this->getType() != inst.getType())
@@ -43,6 +43,10 @@ class Element : BaseClass
 	int getType()
 	{
 		return 1;
+	}
+	Data getData()
+	{
+		return this->dataElem;
 	}
 };
 
@@ -77,7 +81,17 @@ public:
 	{
 		Element* newElem = new Element;
 		array[j] = (BaseClass*) newElem;
-		cout << "Enter the element data";
+		cout << "Enter the type of data:\n 1- integer\n 2- with floating point 3- boolean\n";
+		int choice;
+		cin >> choice;
+		switch (choice)
+		{
+		case 1:
+			cout << "Enter the integer:\n";
+			int input, element;
+			cin >> input;
+			newElem->getData().intData = input;					//?
+		}
 		j++;
 	}
 
@@ -85,13 +99,7 @@ public:
 	{
 		if (this->getType() != inst->getType())
 		return false;
-		
-		char* buf1 = new char[255];
-		static int i = 0; 
-		char* buf2 = new char[255];
-		static int j = 0;
 
-		
 	}
 
 	char* toString(char *&buffer, int i)
@@ -101,11 +109,12 @@ public:
 		{
 			if (this->array[i]->getType())
 			{
-				//cout << (Element)array[j]->dataElem;			   //?
+				Element* newElement = (Element*)getArray()[i];
+/*				cout << newElement->;	*/		   
 			}
 			else
 			{
-				array[i]->toString(*&buffer, i);
+				this->array[i]->toString(*&buffer, i);
 			}
 		}
 		buffer[i] = ']';
@@ -137,10 +146,10 @@ BaseClass* chooseStruct(Container* &current)
 	BaseClass * newCurrent = (BaseClass*)current;
 	while (1)
 	{ 
-		int search = 0;
+		int choice = 0;
 		cout << " 3- toString\n 5- moveDown\n 6- moveUp\n 9- [CHOOSE]";
-		cin >> search;
-		switch (search)
+		cin >> choice;
+		switch (choice)
 		{
 		case 3:
 		{
@@ -183,7 +192,10 @@ void main()
 			current->toString(buf, i);
 		}
 		case 4:
-			current->equals(chooseStruct(current));					
+			if (current->equals(chooseStruct(current)))
+				cout << "Structures is equal";
+			else
+				cout << "Structures isn't equal";
 		case 5:
 			current->moveDown(current);
 		case 6:
