@@ -2,6 +2,29 @@
 
 using namespace std;
 
+int getInteger()
+{
+	int input;
+	cout << "Enter the integer\n";
+	cin >> input;
+	return input;
+}
+
+float getFloat()
+{
+	float input;
+	cout << "Enter the number with floating point\n";
+	cin >> input;
+	return input;
+}
+
+bool getBoolean()
+{
+	bool input;
+	cout << "Enter the boolean\n";
+	cin >> input;
+	return input;
+}
 
 int getCNumber()
 {
@@ -9,6 +32,14 @@ int getCNumber()
 	int number;
 	cin >> number;
 	return number;
+}
+
+void bufferOutput(char* buf, int length)
+{
+	for (int i = 0; i < length + 1; i++)
+	{
+		cout << buf[i];
+	}
 }
 
 class BaseClass
@@ -28,8 +59,10 @@ union Data
 
 class Element : BaseClass
 {
-	Data dataElem;							
+	/*Data dataElem;*/							
 public:
+	Data dataElem;
+
 	bool equals(BaseClass &inst) 
 	{
 		if (this->getType() != inst.getType())
@@ -44,9 +77,10 @@ public:
 	{
 		return 1;
 	}
+
 	Data getData()
 	{
-		return this->dataElem;
+		return dataElem;
 	}
 };
 
@@ -80,17 +114,23 @@ public:
 	void addElement()
 	{
 		Element* newElem = new Element;
-		array[j] = (BaseClass*) newElem;
-		cout << "Enter the type of data:\n 1- integer\n 2- with floating point 3- boolean\n";
+		cout << "Enter the type of data:\n 1- integer\n 2- with floating point\n 3- boolean\n";
 		int choice;
 		cin >> choice;
 		switch (choice)
 		{
 		case 1:
-			cout << "Enter the integer:\n";
-			int input, element;
-			cin >> input;
-			newElem->getData().intData = input;					//?
+			newElem->dataElem.intData = getInteger();
+			array[j] = (BaseClass*)newElem;
+			break;
+		case 2:
+			newElem->dataElem.floatData = getFloat();
+			array[j] = (BaseClass*)newElem;
+			break;
+		case 3:
+			newElem->dataElem.boolData = getBoolean();
+			array[j] = (BaseClass*)newElem;
+			break;
 		}
 		j++;
 	}
@@ -105,21 +145,27 @@ public:
 	char* toString(char *&buffer, int i)
 	{
 		buffer[i] = '[';
-		for (i; i < len; i++)
+		//cout << "[";
+		i++;
+		for (i; i < j; i++)
 		{
 			if (this->array[i]->getType())
 			{
 				Element* newElement = (Element*)getArray()[i];
-/*				cout << newElement->;	*/		   
+				buffer[i] = newElement->getData().intData;
+				//cout << newElement->getData().intData;		   
 			}
 			else
 			{
-				this->array[i]->toString(*&buffer, i);
+				Container* tmp = (Container*)array[i];
+				tmp->toString(*&buffer, i);
 			}
 		}
+		//cout << "]";
 		buffer[i] = ']';
+		i++;
 		return buffer;
-	}
+	}								  
 
 	void moveDown(Container* &current)
 	{
@@ -138,6 +184,11 @@ public:
 	BaseClass** getArray()
 	{
 		return this->array;
+	}
+
+	int getNum()
+	{
+		return j;
 	}
 };
 
@@ -182,24 +233,30 @@ void main()
 		{
 		case 1:
 			current->addContainer();
+			break;
 		case 2:
 			current->addElement();
 			break;
 		case 3:
 		{
-			char* buf = new char[255];
+			char* buf = new char[32];
 			static int i = 0;
 			current->toString(buf, i);
+			bufferOutput(buf, current->getNum());
+			break;
 		}
 		case 4:
 			if (current->equals(chooseStruct(current)))
 				cout << "Structures is equal";
 			else
 				cout << "Structures isn't equal";
+			break;
 		case 5:
 			current->moveDown(current);
+			break;
 		case 6:
 			current->moveUp(current);
+			break;
 		}
 		system("pause");
 	}
