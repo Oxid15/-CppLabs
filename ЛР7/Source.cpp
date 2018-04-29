@@ -206,6 +206,11 @@ public:
 		i++;
 		for (int k = 0; k < j; k++)														  
 		{
+			if (k != 0)
+			{
+				buffer[i] = ',';
+				i++;
+			}
 			if (this->array[k]->getType())
 			{
 				Element* newElement = (Element*)getArray()[k];
@@ -270,8 +275,6 @@ public:
 					}
 				}
 				}
-				buffer[i] = ',';
-				i++;
 			}
 			else
 			{
@@ -279,7 +282,6 @@ public:
 				tmp->toString(*&buffer, i);
 			}
 		}
-		i--;
 		buffer[i] = ']';
 		i++;
 		return buffer;
@@ -290,7 +292,7 @@ public:
 		int index = getCNumber() - 1;
 		if (index <= j)
 		{
-			if (!array[index]->getType())			                                           //!
+			if (!array[index]->getType())			                                         
 			{
 				current = (Container*)array[index];
 			}
