@@ -106,11 +106,26 @@ public:
 	void addContainer()
 	{
 		Container* newContainer = new Container;
-		array[j] = (BaseClass*) newContainer;
-		j++;
-		newContainer->parent = this;								       
+		if (j < len)
+		{
+			array[j] = (BaseClass*)newContainer;
+			j++;
+			newContainer->parent = this;
+		}
+		else
+		{
+			arrayExpansion();
+			array[j] = (BaseClass*)newContainer;
+			j++;
+			newContainer->parent = this;
+		}
 	}
-	
+
+	//bool search(BaseClass* inst)
+	//{
+	//
+	//}
+
 	void addElement()
 	{
 		Element* newElem = new Element;
@@ -121,15 +136,42 @@ public:
 		{
 		case 1:
 			newElem->dataElem.intData = getInteger();
-			array[j] = (BaseClass*)newElem;
+			//if(!search((BaseClass*)newElem))
+			if (j < len)
+				array[j] = (BaseClass*)newElem;
+			else
+			{
+				arrayExpansion();
+				array[j] = (BaseClass*)newElem;
+			}
+			//break;
+			//else
 			break;
 		case 2:
 			newElem->dataElem.floatData = getFloat();
-			array[j] = (BaseClass*)newElem;
+			// if(!search((BaseClass*)newElem))
+			if (j < len)
+				array[j] = (BaseClass*)newElem;
+			else
+			{
+				arrayExpansion();
+				array[j] = (BaseClass*)newElem;
+			}
+			//break;
+			//else
 			break;
 		case 3:
 			newElem->dataElem.boolData = getBoolean();
-			array[j] = (BaseClass*)newElem;
+			// if(!search((BaseClass*)newElem))
+			if (j < len)
+				array[j] = (BaseClass*)newElem;
+			else
+			{
+				arrayExpansion();
+				array[j] = (BaseClass*)newElem;
+			}
+			//break;
+			//else
 			break;
 		}
 		j++;
@@ -145,15 +187,13 @@ public:
 	char* toString(char *&buffer, int &i)
 	{
 		buffer[i] = '[';
-		//cout << "[";
 		i++;
 		for (int k = 0; k < j; k++)
 		{
 			if (this->array[k]->getType())
 			{
 				Element* newElement = (Element*)getArray()[k];
-				buffer[k] = newElement->getData().intData;
-				//cout << newElement->getData().intData;
+				buffer[i] = (newElement->getData().intData);
 				i++;
 			}
 			else
@@ -162,7 +202,6 @@ public:
 				tmp->toString(*&buffer, i);
 			}
 		}
-		//cout << "]";
 		buffer[i] = ']';
 		i++;
 		return buffer;
@@ -170,8 +209,15 @@ public:
 
 	void moveDown(Container* &current)
 	{
-		BaseClass* temp = (BaseClass*)current;
-		temp = current->array[getCNumber() - 1];
+		int index = getCNumber() - 1;
+		if (!array[index]->getType())			                                           //!
+		{
+			current = (Container*)array[index];
+		}
+		else
+		{
+			cout << "This is not Container";
+		}
 	}
 
 	void moveUp(Container* &current)
@@ -179,7 +225,20 @@ public:
 		if (current->parent != nullptr)
 			current = current->parent;
 		else
+		{
 			return;
+		}
+	}
+
+	void arrayExpansion()
+	{
+		len = len * 2;
+		BaseClass** tempArray = new BaseClass*[len];
+		for (int i = 0; i < len / 2; i++)
+		{
+			tempArray[i] = array[i];
+		}
+		array = tempArray;
 	}
 
 	BaseClass** getArray()
@@ -203,11 +262,14 @@ BaseClass* chooseStruct(Container* &current)
 			char* buf = new char[255];
 			static int i = 0;
 			current->toString(buf, i);
+			break;
 		}
 		case 5:
 			current->moveDown(current);
+			break;
 		case 6:
-			current->moveUp(current);							  
+			current->moveUp(current);
+			break;
 		case 9:
 			newCurrent = current->getArray()[getCNumber()];
 		}
@@ -223,7 +285,7 @@ void main()
 	while (1)
 	{
 		int choice;
-		cout << " 1- addContainer\n 2- addElement\n 3- toString\n 4- equals\n 5- moveDown\n 6- moveUp\n";
+		cout << "\n 1- addContainer\n 2- addElement\n 3- toString\n 4- equals\n 5- moveDown\n 6- moveUp\n";
 		cin >> choice;
 		switch (choice)
 		{
@@ -242,18 +304,16 @@ void main()
 			break;
 		}
 		case 4:
-			if (current->equals(chooseStruct(current)))
-				cout << "Structures is equal";
+			if (current->equals(chooseStruct(current)))										   //!
+				cout << "Structures is equal\n";
 			else
-				cout << "Structures isn't equal";
+				cout << "Structures isn't equal\n";
 			break;
 		case 5:
 			current->moveDown(current);
 			break;
 		case 6:
 			current->moveUp(current);
-			break;
 		}
-		system("pause");
 	}
 }
