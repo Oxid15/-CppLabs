@@ -36,7 +36,7 @@ int getCNumber()
 
 void bufferOutput(char* buf, int length)
 {
-	for (int i = 0; i < length + 1; i++)
+	for (int i = 0; i < length; i++)
 	{
 		cout << buf[i];
 	}
@@ -142,22 +142,23 @@ public:
 
 	}
 
-	char* toString(char *&buffer, int i)
+	char* toString(char *&buffer, int &i)
 	{
 		buffer[i] = '[';
 		//cout << "[";
 		i++;
-		for (i; i < j; i++)
+		for (int k = 0; k < j; k++)
 		{
-			if (this->array[i]->getType())
+			if (this->array[k]->getType())
 			{
-				Element* newElement = (Element*)getArray()[i];
-				buffer[i] = newElement->getData().intData;
-				//cout << newElement->getData().intData;		   
+				Element* newElement = (Element*)getArray()[k];
+				buffer[k] = newElement->getData().intData;
+				//cout << newElement->getData().intData;
+				i++;
 			}
 			else
 			{
-				Container* tmp = (Container*)array[i];
+				Container* tmp = (Container*)array[k];
 				tmp->toString(*&buffer, i);
 			}
 		}
@@ -184,11 +185,6 @@ public:
 	BaseClass** getArray()
 	{
 		return this->array;
-	}
-
-	int getNum()
-	{
-		return j;
 	}
 };
 
@@ -240,9 +236,9 @@ void main()
 		case 3:
 		{
 			char* buf = new char[32];
-			static int i = 0;
+			int i = 0;
 			current->toString(buf, i);
-			bufferOutput(buf, current->getNum());
+			bufferOutput(buf, i);
 			break;
 		}
 		case 4:
