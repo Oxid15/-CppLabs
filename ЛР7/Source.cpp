@@ -1,4 +1,5 @@
 #include<iostream>
+#include <stdlib.h>
 
 using namespace std;
 
@@ -28,7 +29,7 @@ bool getBoolean()
 
 int getCNumber()
 {
-	cout << "Type the number of structure";
+	cout << "Type the number of structure\n";
 	int number;
 	cin >> number;
 	return number;
@@ -50,11 +51,17 @@ public:
 	virtual int getType() { return -1; };
 };
 
-union Data
+union uData
 {
 	int intData;
 	float floatData;
 	bool boolData;
+};
+
+struct Data
+{
+	uData unionData;
+	int flag;
 };
 
 class Element : BaseClass
@@ -129,14 +136,16 @@ public:
 	void addElement()
 	{
 		Element* newElem = new Element;
-		cout << "Enter the type of data:\n 1- integer\n 2- with floating point\n 3- boolean\n";
+		cout << "\nEnter the type of data:\n 1- integer\n 2- with floating point\n 3- boolean\n";
 		int choice;
 		cin >> choice;
 		switch (choice)
 		{
 		case 1:
-			newElem->dataElem.intData = getInteger();
+			newElem->dataElem.unionData.intData = getInteger();
+			newElem->dataElem.flag = 1;
 			//if(!search((BaseClass*)newElem))
+			//{
 			if (j < len)
 				array[j] = (BaseClass*)newElem;
 			else
@@ -145,11 +154,14 @@ public:
 				array[j] = (BaseClass*)newElem;
 			}
 			//break;
+			//}
 			//else
 			break;
 		case 2:
-			newElem->dataElem.floatData = getFloat();
+			newElem->dataElem.unionData.floatData = getFloat();
+			newElem->dataElem.flag = 2;
 			// if(!search((BaseClass*)newElem))
+			//{
 			if (j < len)
 				array[j] = (BaseClass*)newElem;
 			else
@@ -158,11 +170,14 @@ public:
 				array[j] = (BaseClass*)newElem;
 			}
 			//break;
+			//}
 			//else
 			break;
 		case 3:
-			newElem->dataElem.boolData = getBoolean();
+			newElem->dataElem.unionData.boolData = getBoolean();
+			newElem->dataElem.flag = 3;
 			// if(!search((BaseClass*)newElem))
+			//{
 			if (j < len)
 				array[j] = (BaseClass*)newElem;
 			else
@@ -171,6 +186,7 @@ public:
 				array[j] = (BaseClass*)newElem;
 			}
 			//break;
+			//}
 			//else
 			break;
 		}
@@ -188,12 +204,73 @@ public:
 	{
 		buffer[i] = '[';
 		i++;
-		for (int k = 0; k < j; k++)
+		for (int k = 0; k < j; k++)														  
 		{
 			if (this->array[k]->getType())
 			{
 				Element* newElement = (Element*)getArray()[k];
-				buffer[i] = (newElement->getData().intData);
+				switch (newElement->dataElem.flag)
+				{
+				case 1:
+				{
+					char* tempBuf = new char[256];
+					_itoa_s(newElement->dataElem.unionData.intData, tempBuf, 256, 10);
+					for (int l = 0; l < strlen(tempBuf); l++)
+					{
+						buffer[i] = tempBuf[l];
+						i++;
+					}
+				}
+				break;
+
+				case 2: 							
+				{
+					
+					char* tempBuf = new char[256];
+					sprintf_s(tempBuf,256, "%f", newElement->dataElem.unionData.floatData);
+
+					int newStrlen = strlen(tempBuf), y = strlen(tempBuf) - 1;
+					for (y; y > 0; y--)
+					{
+						if (tempBuf[y] == '0')
+						{
+							newStrlen--;
+						}
+						else
+						{
+							break;
+						}
+					}
+						for (int l = 0; l < newStrlen; l++)
+					{
+						buffer[i] = tempBuf[l];
+						i++;
+					}
+				}
+				break;
+
+				case 3:
+				{
+					if (newElement->dataElem.unionData.boolData)
+					{
+						    buffer[i] = 't';
+						buffer[i + 1] = 'r';
+						buffer[i + 2] = 'u';
+						buffer[i + 3] = 'e';
+						i+= 4;
+					}
+					else
+					{
+						    buffer[i] = 'f';
+						buffer[i + 1] = 'a';
+						buffer[i + 2] = 'l';
+						buffer[i + 3] = 's';
+						buffer[i + 4] = 'e';
+						i +=5;
+					}
+				}
+				}
+				buffer[i] = ',';
 				i++;
 			}
 			else
@@ -202,6 +279,7 @@ public:
 				tmp->toString(*&buffer, i);
 			}
 		}
+		i--;
 		buffer[i] = ']';
 		i++;
 		return buffer;
@@ -210,13 +288,20 @@ public:
 	void moveDown(Container* &current)
 	{
 		int index = getCNumber() - 1;
-		if (!array[index]->getType())			                                           //!
+		if (index <= j)
 		{
-			current = (Container*)array[index];
+			if (!array[index]->getType())			                                           //!
+			{
+				current = (Container*)array[index];
+			}
+			else
+			{
+				cout << "This is not Container\n";
+			}
 		}
 		else
 		{
-			cout << "This is not Container";
+			cout << "The number is too big\n";
 		}
 	}
 
@@ -297,7 +382,7 @@ void main()
 			break;
 		case 3:
 		{
-			char* buf = new char[32];
+			char* buf = new char[255];
 			int i = 0;
 			current->toString(buf, i);
 			bufferOutput(buf, i);
