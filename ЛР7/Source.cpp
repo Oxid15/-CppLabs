@@ -1,5 +1,4 @@
 #include<iostream>
-#include <stdlib.h>
 
 using namespace std;
 
@@ -128,10 +127,10 @@ public:
 		}
 	}
 
-	//bool search(BaseClass* inst)
-	//{
-	//
-	//}
+	int search(BaseClass* inst)
+	{
+	
+	}
 
 	void addElement()
 	{
@@ -197,7 +196,11 @@ public:
 	{
 		if (this->getType() != inst->getType())
 		return false;
+		else
+		{
 
+			return true;
+		}
 	}
 
 	char* toString(char *&buffer, int &i)
@@ -290,7 +293,7 @@ public:
 	void moveDown(Container* &current)
 	{
 		int index = getCNumber() - 1;
-		if (index <= j)
+		if (index < j)
 		{
 			if (!array[index]->getType())			                                         
 			{
@@ -340,15 +343,16 @@ BaseClass* chooseStruct(Container* &current)
 	while (1)
 	{ 
 		int choice = 0;
-		cout << " 3- toString\n 5- moveDown\n 6- moveUp\n 9- [CHOOSE]";
+		cout << " 3- toString\n 5- moveDown\n 6- moveUp\n 9- [CHOOSE]\n";
 		cin >> choice;
 		switch (choice)
 		{
 		case 3:
 		{
 			char* buf = new char[255];
-			static int i = 0;
+			int i = 0;
 			current->toString(buf, i);
+			bufferOutput(buf, i);
 			break;
 		}
 		case 5:
@@ -358,10 +362,10 @@ BaseClass* chooseStruct(Container* &current)
 			current->moveUp(current);
 			break;
 		case 9:
-			newCurrent = current->getArray()[getCNumber()];
+			newCurrent = current->getArray()[getCNumber() - 1];
+			return newCurrent;
 		}
 	}
-	return newCurrent;
 }
 
 void main()
@@ -391,7 +395,7 @@ void main()
 			break;
 		}
 		case 4:
-			if (current->equals(chooseStruct(current)))										   //!
+			if (current->equals(chooseStruct(current)))										 
 				cout << "Structures is equal\n";
 			else
 				cout << "Structures isn't equal\n";
