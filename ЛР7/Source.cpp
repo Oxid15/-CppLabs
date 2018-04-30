@@ -138,24 +138,17 @@ public:
 		case 1:
 			newElem->dataElem.unionData.intData = getInteger();
 			newElem->dataElem.flag = 1;
-			//if(!search((BaseClass*)newElem))
-			//{
-			if (j < len)
+			if (j < len)																	   //search()
 				array[j] = (BaseClass*)newElem;
 			else
 			{
 				arrayExpansion();
 				array[j] = (BaseClass*)newElem;
 			}
-			//break;
-			//}
-			//else
 			break;
 		case 2:
 			newElem->dataElem.unionData.floatData = getFloat();
 			newElem->dataElem.flag = 2;
-			// if(!search((BaseClass*)newElem))
-			//{
 			if (j < len)
 				array[j] = (BaseClass*)newElem;
 			else
@@ -163,15 +156,10 @@ public:
 				arrayExpansion();
 				array[j] = (BaseClass*)newElem;
 			}
-			//break;
-			//}
-			//else
 			break;
 		case 3:
 			newElem->dataElem.unionData.boolData = getBoolean();
 			newElem->dataElem.flag = 3;
-			// if(!search((BaseClass*)newElem))
-			//{
 			if (j < len)
 				array[j] = (BaseClass*)newElem;
 			else
@@ -179,9 +167,6 @@ public:
 				arrayExpansion();
 				array[j] = (BaseClass*)newElem;
 			}
-			//break;
-			//}
-			//else
 			break;
 		}
 		j++;
@@ -349,20 +334,17 @@ int search(Container* container, BaseClass* inst)
 		{
 			if (!inst->getType())
 			{
-				////
-				/////////
-				/////////
-				/////////			for Containers
-				/////////
-				//////////
-				//
+				Container* newInst = new Container;
+				for (int k = 0; k < newInst->getJ(); k++)
+				{
+					//...																		 //!
+				}
 			}
 			else
 			{
-				Element* newInst, *secInst;
+				Element* newInst = new Element, *secInst = new Element;
 				newInst = (Element*)inst;
 				secInst = (Element*)container->getArray()[i];
-
 				if (newInst->dataElem.unionData.intData == secInst->dataElem.unionData.intData 
 					&& newInst != secInst)	  //Elements is equal if																									  
 				{						      //int blocks in them is equal
@@ -446,7 +428,7 @@ void main()
 			break;
 		}
 		case 4:
-			if (chooseStruct(current)->equals(chooseStruct(current)))
+			if (current->equals(chooseStruct(current)))
 				cout << "\nStructures is equal\n";
 			else
 				cout << "\nStructures isn't equal\n";
