@@ -64,7 +64,7 @@ struct Data
 };
 
 class Element : BaseClass
-{
+{																								  //?
 	/*Data dataElem;*/							
 public:
 	Data dataElem;
@@ -125,11 +125,6 @@ public:
 			j++;
 			newContainer->parent = this;
 		}
-	}
-
-	int search(BaseClass* inst)
-	{
-	
 	}
 
 	void addElement()
@@ -335,7 +330,51 @@ public:
 	{
 		return this->array;
 	}
+
+	int getJ()
+	{
+		return j;
+	}
 };
+
+int search(Container* container, BaseClass* inst)
+{
+	int sum = 0;
+	int t = container->getJ();
+	for (int i = 0; i < t; i++)
+	{
+		if (container->getArray()[i]->getType() != inst->getType())
+			continue;
+		else
+		{
+			if (!inst->getType())
+			{
+				////
+				/////////
+				/////////
+				/////////			for Containers
+				/////////
+				//////////
+				//
+			}
+			else
+			{
+				Element* newInst, *secInst;
+				newInst = (Element*)inst;
+				secInst = (Element*)container->getArray()[i];
+
+				if (newInst->dataElem.unionData.intData == secInst->dataElem.unionData.intData 
+					&& newInst != secInst)	  //Elements is equal if																									  
+				{						      //int blocks in them is equal
+					sum++;				      //even if there's no integer in blocks
+				}
+				else
+					continue;
+			}
+		}
+	}
+	return sum;
+}
 
 BaseClass* chooseStruct(Container* &current)
 {
@@ -362,8 +401,20 @@ BaseClass* chooseStruct(Container* &current)
 			current->moveUp(current);
 			break;
 		case 9:
-			newCurrent = current->getArray()[getCNumber() - 1];
-			return newCurrent;
+		{
+			int pre;
+			cout << "Enter """ << "0" << """ to choose current structure or any other digit if you need to choose\n";
+			cin >> pre;
+			if (pre)
+			{
+				newCurrent = current->getArray()[getCNumber() - 1];
+				return newCurrent;
+			}
+			else
+			{
+				return (BaseClass*)current;
+			}		
+		}
 		}
 	}
 }
@@ -395,16 +446,19 @@ void main()
 			break;
 		}
 		case 4:
-			if (current->equals(chooseStruct(current)))										 
-				cout << "Structures is equal\n";
+			if (chooseStruct(current)->equals(chooseStruct(current)))
+				cout << "\nStructures is equal\n";
 			else
-				cout << "Structures isn't equal\n";
+				cout << "\nStructures isn't equal\n";
 			break;
 		case 5:
 			current->moveDown(current);
 			break;
 		case 6:
 			current->moveUp(current);
+		case 7:
+			cout << "DEBUG:(Element first, then structure)\n";
+			search((Container*)chooseStruct(current), chooseStruct(current));	
 		}
 	}
 }
