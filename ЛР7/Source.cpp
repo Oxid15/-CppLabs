@@ -328,19 +328,28 @@ int search(Container* container, BaseClass* inst)
 	int t = container->getJ();
 	for (int i = 0; i < t; i++)
 	{
-		if (container->getArray()[i]->getType() != inst->getType())
+		if (container->getArray()[i]->getType() != inst->getType())			 //if we see the different types
 			continue;
 		else
 		{
-			if (!inst->getType())
+			if (!inst->getType())											 //if we see two Containers
 			{
-				Container* newInst = new Container;
-				for (int k = 0; k < newInst->getJ(); k++)
+				Container* newInst = new Container, *secInst = new Container;
+				newInst = (Container*)inst;
+				secInst = (Container*)container->getArray()[i];
+				if (newInst->getJ() == 0)									 //if Container is empty
 				{
-					//...																		 //!
+					(secInst->getJ() == 0) ? sum++ : sum = sum;
+				}
+				else														 //if it contains something
+				{
+					for (int k = 0; k < newInst->getJ(); k++)
+					{
+						//...																		 //!
+					}
 				}
 			}
-			else
+			else															 //if we see two Elements
 			{
 				Element* newInst = new Element, *secInst = new Element;
 				newInst = (Element*)inst;
