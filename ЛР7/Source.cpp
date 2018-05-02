@@ -72,14 +72,86 @@ class Element : BaseClass
 public:
 	Data dataElem;
 
-	bool equals(BaseClass &inst) 
+	bool equals(BaseClass* inst) 
 	{
-		if (this->getType() != inst.getType())
+		if (this->getType() != inst->getType())
 			return false;
+		else
+		{
+			Element* newInst = new Element;
+			newInst = (Element*)inst;
+			if (newInst->dataElem.unionData.intData == this->dataElem.unionData.intData)
+			{
+				return true;
+			}
+			else
+				return false;
+		}
 	}
 
-	char* toString(char *buffer) 
+	char* toString(char *&buffer, int &i) 
 	{
+		switch (this->dataElem.flag)
+		{
+		case 1:
+		{
+			char* tempBuf = new char[256];
+			_itoa_s(this->dataElem.unionData.intData, tempBuf, 256, 10);
+			for (int l = 0; l < strlen(tempBuf); l++)
+			{
+				buffer[i] = tempBuf[l];
+				i++;
+			}
+		}
+		break;
+
+		case 2:
+		{
+
+			char* tempBuf = new char[256];
+			sprintf_s(tempBuf, 256, "%f", this->dataElem.unionData.floatData);
+
+			int newStrlen = strlen(tempBuf), y = strlen(tempBuf) - 1;
+			for (y; y > 0; y--)
+			{
+				if (tempBuf[y] == '0')
+				{
+					newStrlen--;
+				}
+				else
+				{
+					break;
+				}
+			}
+			for (int l = 0; l < newStrlen; l++)
+			{
+				buffer[i] = tempBuf[l];
+				i++;
+			}
+		}
+		break;
+
+		case 3:
+		{
+			if (this->dataElem.unionData.boolData)
+			{
+				buffer[i] = 't';
+				buffer[i + 1] = 'r';
+				buffer[i + 2] = 'u';
+				buffer[i + 3] = 'e';
+				i += 4;
+			}
+			else
+			{
+				buffer[i] = 'f';
+				buffer[i + 1] = 'a';
+				buffer[i + 2] = 'l';
+				buffer[i + 3] = 's';
+				buffer[i + 4] = 'e';
+				i += 5;
+			}
+		}
+		}
 		return buffer;
 	}
 	int getType()
@@ -237,8 +309,6 @@ public:
 		return false;
 		else
 		{
-			if (!this->getType())
-			{
 				Container* newInst = new Container, *secInst = new Container;
 				newInst = (Container*)inst;
 				secInst = (Container*)this;
@@ -257,19 +327,6 @@ public:
 				}
 				else
 					return false;
-				}
-			else
-			{
-				Element* newInst = new Element, *secInst = new Element;
-				newInst = (Element*)inst;
-				secInst = (Element*)this;
-				if (newInst->dataElem.unionData.intData == secInst->dataElem.unionData.intData)
-				{
-					return true;
-				}
-				else
-					return false;
-			}
 		}
 	}
 
@@ -286,73 +343,13 @@ public:
 			}
 			if (this->array[k]->getType())
 			{
-				Element* newElement = (Element*)getArray()[k];
-				switch (newElement->dataElem.flag)
-				{
-				case 1:
-				{
-					char* tempBuf = new char[256];
-					_itoa_s(newElement->dataElem.unionData.intData, tempBuf, 256, 10);
-					for (int l = 0; l < strlen(tempBuf); l++)
-					{
-						buffer[i] = tempBuf[l];
-						i++;
-					}
-				}
-				break;
-
-				case 2: 							
-				{
-					
-					char* tempBuf = new char[256];
-					sprintf_s(tempBuf,256, "%f", newElement->dataElem.unionData.floatData);
-
-					int newStrlen = strlen(tempBuf), y = strlen(tempBuf) - 1;
-					for (y; y > 0; y--)
-					{
-						if (tempBuf[y] == '0')
-						{
-							newStrlen--;
-						}
-						else
-						{
-							break;
-						}
-					}
-						for (int l = 0; l < newStrlen; l++)
-					{
-						buffer[i] = tempBuf[l];
-						i++;
-					}
-				}
-				break;
-
-				case 3:
-				{
-					if (newElement->dataElem.unionData.boolData)
-					{
-						    buffer[i] = 't';
-						buffer[i + 1] = 'r';
-						buffer[i + 2] = 'u';
-						buffer[i + 3] = 'e';
-						i+= 4;
-					}
-					else
-					{
-						    buffer[i] = 'f';
-						buffer[i + 1] = 'a';
-						buffer[i + 2] = 'l';
-						buffer[i + 3] = 's';
-						buffer[i + 4] = 'e';
-						i +=5;
-					}
-				}
-				}
+				Element* newInst = (Element*)this->array[k];
+				newInst->toString(buffer, i);
 			}
 			else
 			{
-				Container* tmp = (Container*)array[k];
-				tmp->toString(*&buffer, i);
+				Container* newInst = (Container*)array[k];
+				newInst->toString(*&buffer, i);
 			}
 		}
 		buffer[i] = ']';
@@ -409,9 +406,7 @@ public:
 	int getJ()
 	{
 		return j;
-	}
-
-	
+	}	
 };
 
 
@@ -486,17 +481,30 @@ void main()
 			break;
 		}
 		case 4:
-			BaseClass * fstInst = new BaseClass, *secInst = new BaseClass;
-			if()
+		{
+			BaseClass * fstInst = chooseStruct(current);
+			Element* newFstInstE = new Element;
+			Container* newFstInstC = new Container;
 
-
-
-
-			//if (chooseStruct(current)->equals(chooseStruct(current)))
-			//	cout << "\nStructures is equal\n";
-			//else
-			//	cout << "\nStructures isn't equal\n";
-			break;
+			if (fstInst->getType())
+			{
+				newFstInstE = (Element*)fstInst;
+				if (newFstInstE->equals(chooseStruct(current)))
+					cout << "\nStructures is equal\n";
+				else
+					cout << "\nStructures isn't equal\n";
+				delete newFstInstC;
+			}
+			else
+			{
+				newFstInstC = (Container*)fstInst;
+				if (newFstInstC->equals(chooseStruct(current)))
+					cout << "\nStructures is equal\n";
+				else
+					cout << "\nStructures isn't equal\n";
+				delete newFstInstE;
+			}
+		}
 		case 5:
 			current->moveDown(current);
 			break;
