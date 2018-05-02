@@ -1,6 +1,9 @@
 #include<iostream>
+#include<fstream>
 
 using namespace std;
+
+
 
 int getInteger()
 {
@@ -172,14 +175,101 @@ public:
 		j++;
 	}
 
+	int search(Container* container, BaseClass* inst)
+	{
+		int sum = 0;
+		int t = container->getJ();
+		for (int i = 0; i < t; i++)
+		{
+			if (container->getArray()[i]->getType() != inst->getType())			 //if we see the different types
+				continue;
+			else
+			{
+				if (!inst->getType())											 //if we see two Containers
+				{
+					Container* newInst = new Container, *secInst = new Container;
+					newInst = (Container*)inst;
+					secInst = (Container*)container->getArray()[i];
+					if (newInst != secInst)											//if Container isn't the same
+					{
+						if (newInst->getJ() == 0)									 //if Container is empty
+						{
+							(secInst->getJ() == 0) ? sum++ : sum = sum;
+						}
+						else														 //if it contains something
+						{
+							if (newInst->getJ() == secInst->getJ()) //if number of instances isn't equal
+							{
+								int tempSum = 0;
+								for (int k = 0; k < newInst->getJ(); k++)
+								{
+									tempSum += search(secInst, newInst->getArray()[k]);
+								}
+								if (tempSum == newInst->getJ())
+									sum++;
+							}
+							else
+								continue;
+						}
+					}
+				}
+				else															 //if we see two Elements
+				{
+					Element* newInst = new Element, *secInst = new Element;
+					newInst = (Element*)inst;
+					secInst = (Element*)container->getArray()[i];
+					if (newInst->dataElem.unionData.intData == secInst->dataElem.unionData.intData
+						&& newInst != secInst)	  //Elements is equal if																									  
+					{						      //int blocks in them is equal
+						sum++;				      //even if there's no integer in blocks
+					}
+					else
+						continue;
+				}
+			}
+		}
+		return sum;
+	}
+
 	bool equals(BaseClass* inst) 
 	{
 		if (this->getType() != inst->getType())
 		return false;
 		else
 		{
+			if (!this->getType())
+			{
+				Container* newInst = new Container, *secInst = new Container;
+				newInst = (Container*)inst;
+				secInst = (Container*)this;
+				if (newInst->getJ() == secInst->getJ())
+				{
+					int tempSum = 0;
+					for (int i = 0; i < newInst->getJ(); i++)
+					{
+						tempSum += search(secInst, newInst->getArray()[i]);
+					}
 
-			return true;
+					if (tempSum == newInst->getJ() || newInst == secInst)
+						return true;
+					else
+						return false;
+				}
+				else
+					return false;
+				}
+			else
+			{
+				Element* newInst = new Element, *secInst = new Element;
+				newInst = (Element*)inst;
+				secInst = (Element*)this;
+				if (newInst->dataElem.unionData.intData == secInst->dataElem.unionData.intData)
+				{
+					return true;
+				}
+				else
+					return false;
+			}
 		}
 	}
 
@@ -320,63 +410,11 @@ public:
 	{
 		return j;
 	}
+
+	
 };
 
-int search(Container* container, BaseClass* inst)
-{
-	int sum = 0;
-	int t = container->getJ();
-	for (int i = 0; i < t; i++)
-	{
-		if (container->getArray()[i]->getType() != inst->getType())			 //if we see the different types
-			continue;
-		else
-		{
-			if (!inst->getType())											 //if we see two Containers
-			{
-				Container* newInst = new Container, *secInst = new Container;
-				newInst = (Container*)inst;
-				secInst = (Container*)container->getArray()[i];
-				if (newInst != secInst)											//if Container isn't the same
-				{
-					if (newInst->getJ() == 0)									 //if Container is empty
-					{
-						(secInst->getJ() == 0) ? sum++ : sum = sum;
-					}
-					else														 //if it contains something
-					{
-						if (newInst->getJ() == secInst->getJ()) //if number of instances isn't equal
-						{
-							int tempSum = 0;
-							for (int k = 0; k < newInst->getJ(); k++)
-							{
-								tempSum += search(secInst, newInst->getArray()[k]);
-							}
-							if (tempSum == newInst->getJ())
-								sum++;
-						}
-						else
-							continue;
-					}
-				}
-			}
-			else															 //if we see two Elements
-			{
-				Element* newInst = new Element, *secInst = new Element;
-				newInst = (Element*)inst;
-				secInst = (Element*)container->getArray()[i];
-				if (newInst->dataElem.unionData.intData == secInst->dataElem.unionData.intData 
-					&& newInst != secInst)	  //Elements is equal if																									  
-				{						      //int blocks in them is equal
-					sum++;				      //even if there's no integer in blocks
-				}
-				else
-					continue;
-			}
-		}
-	}
-	return sum;
-}
+
 
 BaseClass* chooseStruct(Container* &current)
 {
@@ -448,10 +486,16 @@ void main()
 			break;
 		}
 		case 4:
-			if (current->equals(chooseStruct(current)))
-				cout << "\nStructures is equal\n";
-			else
-				cout << "\nStructures isn't equal\n";
+			BaseClass * fstInst = new BaseClass, *secInst = new BaseClass;
+			if()
+
+
+
+
+			//if (chooseStruct(current)->equals(chooseStruct(current)))
+			//	cout << "\nStructures is equal\n";
+			//else
+			//	cout << "\nStructures isn't equal\n";
 			break;
 		case 5:
 			current->moveDown(current);
@@ -459,9 +503,6 @@ void main()
 		case 6:
 			current->moveUp(current);
 			break;
-		case 7:
-			cout << "DEBUG:(Element first, then structure)\n";
-			cout << "\nNUM =" << search((Container*)chooseStruct(current), chooseStruct(current));	
 		}
 	}
 }
@@ -469,9 +510,4 @@ void main()
 //debug:
 //[[1,2],3.4,[],[],[1,2],3.4,[1,2]]
 //1 5 1 2 1 1 2 1 2 6 2 2 3.4 1 1 1 5 5 2 1 1 2 1 2 6 2 2 3.4 1 5 7 2 1 1 2 1 2 6 3
-//search for 3.4:
-//7 9 1 2 9 0
-//search for [1,2]
-//7 9 1 1 9 0
-//search for []
-//7 9 1 3 9 0
+//4 9 9 2 9 9 6
