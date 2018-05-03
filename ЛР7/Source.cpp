@@ -45,6 +45,17 @@ void bufferOutput(char* buf, int length)
 	}
 }
 
+void fileOutput(char* buffer, int length)
+{
+	ofstream ofile("result.txt"/*, ios::app*/);
+	ofile << "\n";
+	for (int i = 0; i < (length); i++)
+	{
+		ofile << buffer[i];
+	}
+	ofile.close();
+}
+
 class BaseClass
 {
 public:
@@ -478,6 +489,7 @@ void main()
 			int i = 0;
 			current->toString(buf, i);
 			bufferOutput(buf, i);
+			fileOutput(buf, i);
 			break;
 		}
 		case 4:
@@ -505,6 +517,7 @@ void main()
 				delete newFstInstE;
 			}
 		}
+		break;
 		case 5:
 			current->moveDown(current);
 			break;
