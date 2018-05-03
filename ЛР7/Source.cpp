@@ -131,7 +131,6 @@ void bufferOutput(char* buf, int length)
 void fileOutput(char* buffer, int length)
 {
 	ofstream ofile("result.txt");
-	ofile << "\n";
 	for (int i = 0; i < (length); i++)
 	{
 		ofile << buffer[i];
@@ -145,6 +144,11 @@ public:
 	virtual bool equals(BaseClass* current) { return false; };
 	virtual char* toString(char *buffer, int i) { return buffer; };
 	virtual int getType() { return -1; };
+
+	//~BaseClass()
+	//{
+	//	delete this;
+	//}
 };
 
 union Data
@@ -162,7 +166,7 @@ struct ElementData
 
 class Element : BaseClass
 {																								  //!
-	/*Data dataElem;*/							
+	//Data dataElem;							
 public:
 	ElementData elemData;
 
@@ -346,7 +350,7 @@ public:
 						}
 						else														 //if it contains something
 						{
-							if (newInst->getContNum() == secInst->getContNum()) //if number of instances isn't equal
+							if (newInst->getContNum() == secInst->getContNum())     //if number of instances isn't equal
 							{
 								int tempSum = 0;
 								for (int k = 0; k < newInst->getContNum(); k++)
