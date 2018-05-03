@@ -3,38 +3,121 @@
 
 using namespace std;
 
+int getChoice()
+{
+	while (true)
+	{
+		char* choice = new char[256];
+		cin >> choice;
+		bool error = false;
+		for (int i = 0; i < strlen(choice); i++)
+		{
+			if (!(choice[i] >= 48 && choice[i] <= 57) || choice[i] == '-')
+			{
+				error = true;
+				break;
+			}
+		}
+		if (!error)
+			return atoi(choice);
+	}
+}
 
+bool checkInt(char* input)
+{
+	for (int i = 0; i < strlen(input); i++)
+	{
+		if (!(input[i] >= 48 && input[i] <= 57) || input[i] == '-')
+		{
+			return false;
+		}
+	}
+	return true;
+}
+
+bool checkFloat(char* input)
+{
+	for (int i = 0; i < strlen(input); i++)
+	{
+		if (!(input[i] >= 48 && input[i] <= 57 || input[i] == '.' || input[i] == '-'))
+		{
+			return false;
+		}
+	}
+	return true;
+}
 
 int getInteger()
 {
-	int input;
-	cout << "Enter the integer\n";
-	cin >> input;
-	return input;
+	while (true)
+	{
+		char* input = new char[256];
+		cout << "Enter the integer\n";
+		cin >> input;
+
+		if (checkInt(input))
+			return atoi(input);
+		else
+			cout << "Try again\n";
+		//delete[] input;										//?
+		//delete input;
+	}
 }
 
 float getFloat()
 {
-	float input;
-	cout << "Enter the number with floating point\n";
-	cin >> input;
-	return input;
+	while (true)
+	{
+		char* input = new char[256];
+		cout << "Enter the number with floating point\n";
+		cin >> input;
+
+		if (checkFloat(input))
+		{
+			return atof(input);
+		}
+		else
+			cout << "Try again\n";
+		//delete[] input;
+		//delete input;
+	}
 }
 
 bool getBoolean()
 {
-	bool input;
-	cout << "Enter the boolean\n";
-	cin >> input;
-	return input;
+	while (true)
+	{
+		char* input = new char[256];
+		cout << "Enter the boolean\n";
+		cin >> input;
+
+		if (checkInt(input))
+		{
+			int output = atoi(input);
+			if (output != 0)
+				return true;
+			else
+				return false;
+		}
+		else
+			cout << "Try again\n";
+		//delete[] input;
+		//delete input;
+	}
 }
 
 int getCNumber()
 {
-	cout << "Type the number of structure\n";
-	int number;
-	cin >> number;
-	return number;
+	char* input = new char[255];
+	cout << "Enter the number of structure\n";
+	cin >> input;
+
+	if (checkInt(input))
+		return atoi(input);
+	else
+		cout << "Try again\n";
+	//delete[] input;
+	//delete input;
 }
 
 void bufferOutput(char* buf, int length)
@@ -47,7 +130,7 @@ void bufferOutput(char* buf, int length)
 
 void fileOutput(char* buffer, int length)
 {
-	ofstream ofile("result.txt"/*, ios::app*/);
+	ofstream ofile("result.txt");
 	ofile << "\n";
 	for (int i = 0; i < (length); i++)
 	{
@@ -59,29 +142,29 @@ void fileOutput(char* buffer, int length)
 class BaseClass
 {
 public:
-	virtual bool equals(BaseClass* curr) { return false; };
+	virtual bool equals(BaseClass* current) { return false; };
 	virtual char* toString(char *buffer, int i) { return buffer; };
 	virtual int getType() { return -1; };
 };
 
-union uData
+union Data
 {
 	int intData;
 	float floatData;
 	bool boolData;
 };
 
-struct Data
+struct ElementData
 {
-	uData unionData;
-	int flag;
+	Data unionData;
+	short flag;
 };
 
 class Element : BaseClass
-{																								  //?
+{																								  //!
 	/*Data dataElem;*/							
 public:
-	Data dataElem;
+	ElementData elemData;
 
 	bool equals(BaseClass* inst) 
 	{
@@ -91,7 +174,7 @@ public:
 		{
 			Element* newInst = new Element;
 			newInst = (Element*)inst;
-			if (newInst->dataElem.unionData.intData == this->dataElem.unionData.intData)
+			if (newInst->elemData.unionData.intData == this->elemData.unionData.intData)
 			{
 				return true;
 			}
@@ -102,12 +185,12 @@ public:
 
 	char* toString(char *&buffer, int &i) 
 	{
-		switch (this->dataElem.flag)
+		switch (this->elemData.flag)
 		{
 		case 1:
 		{
 			char* tempBuf = new char[256];
-			_itoa_s(this->dataElem.unionData.intData, tempBuf, 256, 10);
+			_itoa_s(this->elemData.unionData.intData, tempBuf, 256, 10);
 			for (int l = 0; l < strlen(tempBuf); l++)
 			{
 				buffer[i] = tempBuf[l];
@@ -120,7 +203,7 @@ public:
 		{
 
 			char* tempBuf = new char[256];
-			sprintf_s(tempBuf, 256, "%f", this->dataElem.unionData.floatData);
+			sprintf_s(tempBuf, 256, "%f", this->elemData.unionData.floatData);
 
 			int newStrlen = strlen(tempBuf), y = strlen(tempBuf) - 1;
 			for (y; y > 0; y--)
@@ -139,14 +222,15 @@ public:
 				buffer[i] = tempBuf[l];
 				i++;
 			}
+			delete[] tempBuf;
 		}
 		break;
 
 		case 3:
 		{
-			if (this->dataElem.unionData.boolData)
+			if (this->elemData.unionData.boolData)
 			{
-				buffer[i] = 't';
+				    buffer[i] = 't';
 				buffer[i + 1] = 'r';
 				buffer[i + 2] = 'u';
 				buffer[i + 3] = 'e';
@@ -154,7 +238,7 @@ public:
 			}
 			else
 			{
-				buffer[i] = 'f';
+				    buffer[i] = 'f';
 				buffer[i + 1] = 'a';
 				buffer[i + 2] = 'l';
 				buffer[i + 3] = 's';
@@ -165,28 +249,29 @@ public:
 		}
 		return buffer;
 	}
+
 	int getType()
 	{
 		return 1;
 	}
 
-	Data getData()
+	ElementData getData()
 	{
-		return dataElem;
+		return elemData;
 	}
 };
 
 class Container : BaseClass
 {
 	int j;
-	int len;
-	BaseClass** array = new BaseClass*[len];      
+	int length;
+	BaseClass** array = new BaseClass*[length];
 	Container* parent = nullptr;					  
 public:
 	Container()
 	{
 		j = 0;
-		len = 8;
+		length = 8;
 		parent = nullptr;
 	}
 	
@@ -198,7 +283,7 @@ public:
 	void addContainer()
 	{
 		Container* newContainer = new Container;
-		if (j < len)
+		if (j < length)
 		{
 			array[j] = (BaseClass*)newContainer;
 			j++;
@@ -216,52 +301,32 @@ public:
 	void addElement()
 	{
 		Element* newElem = new Element;
+		BaseClass* newInst = (BaseClass*)newElem;
 		cout << "\nEnter the type of data:\n 1- integer\n 2- with floating point\n 3- boolean\n";
-		int choice;
-		cin >> choice;
-		switch (choice)
+		switch (getChoice())
 		{
 		case 1:
-			newElem->dataElem.unionData.intData = getInteger();
-			newElem->dataElem.flag = 1;
-			if (j < len)																	   //search()
-				array[j] = (BaseClass*)newElem;
-			else
-			{
-				arrayExpansion();
-				array[j] = (BaseClass*)newElem;
-			}
+			newElem->elemData.unionData.intData = getInteger();
+			newElem->elemData.flag = 1;
+			arrayAdd(newInst);
 			break;
 		case 2:
-			newElem->dataElem.unionData.floatData = getFloat();
-			newElem->dataElem.flag = 2;
-			if (j < len)
-				array[j] = (BaseClass*)newElem;
-			else
-			{
-				arrayExpansion();
-				array[j] = (BaseClass*)newElem;
-			}
+			newElem->elemData.unionData.floatData = getFloat();
+			newElem->elemData.flag = 2;
+			arrayAdd(newInst);
 			break;
 		case 3:
-			newElem->dataElem.unionData.boolData = getBoolean();
-			newElem->dataElem.flag = 3;
-			if (j < len)
-				array[j] = (BaseClass*)newElem;
-			else
-			{
-				arrayExpansion();
-				array[j] = (BaseClass*)newElem;
-			}
+			newElem->elemData.unionData.boolData = getBoolean();
+			newElem->elemData.flag = 3;
+			arrayAdd(newInst);
 			break;
 		}
-		j++;
 	}
 
 	int search(Container* container, BaseClass* inst)
 	{
 		int sum = 0;
-		int t = container->getJ();
+		int t = container->getContNum();
 		for (int i = 0; i < t; i++)
 		{
 			if (container->getArray()[i]->getType() != inst->getType())			 //if we see the different types
@@ -275,20 +340,20 @@ public:
 					secInst = (Container*)container->getArray()[i];
 					if (newInst != secInst)											//if Container isn't the same
 					{
-						if (newInst->getJ() == 0)									 //if Container is empty
+						if (newInst->getContNum() == 0)									 //if Container is empty
 						{
-							(secInst->getJ() == 0) ? sum++ : sum = sum;
+							(secInst->getContNum() == 0) ? sum++ : sum = sum;
 						}
 						else														 //if it contains something
 						{
-							if (newInst->getJ() == secInst->getJ()) //if number of instances isn't equal
+							if (newInst->getContNum() == secInst->getContNum()) //if number of instances isn't equal
 							{
 								int tempSum = 0;
-								for (int k = 0; k < newInst->getJ(); k++)
+								for (int k = 0; k < newInst->getContNum(); k++)
 								{
 									tempSum += search(secInst, newInst->getArray()[k]);
 								}
-								if (tempSum == newInst->getJ())
+								if (tempSum == newInst->getContNum())
 									sum++;
 							}
 							else
@@ -301,13 +366,14 @@ public:
 					Element* newInst = new Element, *secInst = new Element;
 					newInst = (Element*)inst;
 					secInst = (Element*)container->getArray()[i];
-					if (newInst->dataElem.unionData.intData == secInst->dataElem.unionData.intData
+					if (newInst->elemData.unionData.intData == secInst->elemData.unionData.intData
 						&& newInst != secInst)	  //Elements is equal if																									  
-					{						      //int blocks in them is equal
-						sum++;				      //even if there's no integer in blocks
+					{						      //int blocks in them is equal								  //?
+						sum++;					  //even if there's no integer in blocks
 					}
 					else
 						continue;
+					delete newInst, secInst;
 				}
 			}
 		}
@@ -323,21 +389,22 @@ public:
 				Container* newInst = new Container, *secInst = new Container;
 				newInst = (Container*)inst;
 				secInst = (Container*)this;
-				if (newInst->getJ() == secInst->getJ())
+				if (newInst->getContNum() == secInst->getContNum())
 				{
 					int tempSum = 0;
-					for (int i = 0; i < newInst->getJ(); i++)
+					for (int i = 0; i < newInst->getContNum(); i++)
 					{
 						tempSum += search(secInst, newInst->getArray()[i]);
 					}
 
-					if (tempSum == newInst->getJ() || newInst == secInst)
+					if (tempSum == newInst->getContNum() || newInst == secInst)
 						return true;
 					else
 						return false;
 				}
 				else
 					return false;
+				delete newInst, secInst;
 		}
 	}
 
@@ -370,12 +437,12 @@ public:
 
 	void moveDown(Container* &current)
 	{
-		int index = getCNumber() - 1;
-		if (index < j)
+		int i = getCNumber() - 1;
+		if (i < j)
 		{
-			if (!array[index]->getType())			                                         
+			if (!array[i]->getType())
 			{
-				current = (Container*)array[index];
+				current = (Container*)array[i];
 			}
 			else
 			{
@@ -400,13 +467,15 @@ public:
 
 	void arrayExpansion()
 	{
-		len = len * 2;
-		BaseClass** tempArray = new BaseClass*[len];
-		for (int i = 0; i < len / 2; i++)
+		length *= 2;
+		BaseClass** tempArray = new BaseClass*[length];
+		for (int i = 0; i < length / 2; i++)
 		{
 			tempArray[i] = array[i];
 		}
 		array = tempArray;
+		delete[] tempArray;
+		delete tempArray;
 	}
 
 	BaseClass** getArray()
@@ -414,23 +483,38 @@ public:
 		return this->array;
 	}
 
-	int getJ()
+	int getContNum()
 	{
 		return j;
-	}	
+	}
+
+	void arrayAdd(BaseClass* newInst)
+	{
+		if (!search(this, newInst))
+		{
+			if (j < length)
+				array[j] = (BaseClass*)newInst;
+			else
+			{
+				arrayExpansion();
+				array[j] = (BaseClass*)newInst;
+			}
+			j++;
+		}
+		else
+		{
+			cout << "\nThis Element is already exist\n";
+		}
+	}
 };
-
-
 
 BaseClass* chooseStruct(Container* &current)
 {
 	BaseClass * newCurrent = (BaseClass*)current;
-	while (1)
+	while (true)
 	{ 
-		int choice = 0;
 		cout << " 3- toString\n 5- moveDown\n 6- moveUp\n 9- [CHOOSE]\n";
-		cin >> choice;
-		switch (choice)
+		switch (getChoice())
 		{
 		case 3:
 		{
@@ -448,10 +532,10 @@ BaseClass* chooseStruct(Container* &current)
 			break;
 		case 9:
 		{
-			int pre;
+			short choice2;
 			cout << "Enter """ << "0" << """ to choose current structure or any other digit if you need to choose\n";
-			cin >> pre;
-			if (pre)
+			cin >> choice2;
+			if (choice2)
 			{
 				newCurrent = current->getArray()[getCNumber() - 1];
 				return newCurrent;
@@ -472,10 +556,8 @@ void main()
 	current = &root;
 	while (1)
 	{
-		int choice;
-		cout << "\n 1- addContainer\n 2- addElement\n 3- toString\n 4- equals\n 5- moveDown\n 6- moveUp\n";
-		cin >> choice;
-		switch (choice)
+		cout << "\n 1- addContainer\n 2- addElement\n 3- toString\n 4- equals\n 5- moveDown\n 6- moveUp\n 0- exit\n";
+		switch (getChoice())
 		{
 		case 1:
 			current->addContainer();
@@ -524,11 +606,11 @@ void main()
 		case 6:
 			current->moveUp(current);
 			break;
+		case 0:
+			return;
 		}
 	}
 }
 
-//debug:
-//[[1,2],3.4,[],[],[1,2],3.4,[1,2]]
-//1 5 1 2 1 1 2 1 2 6 2 2 3.4 1 1 1 5 5 2 1 1 2 1 2 6 2 2 3.4 1 5 7 2 1 1 2 1 2 6 3
-//4 9 9 2 9 9 6
+//test
+//1 5 1 2 3 1 6 2 2 3.4 1 1 2 1 1234 3
