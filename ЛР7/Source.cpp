@@ -51,7 +51,7 @@ int getInteger()
 {
 	while (true)
 	{
-		char* input = new char[256];
+		char input[256];
 		cout << "Enter the integer\n";
 		cin >> input;
 
@@ -59,8 +59,6 @@ int getInteger()
 			return atoi(input);
 		else
 			cout << "Try again\n";
-		//delete[] input;										//?
-		//delete input;
 	}
 }
 
@@ -145,10 +143,10 @@ public:
 	virtual char* toString(char *buffer, int i) { return buffer; };
 	virtual int getType() { return -1; };
 
-	//~BaseClass()
-	//{
-	//	delete this;
-	//}
+	virtual ~BaseClass()
+	{
+		delete this;
+	}
 };
 
 union Data
@@ -158,17 +156,21 @@ union Data
 	bool boolData;
 };
 
-struct ElementData
-{
-	Data unionData;
-	short flag;
-};
+enum UnionType {Int = 1, Float, Bool};
+
+
 
 class Element : BaseClass
-{																								  //!
-	//Data dataElem;							
+{					
+	struct ElementData
+	{
+		Data unionData;
+		UnionType flag;
+	};
+
+	ElementData elemData;							
 public:
-	ElementData elemData;
+	
 
 	bool equals(BaseClass* inst) 
 	{
@@ -208,7 +210,7 @@ public:
 
 			char* tempBuf = new char[256];
 			sprintf_s(tempBuf, 256, "%f", this->elemData.unionData.floatData);
-
+									   
 			int newStrlen = strlen(tempBuf), y = strlen(tempBuf) - 1;
 			for (y; y > 0; y--)
 			{
@@ -259,9 +261,26 @@ public:
 		return 1;
 	}
 
-	ElementData getData()
+	Data getData(UnionType& type)
 	{
-		return elemData;
+		type = elemData.flag;
+		return elemData.unionData;
+	}
+
+	void setInt(int i)
+	{
+		elemData.unionData.intData = i;
+		elemData.flag = UnionType::Int;	
+	}
+	void setFloat(float i)
+	{
+		elemData.unionData.floatData = i;
+		elemData.flag = UnionType::Float;
+	}
+	void setBool(bool i)
+	{
+		elemData.unionData.boolData = i;
+		elemData.flag = UnionType::Bool;
 	}
 };
 
@@ -270,61 +289,39 @@ class Container : BaseClass
 	int j;
 	int length;
 	BaseClass** array = new BaseClass*[length];
-	Container* parent = nullptr;					  
-public:
-	Container()
+	Container* parent = nullptr;
+
+	void arrayExpansion()
 	{
-		j = 0;
-		length = 8;
-		parent = nullptr;
-	}
-	
-	int getType()
-	{
-		return 0;
+		length *= 2;
+		BaseClass** tempArray = new BaseClass*[length];
+		for (int i = 0; i < length / 2; i++)
+		{
+			tempArray[i] = array[i];
+		}
+		array = tempArray;
+		delete[] tempArray;
+		delete tempArray;
 	}
 
-	void addContainer()
+	bool arrayAdd(BaseClass* newInst)
 	{
-		Container* newContainer = new Container;
-		if (j < length)
+		if (!search(this, newInst))
 		{
-			array[j] = (BaseClass*)newContainer;
+			if (j < length)
+				array[j] = (BaseClass*)newInst;
+			else
+			{
+				arrayExpansion();
+				array[j] = (BaseClass*)newInst;
+			}
 			j++;
-			newContainer->parent = this;
 		}
 		else
 		{
-			arrayExpansion();
-			array[j] = (BaseClass*)newContainer;
-			j++;
-			newContainer->parent = this;
+			return false;
 		}
-	}
-
-	void addElement()
-	{
-		Element* newElem = new Element;
-		BaseClass* newInst = (BaseClass*)newElem;
-		cout << "\nEnter the type of data:\n 1- integer\n 2- with floating point\n 3- boolean\n";
-		switch (getChoice())
-		{
-		case 1:
-			newElem->elemData.unionData.intData = getInteger();
-			newElem->elemData.flag = 1;
-			arrayAdd(newInst);
-			break;
-		case 2:
-			newElem->elemData.unionData.floatData = getFloat();
-			newElem->elemData.flag = 2;
-			arrayAdd(newInst);
-			break;
-		case 3:
-			newElem->elemData.unionData.boolData = getBoolean();
-			newElem->elemData.flag = 3;
-			arrayAdd(newInst);
-			break;
-		}
+		return true;
 	}
 
 	int search(Container* container, BaseClass* inst)
@@ -370,7 +367,8 @@ public:
 					Element* newInst = new Element, *secInst = new Element;
 					newInst = (Element*)inst;
 					secInst = (Element*)container->getArray()[i];
-					if (newInst->elemData.unionData.intData == secInst->elemData.unionData.intData
+					UnionType type;
+					if (newInst->getData(type).intData == secInst->getData().unionData.intData
 						&& newInst != secInst)	  //Elements is equal if																									  
 					{						      //int blocks in them is equal								  //?
 						sum++;					  //even if there's no integer in blocks
@@ -382,6 +380,71 @@ public:
 			}
 		}
 		return sum;
+	}
+
+public:
+	Container()
+	{
+		j = 0;
+		length = 8;
+		parent = nullptr;
+	}
+
+	~Container()																//!
+	{
+		for (int i = 0; i < j; i++)
+		{
+			delete[] array[i];
+		}
+		delete[] array;
+		delete array;
+		delete parent;
+	}
+	
+	int getType()
+	{
+		return 0;
+	}
+
+	void addContainer()
+	{
+		Container* newContainer = new Container;
+		if (j < length)
+		{
+			array[j] = (BaseClass*)newContainer;
+			j++;
+			newContainer->parent = this;
+		}
+		else
+		{
+			arrayExpansion();
+			array[j] = (BaseClass*)newContainer;
+			j++;
+			newContainer->parent = this;
+		}
+	}
+
+	void addElement(int choice)
+	{
+		Element* newElem = new Element;
+		BaseClass* newInst = (BaseClass*)newElem;
+		switch (choice)
+		{
+		case 1:
+			newElem->setInt(getInteger());
+			arrayAdd(newInst);
+			break;
+		case 2:
+			newElem->getData().unionData.floatData = getFloat();
+			newElem->getData().flag = 2;
+			arrayAdd(newInst);
+			break;
+		case 3:
+			newElem->getData().unionData.boolData = getBoolean();
+			newElem->getData().flag = 3;
+			arrayAdd(newInst);
+			break;
+		}
 	}
 
 	bool equals(BaseClass* inst) 
@@ -439,7 +502,7 @@ public:
 		return buffer;
 	}								  
 
-	void moveDown(Container* &current)
+	bool moveDown(Container* &current)
 	{
 		int i = getCNumber() - 1;
 		if (i < j)
@@ -450,36 +513,25 @@ public:
 			}
 			else
 			{
-				cout << "This is not Container\n";
+				return false;
 			}
 		}
 		else
 		{
-			cout << "The number is too big\n";
+			return false;
 		}
+		return true;
 	}
 
-	void moveUp(Container* &current)
+	bool moveUp(Container* &current)
 	{
 		if (current->parent != nullptr)
 			current = current->parent;
 		else
 		{
-			return;
+			return false;
 		}
-	}
-
-	void arrayExpansion()
-	{
-		length *= 2;
-		BaseClass** tempArray = new BaseClass*[length];
-		for (int i = 0; i < length / 2; i++)
-		{
-			tempArray[i] = array[i];
-		}
-		array = tempArray;
-		delete[] tempArray;
-		delete tempArray;
+		return true;
 	}
 
 	BaseClass** getArray()
@@ -490,25 +542,6 @@ public:
 	int getContNum()
 	{
 		return j;
-	}
-
-	void arrayAdd(BaseClass* newInst)
-	{
-		if (!search(this, newInst))
-		{
-			if (j < length)
-				array[j] = (BaseClass*)newInst;
-			else
-			{
-				arrayExpansion();
-				array[j] = (BaseClass*)newInst;
-			}
-			j++;
-		}
-		else
-		{
-			cout << "\nThis Element is already exist\n";
-		}
 	}
 };
 
@@ -567,7 +600,10 @@ void main()
 			current->addContainer();
 			break;
 		case 2:
-			current->addElement();
+			cout << "\nEnter the type of data:\n 1- integer\n 2- with floating point\n 3- boolean\n";
+			int choice;
+			cin >> choice;
+			current->addElement(choice);
 			break;
 		case 3:
 		{
@@ -605,10 +641,16 @@ void main()
 		}
 		break;
 		case 5:
-			current->moveDown(current);
+			if (!current->moveDown(current))
+			{
+				cout << "The number is too big or this is not Container\n";
+			}
 			break;
 		case 6:
-			current->moveUp(current);
+			if (!current->moveUp(current))
+			{
+				cout << "There's no Container up there\n";
+			}
 			break;
 		case 0:
 			return;
