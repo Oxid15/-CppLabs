@@ -121,7 +121,20 @@ int* debug_fileInput(int &i)
 	arr[i] = 0;
 	file.close();
 	return arr;
-}						//!
+}
+
+void _debug_fileInput(int &i)
+{
+	i = 0;
+	char arr[2048];
+	ifstream file("input.txt", ios::binary);
+	while (!file.eof())
+	{
+		arr[i] = file.get();
+		i++;
+	}
+	file.close();
+}
 
 
 void main()
@@ -145,7 +158,7 @@ void main()
 	//int* result = encode(arr, counter);
 	//fileOutputEncode(result, counter, code, numOfEights);
 	int counter_2;
-	arr = debug_fileInput(counter_2);
+	 _debug_fileInput(counter_2);
 	int* result_2 = decode(arr, counter_2);
 
 }
