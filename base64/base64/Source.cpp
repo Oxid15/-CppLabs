@@ -94,10 +94,20 @@ int* encode(int* arr,int size)
 int* decode(int* arr, int size)
 {
 	int* result = new int;
-	
-	for (int i = 0, j = 1, s = 0; s < size; i += 4, j += 4, s += 3)
+
+	for (int i = 0, j = 1, s = 0; i < size; i += 4, j += 4, s += 3)
 	{
-		result[s] = arr[i] << 2 + ((arr[j] & 48) >> 4);
+		result[s] = (arr[i] << 2) + ((arr[j] & 48) >> 4);
+	}
+
+	for (int i = 1, j = 2, s = 1; s < size; i += 4, j += 4, s += 3)
+	{
+		result[s] = ((arr[i] & 15) << 4) + ((arr[j] >> 2) & 15);
+	}
+
+	for (int i = 2, j = 3, s = 2; s < size; i += 4, j += 4, s += 3)
+	{
+		result[s] = ((arr[i] & 3) << 6) + ((arr[j] & 63));
 	}
 
 	return result;
