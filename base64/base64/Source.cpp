@@ -14,7 +14,7 @@ char* getName()
 	return newName;
 }
 
-int* fileInputEncode(int &i)
+int* fileInput(int &i)
 {
 	int arr[2048];
 	for (int j = 0; j < 2048; j++)
@@ -22,7 +22,7 @@ int* fileInputEncode(int &i)
 
 	i = 0;
 
-	ifstream file(getName(), ios::binary);
+	ifstream file("input.txt", ios::binary);
 	while(!file.eof())
 	{
 		arr[i] = file.get();
@@ -31,18 +31,38 @@ int* fileInputEncode(int &i)
 	i--;
 	arr[i] = 0;
 	file.close();
+	//int* result = new int[i];
+	//for (int j = 0; j < i; j++)
+	//{
+	//	result[j] = arr[j];
+	//}
+	//return result;
 	return arr;
-}	   
+}
 
-int* fileInputDecode()
+int* _fileInput(int &i)
 {
-	int* result = new int;
-	return result;
+	int arr[2048];
+	for (int j = 0; j < 2048; j++)
+		arr[j] = 0;
+
+	i = 0;
+
+	ifstream file("input.txt", ios::binary);
+	while (!file.eof())
+	{
+		arr[i] = file.get();
+		i++;
+	}
+	i--;
+	arr[i] = 0;
+	file.close();
+	return arr;
 }
 
 void fileOutputEncode(int * arr, int size, char* code, int eights)
 {
-	ofstream file(getName());
+	ofstream file("output.txt");
 	for (int i = 0; i < size; i++)
 	{
 		if (i < size - 2)
@@ -58,9 +78,14 @@ void fileOutputEncode(int * arr, int size, char* code, int eights)
 	file.close();
 }
 
-void fileOutputDecode()
+void fileOutputDecode(int* arr, int size)
 {
-
+	ofstream file("output.txt");
+	for (int i = 0; i < size; i++)
+	{
+		file << arr[i] << " ";
+	}
+	file.close();
 }
 
 int* encode(int* arr,int size)
@@ -113,64 +138,41 @@ int* decode(int* arr, int size)
 	return result;
 }
 
-int* debug_fileInput(int &i)
-{
-	int arr[2048];
-	for (int j = 0; j < 2048; j++)
-		arr[j] = 0;
-
-	i = 0;
-
-	ifstream file("input.txt", ios::binary);
-	while (!file.eof())
-	{
-		arr[i] = file.get();
-		i++;
-	}
-	i--;
-	arr[i] = 0;
-	file.close();
-	return arr;
-}
-
-void _debug_fileInput(int &i)
-{
-	i = 0;
-	char arr[2048];
-	ifstream file("input.txt", ios::binary);
-	while (!file.eof())
-	{
-		arr[i] = file.get();
-		i++;
-	}
-	file.close();
-}
 
 
 void main()
 {
 	char code[] = { "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/" };
-	int counter;
-
-	int* arr;
-	arr = debug_fileInput(counter);
-	counter *= 8;
+	int size;
+	int* arr = new int;
+	arr = fileInput(size);
+	size *= 8;
 	int numOfEights = 0;
-	
-	while (counter % 6 != 0)
+	while (size % 6 != 0)
 	{
-		counter += 8;
+		size += 8;
 		numOfEights++;
 	}
+	size /= 6;
 
-	counter /= 6;
+	int* result = encode(arr, size);
+	fileOutputEncode(result, size, code, numOfEights);
 
-	//int* result = encode(arr, counter);
-	//fileOutputEncode(result, counter, code, numOfEights);
-	int counter_2;
-	 _debug_fileInput(counter_2);
-	int* result_2 = decode(arr, counter_2);
-
+	//int size_2;
+	//int* arr_2 = new int;
+	//arr_2 = _fileInput(size_2);
+	//int numOfEights_2 = 0;
+	//for (int i = size_2; i > (size_2 - 3); i--)
+	//{
+	//	if (arr_2[i] == '=')
+	//		numOfEights_2++;
+	//}
+	//size_2 *= 6;
+	//size_2 -= numOfEights_2 * 8;
+	//size_2 /= 8; 
+	//
+	//int* result_2 = decode(arr_2, size_2);
+	//fileOutputDecode(result_2, size_2);
 }
 
 //Man is distinguished, not only by his reason, but by this singular passion from other animals, which is a lust of the mind, that by a perseverance of delight in the continued and indefatigable generation of knowledge, exceeds the short vehemence of any carnal pleasure.
