@@ -2,18 +2,14 @@
 
 using namespace std;
 
-//template<class T>
-//ostream& operator << ((ostream& out, const T& inst));
-//
-//template<class T>
-//ostream& operator >> ((ostream& out, const T& inst));
-
 template <class Tkey, class Tvalue>
 class Collection
 {
-public:
+//public:
 	Tkey key;
 	Tvalue value;
+
+public:
 
 	friend ostream& operator <<(ostream& out, const Collection& inst)
 	{
@@ -26,14 +22,42 @@ public:
 		in >> inst.value;
 		return in;
 	}
+
+	Tvalue getValue()
+	{
+		return value;
+	}
+
+	Tkey getKey()
+	{
+		return key;
+	}
+
+	void setValue(Tvalue val)
+	{
+		value = val;
+	}
+
+	void setKey(Tkey k)
+	{
+		key = k;
+	}
+
 };
 
-
+template <class T>
+T getT()
+{
+	T smpl;
+	cin << smpl;
+	return smpl;
+}
 
 void main()
 {
-	int key = 1, value = 0;
-	Collection<int,int> a;
-	a.value = value;
+	float key = 1, value = 0;
+	Collection<float, float> a;
+	cin >> value;
+	a.setValue(value);
 	cout << a;
 }
