@@ -8,8 +8,8 @@ class Collection
 {
 	struct CollectionElement
 	{
-		Tkey key;
-		Tvalue value;
+		TKey key;
+		TValue value;
 	};
 
 	CollectionElement** array;
@@ -43,22 +43,22 @@ public:
 		return out;
 	}
 
-	friend istream& operator >>(istream& in, Collection<Tkey,Tvalue>& inst)
+	friend istream& operator >>(istream& in, Collection<TKey,TValue>& inst)
 	{
-		Tvalue val;
+		TValue val;
 		in >> val;
 		inst.value = val;
 		return in;
 	}
 
-	Tvalue getValue()
+	TValue getValue()
 	{
-		return value;
+		return CollectionElement.value;
 	}
 
-	Tkey getKey()
+	TKey getKey()
 	{
-		return key;
+		return CollectionElement.key;
 	}
 
 	void setValue(TValue val)
@@ -71,10 +71,14 @@ public:
 		key = k;
 	}
 
-	void add(TKey key, TValue value)
+	void add(TKey newKey, TValue newValue)
 	{
-		// Check key if it's unique -> adding or not
 		// Check if numOfElem > length -> expansion or not
+		// Check key if it's unique -> adding or not
+		for (int i = 0; i < numOfElem; i++)
+		{
+			if(array[i]->)
+		}
 	}
 
 	void del(TKey key)
@@ -92,26 +96,6 @@ public:
 //	return smpl;
 //}
 
-/*class Test
-{
-public:
-	char letter;
-
-	friend ostream& operator << (ostream& out, const Test inst)
-	{
-		out << inst.letter;
-		return out;
-	}
-
-	friend istream& operator >> (istream& in, Test& inst)
-	{
-		char newLet;
-		in >> newLet;
-		inst.letter = newLet;
-		return in;
-	}
-
-};*/												
 
 class Bus 
 {
@@ -183,4 +167,5 @@ void main()
 			break;
 		}
 	}
+	//system("pause");
 }
