@@ -4,15 +4,18 @@
 using namespace std;
 
 template <class TKey, class TValue>
+struct CollectionElement
+{
+	TKey key;
+	TValue value;
+};
+
+template <class TKey, class TValue>
 class Collection
 {
-	struct CollectionElement
-	{
-		TKey key;
-		TValue value;
-	};
+public:											 //test!
 
-	CollectionElement** array;
+	CollectionElement** arr;
 	int numOfElem;
 	int length;
 
@@ -22,9 +25,9 @@ class Collection
 		CollectionElement** newArray = new CollectionElement[newLength];
 		for (int i = 0; i < length; i++)
 		{
-			newArray[i] = array[i];
+			newArray[i] = arr[i];
 		}
-		array = newArray;
+		arr = newArray;
 		length = newLength;
 	}
 
@@ -34,7 +37,7 @@ public:
 	{
 		length = 8;
 		numOfElem = 0;
-		array = new CollectionElement*[length];
+		arr = new CollectionElement*[length];
 	}
 
 	friend ostream& operator <<(ostream& out, const Collection& inst)
@@ -43,7 +46,7 @@ public:
 		return out;
 	}
 
-	friend istream& operator >>(istream& in, Collection<TKey,TValue>& inst)
+	friend istream& operator >>(istream& in, Collection<TKey, TValue>& inst)
 	{
 		TValue val;
 		in >> val;
@@ -53,12 +56,12 @@ public:
 
 	TValue getValue()
 	{
-		return CollectionElement.value;
+		return CollectionElement->value;
 	}
 
 	TKey getKey()
 	{
-		return CollectionElement.key;
+		return CollectionElement->key;
 	}
 
 	void setValue(TValue val)
@@ -74,11 +77,7 @@ public:
 	void add(TKey newKey, TValue newValue)
 	{
 		// Check if numOfElem > length -> expansion or not
-		// Check key if it's unique -> adding or not
-		for (int i = 0; i < numOfElem; i++)
-		{
-			if(array[i]->)
-		}
+		// Check unique key
 	}
 
 	void del(TKey key)
@@ -96,6 +95,12 @@ public:
 //	return smpl;
 //}
 
+template <class TKey, class TValue>
+bool uniqueCheck(TKey key, CollectionElement** arr)
+{
+	
+	return false;
+}
 
 class Bus 
 {
@@ -106,6 +111,7 @@ class Bus
 
 class BusPark
 {
+public:												//test!
 	Collection<int, Bus> onRoad;
 	Collection<int, Bus> inPark;
 
@@ -145,7 +151,10 @@ public:
 
 void main()
 {
+
 	BusPark park;
+	Bus* b = new Bus;
+	park.inPark.add(1, *b);
 	while (1)
 	{
 		int choice;
@@ -154,7 +163,7 @@ void main()
 		switch (choice)
 		{
 		case 1:
-			//adding
+			park.inPark.add(10,*b);
 		case 2:
 			//deleting
 		case 3:
@@ -164,8 +173,8 @@ void main()
 		case 5:
 			//return
 		case 0:
-			break;
+			return;
 		}
 	}
-	//system("pause");
+	system("pause");
 }
