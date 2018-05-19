@@ -20,7 +20,7 @@ class Collection
 	void arrayExpansion()
 	{
 		int newLength = length * 2;
-		CollectionElement** newArray = new CollectionElement[newLength];
+		CollectionElement<TKey, TValue>** newArray = new CollectionElement<TKey, TValue>[newLength];
 		for (int i = 0; i < length; i++)
 		{
 			newArray[i] = arr[i];
@@ -72,7 +72,7 @@ public:
 
 	void add(TKey newKey, TValue newValue)
 	{
-
+		
 	}
 
 };
@@ -134,6 +134,7 @@ public:
 
 void main()
 {
-
+	Collection<int,int> c;
+	
 	system("pause");
 }
