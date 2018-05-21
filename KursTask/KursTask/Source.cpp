@@ -5,7 +5,6 @@ using namespace std;
 
 template <class TKey, class TValue> class Collection
 {
-public:
 	struct CollectionElement
 	{
 		TKey key;
@@ -33,20 +32,34 @@ public:
 	{
 		length = 8;
 		numOfElem = 0;
-		arr = new CollectionElement *[length];
+		arr = new CollectionElement*[length];
+		for (int i = 0; i < length; i++)
+		{
+			arr[i] = new CollectionElement;
+		}
 	}
 
-	//friend ostream & operator << (ostream & out, const Collection &inst)
-	//{
-	//}
-	//friend istream & operator >> (istream & in, Collection &inst)
-	//{
-	//}
+	friend ostream & operator << (ostream & out, const Collection inst)
+	{
+		for (int i = 0; i < inst.getNumOfElem(); i++)
+		{
+			//...
+		}
+	}
+
+	friend istream & operator >> (istream & in, Collection &inst)
+	{
+		
+	}
 
 	void add(TKey newKey, TValue newValue)
 	{
-		arr[0]->key = newKey;
-		arr[0]->value = newValue;
+
+	}
+
+	int getNumOfElem()
+	{
+		return numOfElem;
 	}
 
 };
@@ -101,9 +114,4 @@ public:
 void main()
 {
 	Collection<int, int> a;
-
-	//Collection < int, int > c;
-	//int k = 1, val = 2;
-	//c.add(k,val);
-	//return 0;
 }
