@@ -17,7 +17,7 @@ template <class TKey, class TValue> class Collection
 	void arrayExpansion()
 	{
 		int newLength = length * 2;
-		CollectionElement **newArray = new CollectionElement[newLength];
+		CollectionElement **newArray = new CollectionElement*[newLength];
 		for (int i = 0; i < length; i++)
 		{
 			newArray[i] = arr[i];
@@ -25,9 +25,18 @@ template <class TKey, class TValue> class Collection
 		arr = newArray;
 		length = newLength;
 	}
+	
+	void setKey(TKey newKey, int num)
+	{
+		arr[num]->key = newKey;
+	}
+
+	void setValue(TValue newValue, int num)
+	{
+		arr[num]->value = newValue;
+	}
 
 public:
-
 	Collection()
 	{
 		length = 8;
@@ -39,27 +48,37 @@ public:
 		}
 	}
 
+	TKey returnKey(int num)
+	{
+		return arr[num]->key;
+	}
+
+	TValue returnValue(int num)
+	{
+		return arr[num]->value;
+	}
+
+	int returnNumOfElem()
+	{
+		return numOfElem;
+	}
+		 
 	friend ostream & operator << (ostream & out, const Collection inst)
 	{
-		for (int i = 0; i < inst.getNumOfElem(); i++)
+		for (int i = 0; i < inst.returnNumOfElem(); i++)
 		{
-			//...
+			out << inst.returnKey(i) << ',' << inst.returnValue(i) << '\n';
 		}
 	}
 
 	friend istream & operator >> (istream & in, Collection &inst)
 	{
-		
+			
 	}
 
 	void add(TKey newKey, TValue newValue)
 	{
 
-	}
-
-	int getNumOfElem()
-	{
-		return numOfElem;
 	}
 
 };
@@ -114,4 +133,5 @@ public:
 void main()
 {
 	Collection<int, int> a;
-}
+
+};
