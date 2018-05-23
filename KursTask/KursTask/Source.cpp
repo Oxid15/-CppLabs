@@ -3,7 +3,25 @@
 
 using namespace std;
 
-template <class TKey, class TValue> class Collection
+
+template <class TKey, class TValue>
+TKey getKey()
+{
+	TKey key;
+	cin >> key;
+	return key;
+}
+
+template <class TKey, class TValue>
+TValue getValue()
+{
+	TValue value;
+	cin >> value;
+	return value;
+}
+
+template <class TKey, class TValue> 
+class Collection
 {
 	struct CollectionElement
 	{
@@ -63,22 +81,33 @@ public:
 		return numOfElem;
 	}
 		 
-	friend ostream & operator << (ostream & out, const Collection inst)
+	friend ostream &operator << (ostream & out, Collection inst)
 	{
 		for (int i = 0; i < inst.returnNumOfElem(); i++)
 		{
 			out << inst.returnKey(i) << ',' << inst.returnValue(i) << '\n';
 		}
+		return out;
 	}
 
-	friend istream & operator >> (istream & in, Collection &inst)
-	{
-			
-	}
+	//friend istream &operator >> (istream & in, Collection &inst)
+	//{
 
-	void add(TKey newKey, TValue newValue)
-	{
+	//}
 
+	void add()
+	{
+		if (numOfElem >= length)
+		{
+			arrayExpansion();
+		}
+
+		TKey newKey = getKey<TKey, TValue>();
+		TValue newValue = getValue<TKey, TValue>();
+
+		setKey(newKey, returnNumOfElem());
+		setValue(newValue, returnNumOfElem());
+		numOfElem++;
 	}
 
 };
@@ -133,5 +162,12 @@ public:
 void main()
 {
 	Collection<int, int> a;
+	a.add();
+	a.add();
 
+	cout << a;
 };
+
+/*
+1,880\n2,228\n3,1547\n4,12\n
+*/
