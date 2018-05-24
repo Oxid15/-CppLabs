@@ -7,19 +7,22 @@ using namespace std;
 template <class T>
 T get()
 {
-	T val;
+	T data;
 	cout << "Enter the data\n";
-	cin >> val;
-	return val;
+	cin >> data;
+	return data;
 }
 
-template <class TKey, class TValue> 
-class Collection
+template <class TKey, class TValue>  
+class Collection{};
+
+template<class TValue>
+class Collection<int, TValue>					 //partial template specialization
 {
 private:
 	struct CollectionElement
 	{
-		TKey key;
+		int key;
 		TValue value;
 	};
 	CollectionElement **arr;
@@ -37,8 +40,8 @@ private:
 		arr = newArray;
 		length = newLength;
 	}
-	
-	void setKey(TKey newKey, int idx)
+
+	void setKey(int newKey, int idx)
 	{
 		arr[idx]->key = newKey;
 	}
@@ -48,14 +51,14 @@ private:
 		arr[idx]->value = newValue;
 	}
 
-	static bool inputCheck(char* str)								 // ?
+	bool inputCheck(char* str)
 	{
 		bool isCommaFlag = false;
 		bool isSpacesFlag = false;
 
 		for (int i = 0; i < strlen(str); i++)
 		{
-			if (isCommaFlag && isSpacesFlag)
+			if (isCommaFlag || isSpacesFlag)
 			{
 				return true;
 			}
@@ -71,11 +74,6 @@ private:
 		return false;
 	}
 
-	void decreaseNumOfElem(int number)
-	{
-		numOfElem = numOfElem - number;										   //?
-	}
-
 public:
 	Collection()
 	{
@@ -88,12 +86,12 @@ public:
 		}
 	}
 
-	TKey returnKey(int num)
+	int getKey(int num)
 	{
 		return arr[num]->key;
 	}
 
-	TValue returnValue(int num)
+	TValue getValue(int num)
 	{
 		return arr[num]->value;
 	}
@@ -102,12 +100,12 @@ public:
 	{
 		return numOfElem;
 	}
-		 
+
 	friend ostream &operator << (ostream & out, Collection &inst)
 	{
 		for (int i = 0; i < inst.returnNumOfElem(); i++)
 		{
-			out << inst.returnKey(i) << ',' << inst.returnValue(i) << '\n';
+			out << inst.getKey(i) << ',' << inst.getValue(i) << '\n';
 		}
 		return out;
 	}
@@ -115,9 +113,9 @@ public:
 	friend istream &operator >> (istream & in, Collection &inst)
 	{
 		char* strBuf = new char[1024];
-		in.getline(strBuf, 1024);											 // strBuf?
+		in.getline(strBuf, 1024);
 
-		if (inputCheck(strBuf))
+		if (inst.inputCheck(strBuf))
 		{
 			int len = strlen(strBuf);
 			int numberOfPairs = 0;
@@ -128,7 +126,7 @@ public:
 			}
 
 			int keyCnt = 0;
-			TKey* keyArr = new TKey[numberOfPairs];
+			int* keyArr = new int[numberOfPairs];
 			int valCnt = 0;
 			TValue* valArr = new TValue[numberOfPairs];
 
@@ -141,7 +139,9 @@ public:
 					buf[j] = strBuf[j];
 					j++;
 				}
-				//keyArr[keyCnt] = (TKey)buf;								 // ?
+				int newBuf = (int)buf;
+				keyArr[keyCnt] = (int)newBuf;
+				keyCnt++;
 			}
 
 			delete[] strBuf;
@@ -153,7 +153,7 @@ public:
 			return in;
 	}
 
-	void add(TKey newKey, TValue newValue)
+	void add(int newKey, TValue newValue)
 	{
 		if (numOfElem >= length)
 		{
@@ -165,7 +165,7 @@ public:
 		numOfElem++;
 	}
 
-	void del(int num)													
+	void del(int num)
 	{
 		if (num > 0)
 			int idx = num - 1;
@@ -176,9 +176,8 @@ public:
 		{
 			arr[i] = arr[i + 1];
 		}
-		decreaseNumOfElem(1);
+		numOfElem--;
 	}
-
 };
 
 //
@@ -231,21 +230,20 @@ public:
 void main()
 {
 	Collection<int, int> a;
-	cout << "Type the key:\n";
-	int newKey = get<int>();
-	cout << "Type the value:\n";
-	int newValue = get<int>(); 
-	a.add(newKey,newValue);
+	//cout << "Type the key:\n";
+	//int newKey = get<int>();
+	//cout << "Type the value:\n";
+	//int newValue = get<int>(); 
+	//a.add(newKey,newValue);
 
-	cout << "Type the key:\n";
-	newKey = get<int>();
-	cout << "Type the value:\n";
-	newValue = get<int>(); 
-	a.add(newKey, newValue);
+	//cout << "Type the key:\n";
+	//newKey = get<int>();
+	//cout << "Type the value:\n";
+	//newValue = get<int>(); 
+	//a.add(newKey, newValue);
 
-	//cin >> a;
+	cin >> a;
 	cout << a;
 };
-
 
 //1,2 3,4 5,6
