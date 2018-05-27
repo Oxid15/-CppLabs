@@ -1,28 +1,32 @@
+
 #include <iostream>
 #include<fstream>
 
 using namespace std;
 
-
 template <class T>
 T get()
 {
-	T data;
+	T* data = new T;
 	cout << "Enter the data\n";
-	cin >> data;
-	return data;
+	cin >> *data;
+	return *data;
+}
+
+char* getStr(int n)
+{
+	char* tmp = new char[n];
+	cin >> tmp;
+	return tmp;
 }
 
 template <class TKey, class TValue>  
-class Collection{};
-
-template<class TValue>
-class Collection<int, TValue>					 //partial template specialization
+class Collection
 {
 private:
 	struct CollectionElement
 	{
-		int key;
+		TKey key;
 		TValue value;
 	};
 	CollectionElement **arr;
@@ -40,18 +44,18 @@ private:
 		arr = newArray;
 		length = newLength;
 	}
-
-	void setKey(int newKey, int idx)
+	
+	void setKey(TKey newKey, int idx)
 	{
 		arr[idx]->key = newKey;
 	}
 
-	void setValue(TValue newValue, int idx)
+	void setValue(TValue& newValue, int idx)
 	{
 		arr[idx]->value = newValue;
 	}
 
-	bool inputCheck(char* str)
+	bool inputCheck(char* str)								
 	{
 		bool isCommaFlag = false;
 		bool isSpacesFlag = false;
@@ -70,7 +74,6 @@ private:
 					isSpacesFlag = true;
 			}
 		}
-
 		return false;
 	}
 
@@ -86,7 +89,7 @@ public:
 		}
 	}
 
-	int getKey(int num)
+	TKey getKey(int num)
 	{
 		return arr[num]->key;
 	}
@@ -96,14 +99,20 @@ public:
 		return arr[num]->value;
 	}
 
-	int returnNumOfElem()
+	int getNumOfElem()
 	{
 		return numOfElem;
+	}
+	
+	operator TValue() const
+	{
+		char* tmp = new char[512];
+
 	}
 
 	friend ostream &operator << (ostream & out, Collection &inst)
 	{
-		for (int i = 0; i < inst.returnNumOfElem(); i++)
+		for (int i = 0; i < inst.getNumOfElem(); i++)
 		{
 			out << inst.getKey(i) << ',' << inst.getValue(i) << '\n';
 		}
@@ -113,7 +122,7 @@ public:
 	friend istream &operator >> (istream & in, Collection &inst)
 	{
 		char* strBuf = new char[1024];
-		in.getline(strBuf, 1024);
+		in.getline(strBuf, 1024);											 
 
 		if (inst.inputCheck(strBuf))
 		{
@@ -126,7 +135,7 @@ public:
 			}
 
 			int keyCnt = 0;
-			int* keyArr = new int[numberOfPairs];
+			TKey* keyArr = new TKey[numberOfPairs];
 			int valCnt = 0;
 			TValue* valArr = new TValue[numberOfPairs];
 
@@ -140,7 +149,7 @@ public:
 					j++;
 				}
 				int newBuf = (int)buf;
-				keyArr[keyCnt] = (int)newBuf;
+				keyArr[keyCnt] = (TKey)newBuf;							  //!
 				keyCnt++;
 			}
 
@@ -150,100 +159,184 @@ public:
 			return in;
 		}
 		else
-			return in;
+			return in;												
 	}
 
-	void add(int newKey, TValue newValue)
+	bool add(TKey newKey, TValue& newValue)
 	{
-		if (numOfElem >= length)
+		if (searchByKey(newKey) != -1)
 		{
-			arrayExpansion();
-		}
+			if (numOfElem >= length)
+			{
+				arrayExpansion();
+			}
 
-		setKey(newKey, returnNumOfElem());
-		setValue(newValue, returnNumOfElem());
-		numOfElem++;
+			setKey(newKey, getNumOfElem());
+			setValue(newValue, getNumOfElem());
+			numOfElem++;
+			return true;
+		}
+		return false;
 	}
 
-	void del(int num)
+	bool del(TKey key)
 	{
-		if (num > 0)
-			int idx = num - 1;
+		int idx = searchByKey(key);
+		if (idx != -1)
+		{
+			for (int i = idx; i < getNumOfElem(); i++)
+			{
+				arr[i] = arr[i + 1];
+			}
+			numOfElem--;
+			return true;
+		}
 		else
-			return;
+			return false;
+	}
 
-		for (int i = idx; i < returnNumOfElem(); i++)
+	int searchByKey(TKey key)
+	{
+		for (int i = 0; i < getNumOfElem(); i++)
 		{
-			arr[i] = arr[i + 1];
+			if (arr[i]->key == key)
+				return i;
 		}
-		numOfElem--;
+		if (getNumOfElem() != 0)
+			return -1;
+		return 0;
+	}
+
+};
+
+class Bus
+{
+	char* nameOfDriver;
+	int routeNum;
+public:
+	Bus()
+	{
+		routeNum = 0;
+		nameOfDriver = new char[3];
+		nameOfDriver[0] = 'N';
+		nameOfDriver[1] = 'a';
+		nameOfDriver[2] = 'N';
+	}
+
+	Bus(char* name, int number)
+	{
+		routeNum = number;
+		nameOfDriver = new char[256];
+		nameOfDriver = name;
+	}
+
+	~Bus()
+	{
+		delete[] nameOfDriver;														
+	}
+
+	char* toString()
+	{
+		char* buf = new char[512];
+		char* num = new char[64];
+		_itoa_s(getRouteNum(), num,64 , 10);
+		buf[0] = '"';
+		int i = 1;
+		for (int j = 0; j < strlen(num); j++, i++)
+		{
+			buf[i] = num[j];
+		}
+		buf[i] = ',';
+		i++;
+		for (int k = 0; k < strlen(nameOfDriver);i++, k++)
+		{
+			buf[i] = nameOfDriver[k];
+		}
+		buf[i] = '"';
+		return buf;
+	}
+
+	int getRouteNum()
+	{
+		return routeNum;
+	}
+
+	char* getNameOfDriver()
+	{
+		return nameOfDriver;
 	}
 };
 
-//
-//class Bus
-//{
-//	int num;
-//	char *nameOfDriver;
-//	int routeNum;
-//};
-//
-//class BusPark
-//{
-//	Collection < int, Bus > onRoad;
-//	Collection < int, Bus > inPark;
-//
-//	void fileOut(char *list, int size)
-//	{
-//		ofstream ofile("result.txt");
-//		for (int i = 0; i < size; i++)
-//		{
-//			ofile << list[i];
-//		}
-//		ofile.close();
-//	}
-//
-//public:
-//
-//	BusPark()
-//	{
-//
-//	}
-//
-//	void busOut()
-//	{
-//
-//	}
-//
-//	void busIn()
-//	{
-//
-//	}
-//
-//	char *returnList(Collection < int, Bus > coll, char *buf)
-//	{
-//		int j = 0;
-//
-//	}
-//};
+class BusPark
+{
+private:
+
+	Collection <int, Bus> onRoad;											
+	Collection <int, Bus> inPark;											 
+
+	void fileOut(char *list, int size)
+	{
+
+	}
+
+	char* returnList(Collection<int, Bus> inst, char *buf)
+	{
+		for (int i = 0; i < inst.getNumOfElem(); i++)
+		{
+			char* busBuf = new char[64];
+			busBuf = inst.getValue(i).toString();
+			buf[i] = inst.getKey(i);
+			buf[i + 1] = ',';
+			for (int j = 2; j < strlen(busBuf); j++,i++)
+			{
+				buf[i] = busBuf[j];
+			}
+		}
+		return buf;
+	}
+
+public:
+
+	bool busOut(int key)
+	{
+		int res = this->inPark.searchByKey(key);
+		if (res != -1)
+		{
+			Bus tempVal = inPark.getValue(res);
+			inPark.del(res);
+			onRoad.add(key, tempVal);
+			return true;
+		}
+		return false;
+	}
+
+	bool busIn(int key)
+	{
+		int res = this->onRoad.searchByKey(key);
+		if (res != -1)
+		{
+			Bus tempVal = onRoad.getValue(res);
+			onRoad.del(res);
+			inPark.add(key, tempVal);
+			return true;
+		}
+		return false;
+	}
+
+	void add(int key, Bus& b)
+	{
+		inPark.add(key, b);
+	}
+};
 
 void main()
 {
-	Collection<int, int> a;
-	//cout << "Type the key:\n";
-	//int newKey = get<int>();
-	//cout << "Type the value:\n";
-	//int newValue = get<int>(); 
-	//a.add(newKey,newValue);
-
-	//cout << "Type the key:\n";
-	//newKey = get<int>();
-	//cout << "Type the value:\n";
-	//newValue = get<int>(); 
-	//a.add(newKey, newValue);
-
-	cin >> a;
-	cout << a;
+	BusPark p;
+	int key = get<int>();
+	int num = get<int>();
+	char* name = getStr(64);
+	Bus bus(name,num);
+	p.add(key,bus);
 };
 
 //1,2 3,4 5,6
