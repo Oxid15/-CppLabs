@@ -4,6 +4,8 @@
 
 using namespace std;
 
+class Bus;
+
 template <class T>
 T get()
 {
@@ -20,7 +22,7 @@ char* getStr(int n)
 	return tmp;
 }
 
-template <class TKey, class TValue>  
+template <class TKey, class TValue>
 class Collection
 {
 private:
@@ -35,16 +37,20 @@ private:
 
 	void arrayExpansion()
 	{
-		int newLength = length * 2;
-		CollectionElement **newArray = new CollectionElement*[newLength];
+		int tmpLength = length * 2;
+		CollectionElement **tmpArray = new CollectionElement*[tmpLength];
 		for (int i = 0; i < length; i++)
 		{
-			newArray[i] = arr[i];
+			tmpArray[i] = arr[i];
 		}
-		arr = newArray;
-		length = newLength;
+		arr = tmpArray;
+		length = tmpLength;
+		for (int i = 0; i < tmpLength; i++)
+		{
+			delete tmpArray[i];
+		}
 	}
-	
+
 	void setKey(TKey newKey, int idx)
 	{
 		arr[idx]->key = newKey;
@@ -55,7 +61,7 @@ private:
 		arr[idx]->value = newValue;
 	}
 
-	bool inputCheck(char* str)								
+	bool inputCheck(char* str)
 	{
 		bool isCommaFlag = false;
 		bool isSpacesFlag = false;
@@ -103,7 +109,7 @@ public:
 	{
 		return numOfElem;
 	}
-	
+
 	operator TValue() const
 	{
 		char* tmp = new char[512];
@@ -117,49 +123,6 @@ public:
 			out << inst.getKey(i) << ',' << inst.getValue(i) << '\n';
 		}
 		return out;
-	}
-
-	friend istream &operator >> (istream & in, Collection &inst)
-	{
-		char* strBuf = new char[1024];
-		in.getline(strBuf, 1024);											 
-
-		if (inst.inputCheck(strBuf))
-		{
-			int len = strlen(strBuf);
-			int numberOfPairs = 0;
-			for (int i = 0; i < len; i++)
-			{
-				if (strBuf[i] == ',')
-					numberOfPairs++;
-			}
-
-			int keyCnt = 0;
-			TKey* keyArr = new TKey[numberOfPairs];
-			int valCnt = 0;
-			TValue* valArr = new TValue[numberOfPairs];
-
-			for (int i = 0; i < numberOfPairs; i++)
-			{
-				int j = 0;
-				char* buf = new char[256];
-				while (strBuf[j] != ',')
-				{
-					buf[j] = strBuf[j];
-					j++;
-				}
-				int newBuf = (int)buf;
-				keyArr[keyCnt] = (TKey)newBuf;							  //!
-				keyCnt++;
-			}
-
-			delete[] strBuf;
-			delete strBuf;
-
-			return in;
-		}
-		else
-			return in;												
 	}
 
 	bool add(TKey newKey, TValue& newValue)
@@ -209,10 +172,67 @@ public:
 
 };
 
+//template<>										   //explicit specialization
+//class Collection<int, Bus>
+//{
+//	friend ostream &operator << (ostream & out, Collection &inst)
+//	{
+//		for (int i = 0; i < inst.getNumOfElem(); i++)
+//		{
+//			out << inst.getKey(i) << ',"' << inst.getValue(i).getRouteNum() << "," << inst.getValue(i).getNameOfDriver() << "\n";
+//		}
+//		return out;
+//	}
+//
+//	friend istream &operator >> (istream & in, Collection &inst)
+//	{
+//		char* strBuf = new char[1024];
+//		in.getline(strBuf, 1024);
+//
+//		if (inst.inputCheck(strBuf))
+//		{
+//			int len = strlen(strBuf);
+//			int numberOfPairs = 0;
+//			for (int i = 0; i < len; i++)
+//			{
+//				if (strBuf[i] == ',')			
+//					numberOfPairs++;
+//			}
+//
+//			int keyCnt = 0;
+//			int* keyArr = new int[numberOfPairs];
+//			int valCnt = 0;
+//			Bus* valArr = new Bus[numberOfPairs];
+//
+//			for (int i = 0; i < numberOfPairs; i++)
+//			{
+//				int j = 0;
+//				char* buf = new char[256];
+//				while (strBuf[j] != ',')
+//				{
+//					buf[j] = strBuf[j];
+//					j++;
+//				}
+//				int newBuf = (int)buf;
+//				keyArr[keyCnt] = (int)newBuf;							  //!
+//				keyCnt++;
+//			}
+//
+//			delete[] strBuf;
+//			delete strBuf;
+//
+//			return in;
+//		}
+//		else
+//			return in;
+//	}
+//
+//};
+
 class Bus
 {
-	char* nameOfDriver;
-	int routeNum;
+char* nameOfDriver;
+int routeNum;
 public:
 	Bus()
 	{
@@ -232,14 +252,14 @@ public:
 
 	~Bus()
 	{
-		delete[] nameOfDriver;														
+		delete[] nameOfDriver;
 	}
 
 	char* toString()
 	{
 		char* buf = new char[512];
 		char* num = new char[64];
-		_itoa_s(getRouteNum(), num,64 , 10);
+		_itoa_s(getRouteNum(), num, 64, 10);
 		buf[0] = '"';
 		int i = 1;
 		for (int j = 0; j < strlen(num); j++, i++)
@@ -248,7 +268,7 @@ public:
 		}
 		buf[i] = ',';
 		i++;
-		for (int k = 0; k < strlen(nameOfDriver);i++, k++)
+		for (int k = 0; k < strlen(nameOfDriver); i++, k++)
 		{
 			buf[i] = nameOfDriver[k];
 		}
@@ -271,8 +291,8 @@ class BusPark
 {
 private:
 
-	Collection <int, Bus> onRoad;											
-	Collection <int, Bus> inPark;											 
+	Collection <int, Bus> onRoad;
+	Collection <int, Bus> inPark;
 
 	void fileOut(char *list, int size)
 	{
@@ -287,7 +307,7 @@ private:
 			busBuf = inst.getValue(i).toString();
 			buf[i] = inst.getKey(i);
 			buf[i + 1] = ',';
-			for (int j = 2; j < strlen(busBuf); j++,i++)
+			for (int j = 2; j < strlen(busBuf); j++, i++)
 			{
 				buf[i] = busBuf[j];
 			}
@@ -323,20 +343,18 @@ public:
 		return false;
 	}
 
-	void add(int key, Bus& b)
+	void add()
 	{
-		inPark.add(key, b);
+		int key = get<int>();
+		int num = get<int>();
+		char* name = getStr(64);
+		Bus bus(name, num);
+
+		inPark.add(key, bus);
 	}
 };
 
 void main()
 {
-	BusPark p;
-	int key = get<int>();
-	int num = get<int>();
-	char* name = getStr(64);
-	Bus bus(name,num);
-	p.add(key,bus);
-};
-
-//1,2 3,4 5,6
+	Collection<int,Bus> a;
+};				 
