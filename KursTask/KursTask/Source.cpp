@@ -110,12 +110,6 @@ public:
 		return numOfElem;
 	}
 
-	operator TValue() const
-	{
-		char* tmp = new char[512];
-
-	}
-
 	friend ostream &operator << (ostream & out, Collection &inst)
 	{
 		for (int i = 0; i < inst.getNumOfElem(); i++)
@@ -123,6 +117,19 @@ public:
 			out << inst.getKey(i) << ',' << inst.getValue(i) << '\n';
 		}
 		return out;
+	}
+
+	friend istream &operator >> (istream & in, Collection &inst)
+	{
+		while (in.peek() != '\n')
+		{
+			TKey key;
+			TValue value;
+			in >> key;
+			in >> value;
+			inst.add(key, value);
+		}
+			return in;
 	}
 
 	bool add(TKey newKey, TValue& newValue)
@@ -172,62 +179,6 @@ public:
 
 };
 
-//template<>										   //explicit specialization
-//class Collection<int, Bus>
-//{
-//	friend ostream &operator << (ostream & out, Collection &inst)
-//	{
-//		for (int i = 0; i < inst.getNumOfElem(); i++)
-//		{
-//			out << inst.getKey(i) << ',"' << inst.getValue(i).getRouteNum() << "," << inst.getValue(i).getNameOfDriver() << "\n";
-//		}
-//		return out;
-//	}
-//
-//	friend istream &operator >> (istream & in, Collection &inst)
-//	{
-//		char* strBuf = new char[1024];
-//		in.getline(strBuf, 1024);
-//
-//		if (inst.inputCheck(strBuf))
-//		{
-//			int len = strlen(strBuf);
-//			int numberOfPairs = 0;
-//			for (int i = 0; i < len; i++)
-//			{
-//				if (strBuf[i] == ',')			
-//					numberOfPairs++;
-//			}
-//
-//			int keyCnt = 0;
-//			int* keyArr = new int[numberOfPairs];
-//			int valCnt = 0;
-//			Bus* valArr = new Bus[numberOfPairs];
-//
-//			for (int i = 0; i < numberOfPairs; i++)
-//			{
-//				int j = 0;
-//				char* buf = new char[256];
-//				while (strBuf[j] != ',')
-//				{
-//					buf[j] = strBuf[j];
-//					j++;
-//				}
-//				int newBuf = (int)buf;
-//				keyArr[keyCnt] = (int)newBuf;							  //!
-//				keyCnt++;
-//			}
-//
-//			delete[] strBuf;
-//			delete strBuf;
-//
-//			return in;
-//		}
-//		else
-//			return in;
-//	}
-//
-//};
 
 class Bus
 {
@@ -284,6 +235,18 @@ public:
 	char* getNameOfDriver()
 	{
 		return nameOfDriver;
+	}
+
+	friend Bus &operator >> (istream& in, Bus &inst)
+	{
+		int num;
+		char* name = new char[64];
+		in >> name >> num;
+
+		inst.nameOfDriver = name;
+		inst.routeNum = num;
+
+		return inst;
 	}
 };
 
@@ -357,4 +320,5 @@ public:
 void main()
 {
 	Collection<int,Bus> a;
+	cin >> a;
 };				 
