@@ -4,8 +4,6 @@
 
 using namespace std;
 
-class Bus;
-
 template <class T>
 T get()
 {
@@ -61,28 +59,6 @@ private:
 		arr[idx]->value = newValue;
 	}
 
-	bool inputCheck(char* str)
-	{
-		bool isCommaFlag = false;
-		bool isSpacesFlag = false;
-
-		for (int i = 0; i < strlen(str); i++)
-		{
-			if (isCommaFlag || isSpacesFlag)
-			{
-				return true;
-			}
-			else
-			{
-				if (str[i] == ',')
-					isCommaFlag = true;
-				if (str[i] == ' ')
-					isSpacesFlag = true;
-			}
-		}
-		return false;
-	}
-
 public:
 	Collection()
 	{
@@ -95,14 +71,14 @@ public:
 		}
 	}
 
-	TKey getKey(int num)
+	TKey getKey(int idx)
 	{
-		return arr[num]->key;
+		return arr[idx]->key;
 	}
 
-	TValue getValue(int num)
+	TValue getValue(int idx)
 	{
-		return arr[num]->value;
+		return arr[idx]->value;
 	}
 
 	int getNumOfElem()
@@ -110,7 +86,7 @@ public:
 		return numOfElem;
 	}
 
-	friend ostream &operator << (ostream & out, Collection &inst)
+	friend ostream& operator << (ostream& out, const Collection& inst)
 	{
 		for (int i = 0; i < inst.getNumOfElem(); i++)
 		{
@@ -119,15 +95,15 @@ public:
 		return out;
 	}
 
-	friend istream &operator >> (istream & in, Collection &inst)
+	friend istream& operator >> (istream& in, Collection& inst)
 	{
 		while (in.peek() != '\n')
 		{
 			TKey key;
-			TValue value;
+			TValue* value = new TValue;
 			in >> key;
-			in >> value;
-			inst.add(key, value);
+			in >> *value;
+			inst.add(key, *value);																		
 		}
 			return in;
 	}
@@ -172,13 +148,9 @@ public:
 			if (arr[i]->key == key)
 				return i;
 		}
-		if (getNumOfElem() != 0)
-			return -1;
 		return 0;
 	}
-
 };
-
 
 class Bus
 {
@@ -188,16 +160,13 @@ public:
 	Bus()
 	{
 		routeNum = 0;
-		nameOfDriver = new char[3];
-		nameOfDriver[0] = 'N';
-		nameOfDriver[1] = 'a';
-		nameOfDriver[2] = 'N';
+		nameOfDriver = new char[128];
 	}
 
 	Bus(char* name, int number)
 	{
 		routeNum = number;
-		nameOfDriver = new char[256];
+		nameOfDriver = new char[128];
 		nameOfDriver = name;
 	}
 
@@ -212,18 +181,23 @@ public:
 		char* num = new char[64];
 		_itoa_s(getRouteNum(), num, 64, 10);
 		buf[0] = '"';
+
 		int i = 1;
-		for (int j = 0; j < strlen(num); j++, i++)
-		{
-			buf[i] = num[j];
-		}
-		buf[i] = ',';
-		i++;
 		for (int k = 0; k < strlen(nameOfDriver); i++, k++)
 		{
 			buf[i] = nameOfDriver[k];
 		}
+
+		buf[i] = ',';
+		i++;
+
+		for (int j = 0; j < strlen(num); j++, i++)
+		{
+			buf[i] = num[j];
+		}
 		buf[i] = '"';
+		i++;
+
 		return buf;
 	}
 
@@ -252,7 +226,7 @@ public:
 
 class BusPark
 {
-private:
+private:																		
 
 	Collection <int, Bus> onRoad;
 	Collection <int, Bus> inPark;
@@ -260,19 +234,30 @@ private:
 	void fileOut(char *list, int size)
 	{
 
-	}
-
-	char* returnList(Collection<int, Bus> inst, char *buf)
-	{
+	}																 
+	char* toString(Collection<int, Bus> inst, char *buf)
+	{	
+		int j = 0;
 		for (int i = 0; i < inst.getNumOfElem(); i++)
 		{
-			char* busBuf = new char[64];
+			char* keyBuf = new char[32];
+			_itoa_s(inst.getKey(i),keyBuf,32,10);
+			char* busBuf = new char[256];
 			busBuf = inst.getValue(i).toString();
-			buf[i] = inst.getKey(i);
-			buf[i + 1] = ',';
-			for (int j = 2; j < strlen(busBuf); j++, i++)
+
+			int k = 0;
+			while(keyBuf[k] != '\0')
 			{
-				buf[i] = busBuf[j];
+				buf[j] = keyBuf[k];
+				k++; j++;
+			}
+
+			buf[j] = ',';
+			j++;
+
+			for (int k= 0; j < strlen(busBuf);k++, j++)
+			{
+				buf[j] = busBuf[k];
 			}
 		}
 		return buf;
@@ -315,10 +300,18 @@ public:
 
 		inPark.add(key, bus);
 	}
+
+	friend istream& operator >> (istream& in, BusPark& inst)
+	{
+		in >> inst.inPark;
+		return in;
+	}
 };
 
 void main()
 {
-	Collection<int,Bus> a;
-	cin >> a;
-};				 
+	BusPark p;
+	cin >> p;
+};
+
+//1 Bill 35 2 Bob 47 3 Carl 15
