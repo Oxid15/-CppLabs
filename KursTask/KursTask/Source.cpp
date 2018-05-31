@@ -159,6 +159,8 @@ public:
 	}
 };
 
+enum CollectionType { inPark, onRoad }; 
+
 class Bus
 {
 char* nameOfDriver;
@@ -245,6 +247,47 @@ private:
 	Collection <int, Bus> onRoad;
 	Collection <int, Bus> inPark;
 
+public:
+
+	char* toString(CollectionType type, char *buf)
+	{
+		Collection<int, Bus> inst;
+		if (type = CollectionType::inPark)
+			inst = inPark;
+		else
+			inst = onRoad;
+
+		int j = 0;
+		for (int i = 0; i < inst.getNumOfElem(); i++)
+		{
+			char* keyBuf = new char[32];
+			_itoa_s(inst.getKey(i), keyBuf, 32, 10);
+			char* busBuf = new char[256];
+			busBuf = inst.getValue(i).toString();
+
+			int k = 0;
+			while (keyBuf[k] != '\0')
+			{
+				buf[j] = keyBuf[k];
+				k++; j++;
+			}
+
+			buf[j] = ',';
+			j++;
+			int l = 0;
+			while (busBuf[l] != '\0')
+			{
+				buf[j] = busBuf[l];
+				l++; j++;
+			}
+			buf[j] = '\n';
+			j++;
+		}
+		buf[j - 1] = '\0';
+		j++;
+		return buf;
+	}
+
 	char* toString(Collection<int, Bus> inst, char *buf)
 	{
 		int j = 0;
@@ -273,12 +316,10 @@ private:
 			buf[j] = '\n';
 			j++;
 		}
-		buf[j-1] = '\0';
+		buf[j - 1] = '\0';
 		j++;
 		return buf;
 	}
-
-public:
 
 	bool busOut(int key)
 	{
@@ -317,14 +358,17 @@ public:
 		inPark.add(key, *bus);
 	}
 
-	void del(int key)
-	{
-		inPark.del(key);
-	}
-
 	void add(int key, Bus& bus)
 	{
 		inPark.add(key, bus);
+	}
+
+	void del(int key,CollectionType type)
+	{
+		if (type == CollectionType::inPark)
+			inPark.del(key);
+		else
+			onRoad.del(key);
 	}
 
 	friend istream& operator >> (istream& in, BusPark& inst)
@@ -401,7 +445,7 @@ public:
 	{
 		ofstream file(filename);
 		char* buf = new char[256 + 32];
-		toString(inPark, buf);
+		toString((CollectionType)get<int>(), buf);
 		file << buf;
 		file.close();
 	}
