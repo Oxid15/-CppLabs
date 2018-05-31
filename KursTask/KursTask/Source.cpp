@@ -143,12 +143,15 @@ public:
 
 	int searchByKey(TKey key)
 	{
-		for (int i = 0; i < getNumOfElem(); i++)
+		int i = 0;
+		for (i; i < numOfElem; i++)
 		{
 			if (arr[i]->key == key)
-				return i;
+				return -1;
 		}
-		return 0;
+		if(numOfElem == 0)
+			return 0;
+		return i;
 	}
 };
 
@@ -227,23 +230,23 @@ public:
 
 class BusPark
 {
-private:																		
+private:
 
 	Collection <int, Bus> onRoad;
 	Collection <int, Bus> inPark;
-																 
+
 	char* toString(Collection<int, Bus> inst, char *buf)
-	{	
+	{
 		int j = 0;
 		for (int i = 0; i < inst.getNumOfElem(); i++)
 		{
 			char* keyBuf = new char[32];
-			_itoa_s(inst.getKey(i),keyBuf,32,10);
+			_itoa_s(inst.getKey(i), keyBuf, 32, 10);
 			char* busBuf = new char[256];
 			busBuf = inst.getValue(i).toString();
 
 			int k = 0;
-			while(keyBuf[k] != '\0')
+			while (keyBuf[k] != '\0')
 			{
 				buf[j] = keyBuf[k];
 				k++; j++;
@@ -252,7 +255,7 @@ private:
 			buf[j] = ',';
 			j++;
 			int l = 0;
-			while(busBuf[l] != '\0')
+			while (busBuf[l] != '\0')
 			{
 				buf[j] = busBuf[l];
 				l++; j++;
@@ -260,7 +263,7 @@ private:
 			buf[j] = '\n';
 			j++;
 		}
-		buf[j] = '\0';
+		buf[j-1] = '\0';
 		j++;
 		return buf;
 	}
@@ -296,10 +299,20 @@ public:
 	void add()
 	{
 		int key = get<int>();
-		int num = get<int>();
 		char* name = getStr(64);
+		int num = get<int>();
 		Bus bus(name, num);
 
+		inPark.add(key, bus);
+	}
+
+	void del(int key)
+	{
+		inPark.del(key);
+	}
+
+	void add(int key, Bus& bus)
+	{
 		inPark.add(key, bus);
 	}
 
@@ -309,18 +322,74 @@ public:
 		return in;
 	}
 
+	friend ifstream& operator >> (ifstream& in, BusPark& inst)
+	{
+		while (!in.eof())													  
+		{
+			char* buf = new char[2048];
+			in.getline(buf, 2048);
+			int i = 0;
+			char* keyBuf = new char[32];
+			char* nameBuf = new char[256];
+			char* numBuf = new char[32];
+
+				int j = 0;
+				while (buf[i] != ',')
+				{
+					keyBuf[j] = buf[i];
+					j++; i++;
+				}
+				keyBuf[j] = '\0'; 
+				j++;
+				i++;
+
+				int k = 0;
+				while (buf[i] != ',')
+				{
+					if (buf[i] != '"')
+					{
+						nameBuf[k] = buf[i];
+						k++;
+					}
+					i++;
+				}
+				nameBuf[k] = '\0';
+				k++;
+				i++;
+
+				int l = 0;
+				while (buf[i] != '\0')
+				{
+					if (buf[i] != '"')
+					{
+						numBuf[l] = buf[i];
+						l++;
+					}
+					i++;
+				}
+				numBuf[l] = '\0';
+				l++;
+				i++;
+
+				Bus* bus = new Bus(nameBuf, atoi(numBuf));
+				inst.add(atoi(keyBuf), *bus);
+		}
+			return in;
+	}
+
 	void fileOut()
 	{
 		ofstream file("output.csv");
 		char* buf = new char[256 + 32];
-		this->toString(inPark, buf);
+		toString(inPark, buf);
 		file << buf;
 		file.close();
 	}
 
 	void fileIn()
 	{
-
+		ifstream file("output.csv");
+		file >> *this;
 	}
 };
 
@@ -328,6 +397,7 @@ void main()
 {
 	BusPark p;
 	cin >> p;
+	p.fileOut();
 };
 
 //1 Bill 35 2 Bob 47 3 Carl 15
