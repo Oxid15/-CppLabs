@@ -57,7 +57,7 @@ private:
 	void setValue(TValue& newValue, int idx)
 	{
 		arr[idx]->value = newValue;
-	}
+	}					
 
 public:
 	Collection()
@@ -163,6 +163,7 @@ class Bus
 {
 char* nameOfDriver;
 int routeNum;
+
 public:
 	Bus()
 	{
@@ -177,10 +178,15 @@ public:
 		nameOfDriver = name;
 	}
 
-	~Bus()
-	{
-		delete[] nameOfDriver;
-	}
+	//Bus(const Bus& copy)
+	//{
+	//	
+	//}
+
+	//~Bus()
+	//{
+	//	delete[] nameOfDriver;												
+	//}
 
 	char* toString()
 	{
@@ -276,12 +282,13 @@ public:
 
 	bool busOut(int key)
 	{
-		int res = this->inPark.searchByKey(key);
-		if (res != -1)
+		int idx = this->inPark.searchByKey(key);
+		if (idx != -1)
 		{
-			Bus tempVal = inPark.getValue(res);
+			Bus* tempVal = new Bus;
+			*tempVal = inPark.getValue(idx);
 			inPark.del(key);
-			onRoad.add(key, tempVal);
+			onRoad.add(key, *tempVal);
 			return true;
 		}
 		return false;
@@ -416,6 +423,7 @@ void main()
 {
 	BusPark p;
 	p.fileIn();
+
 	p.fileOut();
 };
 
