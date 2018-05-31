@@ -1,6 +1,6 @@
-
 #include <iostream>
 #include<fstream>
+#include<io.h>
 
 using namespace std;
 
@@ -110,7 +110,7 @@ public:
 
 	bool add(TKey newKey, TValue& newValue)
 	{
-		if (searchByKey(newKey) <= 0)
+		if (searchByKey(newKey) == -1)
 		{
 			if (numOfElem >= length)
 			{
@@ -153,8 +153,6 @@ public:
 			if (arr[i]->key == key)
 				return i;
 		}
-		if(numOfElem == 0)
-			return 0;
 		return -1;
 	}
 };
@@ -182,7 +180,7 @@ public:
 
 	//Bus(const Bus& copy)
 	//{
-	//	
+	//	 nameOfDriver = copy.getNameOfDriver();
 	//}
 
 	//~Bus()
@@ -253,9 +251,9 @@ public:
 	{
 		Collection<int, Bus> inst;
 		if (type = CollectionType::inPark)
-			inst = inPark;
-		else
 			inst = onRoad;
+		else
+			inst = inPark;
 
 		int j = 0;
 		for (int i = 0; i < inst.getNumOfElem(); i++)
@@ -358,9 +356,13 @@ public:
 		inPark.add(key, *bus);
 	}
 
-	void add(int key, Bus& bus)
+	bool add(int key, Bus& bus)
 	{
-		inPark.add(key, bus);
+		if (inPark.add(key, bus))
+		{
+			return true;
+		}
+		return false;
 	}
 
 	void del(int key,CollectionType type)
@@ -434,7 +436,7 @@ public:
 
 	void fileOut()
 	{
-		ofstream file("inPark.csv");
+		ofstream file("output.csv");
 		char* buf = new char[256 + 32];
 		toString(inPark, buf);
 		file << buf;
@@ -450,25 +452,93 @@ public:
 		file.close();
 	}
 
-	void fileIn()
+	bool fileIn()
 	{
-		ifstream file("inPark.csv");
-		file >> *this;
-	}
-
-	void fileIn(char* filename)
-	{
-		ifstream file(filename);
-		file >> *this;
+		ifstream file;
+		file.open("output.csv");
+		if (file.peek() != -1)
+		{
+			file >> *this;
+			return true;
+		}
+		return false;
 	}
 };
 
+void consoleOut(BusPark inst)
+{
+	char* buf = new char[64];
+	inst.toString(CollectionType::inPark, buf);
+	cout << buf << "\n\n";
+}
+
+void mainMenu()
+{	
+	BusPark park;
+	if (park.fileIn())
+	{
+		cout << "File loaded successfully\n\n";
+		consoleOut(park);
+	}
+	else
+		cout << "Park is empty\n";
+	while (true)
+	{
+
+		cout << " 1 - Add new Bus in park\n 2 - Set bus on road\n 3 - Set bus to park\n 4 - Save park in file\n 5 - Delete bus from park\n 0 - Exit\n";
+
+		int choice;
+		cin >> choice;
+
+		switch (choice)
+		{
+		case 1:
+		{
+			int key;
+			char* name = new char[256];
+			int num;
+			cout << "Enter the key, name of driver and num through the gap\n";
+			cin >> key >> name >> num;
+			Bus bus(name, num);
+			if (park.add(key, bus))
+				consoleOut(park);
+			else
+				cout << "The key is similar, try again\n";
+			break;
+		}
+		case 2:
+		{
+			
+		}
+		case 3:
+		{
+
+		}
+		case 4:
+		{
+
+		}
+		case 5:
+		{
+
+		}
+
+		case 0:
+		{
+
+		}
+		default:
+		{
+
+		}
+		}
+	}
+}
+
+
 void main()
 {
-	BusPark p;
-	p.fileIn();
-
-	p.fileOut();
+	mainMenu();
 };
 
 //1 Bill 35 2 Bob 47 3 Carl 15
