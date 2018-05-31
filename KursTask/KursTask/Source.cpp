@@ -197,7 +197,8 @@ public:
 		}
 		buf[i] = '"';
 		i++;
-
+		buf[i] = '\0';
+		i++;
 		return buf;
 	}
 
@@ -230,11 +231,7 @@ private:
 
 	Collection <int, Bus> onRoad;
 	Collection <int, Bus> inPark;
-
-	void fileOut(char *list, int size)
-	{
-
-	}																 
+																 
 	char* toString(Collection<int, Bus> inst, char *buf)
 	{	
 		int j = 0;
@@ -254,12 +251,17 @@ private:
 
 			buf[j] = ',';
 			j++;
-
-			for (int k= 0; j < strlen(busBuf);k++, j++)
+			int l = 0;
+			while(busBuf[l] != '\0')
 			{
-				buf[j] = busBuf[k];
+				buf[j] = busBuf[l];
+				l++; j++;
 			}
+			buf[j] = '\n';
+			j++;
 		}
+		buf[j] = '\0';
+		j++;
 		return buf;
 	}
 
@@ -305,6 +307,20 @@ public:
 	{
 		in >> inst.inPark;
 		return in;
+	}
+
+	void fileOut()
+	{
+		ofstream file("output.csv");
+		char* buf = new char[256 + 32];
+		this->toString(inPark, buf);
+		file << buf;
+		file.close();
+	}
+
+	void fileIn()
+	{
+
 	}
 };
 
