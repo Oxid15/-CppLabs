@@ -110,7 +110,7 @@ public:
 
 	bool add(TKey newKey, TValue& newValue)
 	{
-		if (searchByKey(newKey) != -1)
+		if (searchByKey(newKey) <= 0)
 		{
 			if (numOfElem >= length)
 			{
@@ -127,18 +127,22 @@ public:
 
 	bool del(TKey key)
 	{
-		int idx = searchByKey(key);
-		if (idx != -1)
+		if (numOfElem > 0)
 		{
-			for (int i = idx; i < getNumOfElem(); i++)
+			int idx = searchByKey(key);
+			if (idx != -1)
 			{
-				arr[i] = arr[i + 1];
+				for (int i = idx; i < getNumOfElem(); i++)
+				{
+					arr[i] = arr[i + 1];
+				}
+				numOfElem--;
+				return true;
 			}
-			numOfElem--;
-			return true;
+			else
+				return false;
 		}
-		else
-			return false;
+		return false;
 	}
 
 	int searchByKey(TKey key)
@@ -147,11 +151,11 @@ public:
 		for (i; i < numOfElem; i++)
 		{
 			if (arr[i]->key == key)
-				return -1;
+				return i;
 		}
 		if(numOfElem == 0)
 			return 0;
-		return i;
+		return -1;
 	}
 };
 
@@ -276,7 +280,7 @@ public:
 		if (res != -1)
 		{
 			Bus tempVal = inPark.getValue(res);
-			inPark.del(res);
+			inPark.del(key);
 			onRoad.add(key, tempVal);
 			return true;
 		}
@@ -289,7 +293,7 @@ public:
 		if (res != -1)
 		{
 			Bus tempVal = onRoad.getValue(res);
-			onRoad.del(res);
+			onRoad.del(key);
 			inPark.add(key, tempVal);
 			return true;
 		}
@@ -301,9 +305,9 @@ public:
 		int key = get<int>();
 		char* name = getStr(64);
 		int num = get<int>();
-		Bus bus(name, num);
+		Bus* bus = new Bus(name, num);
 
-		inPark.add(key, bus);
+		inPark.add(key, *bus);
 	}
 
 	void del(int key)
@@ -379,7 +383,16 @@ public:
 
 	void fileOut()
 	{
-		ofstream file("output.csv");
+		ofstream file("inPark.csv");
+		char* buf = new char[256 + 32];
+		toString(inPark, buf);
+		file << buf;
+		file.close();
+	}
+
+	void fileOut(char* filename)
+	{
+		ofstream file(filename);
 		char* buf = new char[256 + 32];
 		toString(inPark, buf);
 		file << buf;
@@ -388,7 +401,13 @@ public:
 
 	void fileIn()
 	{
-		ifstream file("output.csv");
+		ifstream file("inPark.csv");
+		file >> *this;
+	}
+
+	void fileIn(char* filename)
+	{
+		ifstream file(filename);
 		file >> *this;
 	}
 };
@@ -396,7 +415,7 @@ public:
 void main()
 {
 	BusPark p;
-	cin >> p;
+	p.fileIn();
 	p.fileOut();
 };
 
