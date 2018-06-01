@@ -76,7 +76,7 @@ public:
 		return arr[idx]->key;
 	}
 
-	TValue getValue(int idx)
+	TValue& getValue(int idx)
 	{
 		return arr[idx]->value;
 	}
@@ -179,13 +179,17 @@ public:
 
 	Bus(const Bus& copy)
 	{
-		 nameOfDriver = copy.nameOfDriver;
-		 routeNum = copy.routeNum;
+		nameOfDriver = new char[256];
+		for (int i = 0; i < strlen(nameOfDriver); i++)
+		{
+			nameOfDriver[i] = copy.nameOfDriver[i];
+		}
+		routeNum = copy.routeNum;
 	}
 
 	~Bus()
 	{
-		delete[] nameOfDriver;												
+		delete nameOfDriver;												
 	}
 
 	char* toString()
@@ -343,12 +347,13 @@ public:
 
 	bool busIn(int key)
 	{
-		int res = this->onRoad.searchByKey(key);
-		if (res != -1)
+		int idx = this->onRoad.searchByKey(key);
+		if (idx != -1)
 		{
-			Bus tempVal = onRoad.getValue(res);
+			Bus* tempVal = new Bus;
+			*tempVal = onRoad.getValue(idx);
 			onRoad.del(key);
-			inPark.add(key, tempVal);
+			inPark.add(key, *tempVal);
 			return true;
 		}
 		return false;
@@ -505,8 +510,8 @@ void mainMenu()
 			int num;
 			cout << "Enter the key, name of driver and num through the gap\n";
 			cin >> key >> name >> num;
-			Bus bus(name, num);
-			if (park.add(key, bus))
+			Bus* bus = new Bus(name, num);
+			if (park.add(key, *bus))
 				consoleOut(park,CollectionType::inPark);
 			else
 				cout << "The key is similar, try again\n";
@@ -591,5 +596,3 @@ void main()
 {
 	mainMenu();
 };
-
-//1 Bill 35 2 Bob 47 3 Carl 15
