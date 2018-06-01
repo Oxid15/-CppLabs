@@ -250,10 +250,10 @@ public:
 	char* toString(CollectionType type, char *buf)
 	{
 		Collection<int, Bus> inst;
-		if (type = CollectionType::inPark)
-			inst = onRoad;
-		else
+		if (type == CollectionType::inPark)
 			inst = inPark;
+		else
+			inst = onRoad;
 
 		int j = 0;
 		for (int i = 0; i < inst.getNumOfElem(); i++)
@@ -283,6 +283,10 @@ public:
 		}
 		buf[j - 1] = '\0';
 		j++;
+
+		if (buf[0] == -51)
+			buf[0] = '\0';
+
 		return buf;
 	}
 
@@ -316,6 +320,10 @@ public:
 		}
 		buf[j - 1] = '\0';
 		j++;
+
+		if (buf[0] == -51)
+			buf[0] = '\0';
+
 		return buf;
 	}
 
@@ -365,12 +373,15 @@ public:
 		return false;
 	}
 
-	void del(int key,CollectionType type)
+	bool del(int key,CollectionType type)
 	{
 		if (type == CollectionType::inPark)
-			inPark.del(key);
-		else
-			onRoad.del(key);
+			if (inPark.del(key))
+				return true;
+			else
+				if (onRoad.del(key))
+					return true;
+		return false;
 	}
 
 	friend istream& operator >> (istream& in, BusPark& inst)
@@ -465,10 +476,10 @@ public:
 	}
 };
 
-void consoleOut(BusPark inst)
+void consoleOut(BusPark inst, CollectionType type)
 {
 	char* buf = new char[64];
-	inst.toString(CollectionType::inPark, buf);
+	inst.toString(type, buf);
 	cout << buf << "\n\n";
 }
 
@@ -478,14 +489,14 @@ void mainMenu()
 	if (park.fileIn())
 	{
 		cout << "File loaded successfully\n\n";
-		consoleOut(park);
+		consoleOut(park, CollectionType::inPark);
 	}
 	else
 		cout << "Park is empty\n";
 	while (true)
 	{
 
-		cout << " 1 - Add new Bus in park\n 2 - Set bus on road\n 3 - Set bus to park\n 4 - Save park in file\n 5 - Delete bus from park\n 0 - Exit\n";
+		cout << " 1 - Add new Bus in park\n 2 - Set bus on road\n 3 - Set bus to park\n 4 - Save park in file\n 5 - Delete bus\n 6 - return lists\n 7 - Enter the whole park\n 0 - Exit\n";
 
 		int choice;
 		cin >> choice;
@@ -501,35 +512,91 @@ void mainMenu()
 			cin >> key >> name >> num;
 			Bus bus(name, num);
 			if (park.add(key, bus))
-				consoleOut(park);
+				consoleOut(park,CollectionType::inPark);
 			else
 				cout << "The key is similar, try again\n";
 			break;
 		}
 		case 2:
 		{
-			
+			int key;
+			cout << "Enter the key\n";
+			cin >> key;
+			if (park.busOut(key))
+			{
+				cout << "in park:\n";
+				consoleOut(park, CollectionType::inPark); cout << "\n\n";
+				cout << "on road:\n";
+				consoleOut(park, CollectionType::onRoad); cout << "\n\n";
+			}
+			else
+				cout << "Bus not found\n";
+			break;
 		}
 		case 3:
 		{
-
+			int key;
+			cout << "Enter the key\n";
+			cin >> key;
+			if (park.busIn(key))
+			{
+				cout << "in park:\n";
+				consoleOut(park, CollectionType::inPark); cout << "\n\n";
+				cout << "on road:\n";
+				consoleOut(park, CollectionType::onRoad); cout << "\n\n";
+			}
+			else
+				cout << "Bus not found\n";
+			break;
 		}
 		case 4:
 		{
-
+			park.fileOut();
+			break;
 		}
 		case 5:
 		{
+			int key, type;
+			cout << "Enter the key and the digit of collection: 0 - park and 1 - road\n";
+			cin >> key >> type;
+			if (park.del(key, (CollectionType)type))
+			{
+				cout << "in park:\n";
+				consoleOut(park, CollectionType::inPark); cout << "\n\n";
+				cout << "on road:\n";
+				consoleOut(park, CollectionType::onRoad); cout << "\n\n";
+			}
+			else
+				cout << "Bus not found\n";
+			break;		
+		}
 
+		case 6:
+		{
+			cout << "in park:\n";
+			consoleOut(park, CollectionType::inPark); cout << "\n\n";
+			cout << "on road:\n";
+			consoleOut(park, CollectionType::onRoad); cout << "\n\n";
+			break;
+		}
+
+		case 7:
+		{
+			cout << "Enter the keys, names of drivers and numbers of routes through the gap\n";
+			cin.get();
+			cin >> park;
+			cout << "in park:\n";
+			consoleOut(park, CollectionType::inPark); cout << "\n\n";
+			break;
 		}
 
 		case 0:
 		{
-
+			return;
 		}
 		default:
 		{
-
+			cout << "Unknown command\n";
 		}
 		}
 	}
