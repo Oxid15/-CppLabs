@@ -124,7 +124,6 @@ public:
 		}
 		return false;
 	}
-
 	bool del(TKey key)
 	{
 		if (numOfElem > 0)
@@ -178,15 +177,16 @@ public:
 		nameOfDriver = name;
 	}
 
-	//Bus(const Bus& copy)
-	//{
-	//	 nameOfDriver = copy.getNameOfDriver();
-	//}
+	Bus(const Bus& copy)
+	{
+		 nameOfDriver = copy.nameOfDriver;
+		 routeNum = copy.routeNum;
+	}
 
-	//~Bus()
-	//{
-	//	delete[] nameOfDriver;												
-	//}
+	~Bus()
+	{
+		delete[] nameOfDriver;												
+	}
 
 	char* toString()
 	{
@@ -475,14 +475,12 @@ public:
 		return false;
 	}
 };
-
 void consoleOut(BusPark inst, CollectionType type)
 {
 	char* buf = new char[64];
 	inst.toString(type, buf);
 	cout << buf << "\n\n";
 }
-
 void mainMenu()
 {	
 	BusPark park;
@@ -495,12 +493,9 @@ void mainMenu()
 		cout << "Park is empty\n";
 	while (true)
 	{
-
 		cout << " 1 - Add new Bus in park\n 2 - Set bus on road\n 3 - Set bus to park\n 4 - Save park in file\n 5 - Delete bus\n 6 - return lists\n 7 - Enter the whole park\n 0 - Exit\n";
-
 		int choice;
 		cin >> choice;
-
 		switch (choice)
 		{
 		case 1:
@@ -570,7 +565,6 @@ void mainMenu()
 				cout << "Bus not found\n";
 			break;		
 		}
-
 		case 6:
 		{
 			cout << "in park:\n";
@@ -579,7 +573,6 @@ void mainMenu()
 			consoleOut(park, CollectionType::onRoad); cout << "\n\n";
 			break;
 		}
-
 		case 7:
 		{
 			cout << "Enter the keys, names of drivers and numbers of routes through the gap\n";
@@ -589,20 +582,11 @@ void mainMenu()
 			consoleOut(park, CollectionType::inPark); cout << "\n\n";
 			break;
 		}
-
-		case 0:
-		{
-			return;
-		}
-		default:
-		{
-			cout << "Unknown command\n";
-		}
+		case 0:{return;}
+		default:{cout << "Unknown command\n";}
 		}
 	}
 }
-
-
 void main()
 {
 	mainMenu();
