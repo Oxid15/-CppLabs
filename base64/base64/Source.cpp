@@ -1,20 +1,10 @@
 #define _CRT_SECURE_NO_WARNINGS	 //!
 #include<fstream>
 #include<iostream>
-#include<bitset>				 //!
 
 using namespace std;
 
 char code[] = { "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/" };
-
-char* getName()
-{
-	cout << "file name:";
-	char* newName = new char[256];
-	cin >> newName;
-
-	return newName;
-}
 
 int* fileInput(int* arr,int &i)
 {
@@ -145,43 +135,64 @@ int* decode(int* arr, int size)
 	return result;
 }
 
+void mainMenu()
+{
+	cout << "0 - Decode\n1 - Encode\n2 - Exit\n";
+	while (1)
+	{
+		int choice;
+		cin >> choice;
+		if (choice != 2)
+		{
+			if (choice == 1)
+			{
+				int size;
+				int* arr = new int;
+				int newArr[2048];
+				arr = fileInput(newArr, size);
+				size *= 8;
+				int numOfEights = 0;
+				while (size % 6 != 0)
+				{
+					size += 8;
+					numOfEights++;
+				}
+				size /= 6;
 
+				int* result = encode(arr, size);
+
+				fileOutputEncode(result, size, numOfEights);
+			}
+			else
+			{
+				int size_2;
+				int* arr_2 = new int;
+				char newArr[2048];
+				arr_2 = _fileInput(newArr, size_2);
+				int numOfEights_2 = 0;
+				for (int i = size_2; i > (size_2 - 3); i--)
+				{
+					if (arr_2[i] - 65 == '=')
+						numOfEights_2++;
+				}
+				size_2 *= 6;
+				size_2 -= numOfEights_2 * 8;
+				size_2 /= 8;
+
+				int* result_2 = decode(arr_2, size_2);
+				fileOutputDecode(result_2, size_2);
+			}
+		}
+		else
+		{
+			return;
+		}
+	}
+}
 
 void main()
 {
-
-	//int size;
-	//int* arr = new int;
-	//int newArr[2048];
-	//arr = fileInput(newArr,size);
-	//size *= 8;
-	//int numOfEights = 0;
-	//while (size % 6 != 0)
-	//{
-	//	size += 8;
-	//	numOfEights++;
-	//}
-	//size /= 6;
-
-	//int* result = encode(arr, size);
-	//fileOutputEncode(result, size, code, numOfEights);
-
-	int size_2;
-	int* arr_2 = new int;
-	char newArr[2048];
-	arr_2 = _fileInput(newArr,size_2);
-	int numOfEights_2 = 0;
-	for (int i = size_2; i > (size_2 - 3); i--)
-	{
-		if (arr_2[i] - 65 == '=')
-			numOfEights_2++;
-	}
-	size_2 *= 6;
-	size_2 -= numOfEights_2 * 8;
-	size_2 /= 8; 
-	
-	int* result_2 = decode(arr_2, size_2);
-	fileOutputDecode(result_2, size_2);
+	mainMenu();
 }
 
 
